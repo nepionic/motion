@@ -4,7 +4,7 @@
     <Declaration><![CDATA[{attribute 'linkalways'} 
 {attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
 {attribute 'enable_dynamic_creation'}
-FUNCTION_BLOCK GearOutCommand EXTENDS DefaultAsyncCommand
+FUNCTION_BLOCK GearOutCommand EXTENDS NoopAsyncCommand
 VAR
 	axis_ref : REFERENCE TO Tc2_Mc2.Axis_Ref;
 	fb : Tc2_Mc2.Mc_GearOut;

@@ -5,13 +5,24 @@
 VAR
 	axis1 : Mc2Axis;	
 	
+	error : BOOL;
+	error_id : UDINT;
+	
 	enable: BOOL;
 	disable: BOOL;
 	reset: BOOL;
 	halt: BOOL;
 	stop: BOOL;
+
+	jog_forward : BOOL;
+	jog_backwards : BOOL;
 	
-	startHoming : BOOL;
+	start_move1 : BOOL;
+	start_move2 : BOOL;	
+	start_homing : BOOL;
+	
+	command : MotionCommand;
+	(*
 	homePosition : LREAL := 10;
 	homeCam : BOOL;
 	
@@ -19,29 +30,29 @@ VAR
 	setPositionRelative : BOOL;
 	setPositionValue : LREAL;
 
-	jogForward : BOOL;
-	jogBackwards : BOOL;
-	
-	startMove1 : BOOL;
-	startMove2 : BOOL;	
 	moveVelocity : LREAL := 200;
 	movePosition1 : LREAL := 1000;
 	movePosition2 : LREAL := 0;
-	command : I_MoveCommand;
+	
 	commandResult : I_Result;
 	
 	commandResult_Completed : BOOL;
 	commandResult_Aborted : BOOL;
 	commandResult_Error : BOOL;
-	commandResult_ErrorId : UDINT;
+	commandResult_ErrorId : UDINT;*)
 	
+	halt_command: MotionCommand;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[axis1.CyclicCall();
 
+error := axis1.IsErrored;
+error_id := axis1.ErrorId;
+
 IF enable THEN
 	enable := FALSE;
-	axis1.Enable(AxisBufferMode.Buffered);
+	//axis1.Enable(AxisBufferMode.Buffered);
+	axis1.Enable();
 	axis1.EnablePositive();
 	axis1.EnableNegative();
 END_IF
@@ -53,12 +64,12 @@ END_IF
 
 IF reset THEN
 	reset := FALSE;
-	axis1.Reset();
+	//axis1.Reset();
 END_IF
 
 IF halt THEN
 	halt := FALSE;
-	axis1.Halt();
+	halt_command := axis1.Halt();
 END_IF
 
 IF stop THEN
@@ -66,18 +77,18 @@ IF stop THEN
 	axis1.Stop();
 END_IF
 
-IF jogForward THEN
-	axis1.JogForward(100);
-ELSIF jogBackwards THEN
-	axis1.JogBackwards(100);
+IF jog_forward THEN
+	//axis1.JogForward(100);
+ELSIF jog_backwards THEN
+	//axis1.JogBackwards(100);
 ELSE
 	// Don't like this, since jogging now acts like MC_MoveVelocity
 	// although I guess that is what it is exactly
-	axis1.StopJogging();
+	//axis1.StopJogging();
 END_IF
 
-IF startHoming THEN
-	startHoming := FALSE;
+IF start_homing THEN
+	start_homing := FALSE;
 	(*axis1.HomingBuilder()
 		.Position(homePosition)
 		.BuildDirectHomingCommand()
@@ -100,25 +111,33 @@ END_IF*)
 	axis1.SetPositionRelative(setPositionValue);
 END_IF*)
 
-IF startMove1 THEN
-	startMove1 := FALSE;
-	command := axis1.MoveBuilder()
+IF start_move1 THEN
+	start_move1 := FALSE;
+	
+	command := axis1.MoveAbsolute(
+		1000,
+		100,
+		
+	);
+	
+	command.Execute();
+	(*command := axis1.MoveBuilder()
 		.Velocity(100)
 		.BufferMode(AxisBufferMode.Aborting)
 		.Position(movePosition1)
-		.BuildMoveAbsoluteCommand();
+		.BuildMoveAbsoluteCommand();*)
 END_IF
 
-IF startMove2 THEN
-	startMove2 := FALSE;
-	command := axis1.MoveBuilder()
+IF start_move2 THEN
+	start_move2 := FALSE;
+	(*command := axis1.MoveBuilder()
 		.Velocity(100)
 		.BufferMode(AxisBufferMode.Buffered)
 		.Position(movePosition2)
-		.BuildMoveAbsoluteCommand();
+		.BuildMoveAbsoluteCommand();*)
 END_IF
 
-IF command <> 0 THEN
+(*IF command <> 0 THEN
 	IF command.Idle THEN
 		command.Execute();
 	ELSIF command.Executing THEN
@@ -134,6 +153,10 @@ IF command <> 0 THEN
 		commandResult.Dispose();
 		commandResult := 0;
 	END_IF
+END_IF*)
+
+IF command <> 0 THEN
+	command.CyclicCall();
 END_IF]]></ST>
     </Implementation>
   </POU>

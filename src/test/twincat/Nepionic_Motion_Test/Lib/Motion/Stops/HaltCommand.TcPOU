@@ -1,62 +1,79 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.13">
-  <POU Name="HaltCommand" Id="{3aed1a34-c9f1-04de-1c72-b3ac8b00d3db}" SpecialFunc="None">
+  <POU Name="HaltCommand" Id="{4fa805a2-540b-4723-b648-27d5c95e6973}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'linkalways'} 
 {attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
 {attribute 'enable_dynamic_creation'}
-FUNCTION_BLOCK PUBLIC HaltCommand EXTENDS Mc2AxisCommand
+FUNCTION_BLOCK HaltCommand EXTENDS Mc2AsyncCommand
 VAR
-	_fb : MC_Halt;
-	_deceleration : LREAL;
-	_jerk : LREAL;
-	buffer_mode : AxisBufferMode;
+	fb : Tc2_Mc2.Mc_Halt;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Folder Name="Constructor" Id="{f07bae35-2c49-0716-1576-502ccd534319}" />
-    <Method Name="FB_init" Id="{bb6431b0-5237-0864-0e35-bf5c2780b9b5}" FolderPath="Constructor\">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	axis : Axis;
-END_VAR]]></Declaration>
+    <Property Name="Active" Id="{1dae26ea-5213-49b3-9062-db9153b37afe}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC Active : BOOL]]></Declaration>
+      <Get Name="Get" Id="{edde09c2-1c53-4d81-b529-5b4231639ac1}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Active := fb.Active;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="CyclicCall" Id="{3de35973-c779-4cb7-abf7-5dad7d541923}">
+      <Declaration><![CDATA[METHOD PUBLIC CyclicCall]]></Declaration>
       <Implementation>
-        <ST><![CDATA[THIS^.axis := axis;]]></ST>
+        <ST><![CDATA[SUPER^.CyclicCall();
+fb(Axis := axis_ref);]]></ST>
       </Implementation>
     </Method>
-    <Method Name="OnExecuting" Id="{3d7c13be-0de6-0ac9-0d78-a5534dc93332}">
-      <Declaration><![CDATA[METHOD PROTECTED OnExecuting
+    <Method Name="FB_Init" Id="{0373c317-cbd1-4567-a583-7eb26cbba658}">
+      <Declaration><![CDATA[(*FB_Init is always available implicitly and it is used primarily for initialization.
+The return value is not evaluated. For a specific influence, you can also declare the
+methods explicitly and provide additional code there with the standard initialization
+code. You can evaluate the return value.*)
+METHOD FB_Init : BOOL
 VAR_INPUT
-	stateControl : I_AsyncCommandStateControl;
+	(* TRUE: the retain variables are initialized (reset warm / reset cold)*)
+	bInitRetains : BOOL;
+	(* TRUE: the instance will be copied to the copy code afterward (online change)*)
+	bInCopyCode	: BOOL;
+	axis : REFERENCE TO Mc2Axis;
+	deceleration : LREAL := 0;
+	jerk : LREAL := 0;
+	buffer_mode	: MotionBufferMode := MotionBufferMode.Aborting;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_fb(
-	Axis := _axis._InternalAxisRef,
-	Execute := TRUE,
-	Deceleration := _deceleration,
-	Jerk := _jerk,
-	BufferMode := buffer_mode
-);
+        <ST><![CDATA[fb.Deceleration := deceleration;
+fb.Jerk := jerk;
+fb.BufferMode := Mc2BufferModeConvertTo(buffer_mode);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnExecuting" Id="{b4f58a33-40d9-4db0-a3a9-1f8180cc0278}">
+      <Declaration><![CDATA[METHOD PROTECTED OnExecuting
+VAR_INPUT
+	state_control : AsyncCommandStateControl;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fb.Execute := TRUE;
 
-IF _fb.Busy THEN
-	RETURN;
+IF fb.Done THEN
+	state_control.Next();
+	fb.Execute := FALSE;
 END_IF
 
-_fb(Axis := _axis._InternalAxisRef, Execute := FALSE);
-
-IF _fb.CommandAborted THEN
-	THIS^.Abort();
-	RETURN;
+IF fb.CommandAborted THEN
+	Abort();
+	fb.Execute := FALSE;
 END_IF
 
-IF _fb.Error THEN
-	stateControl.Error(_fb.ErrorID);
-	RETURN;
+IF fb.Error THEN
+	state_control.Error(fb.ErrorId);
+	fb.Execute := FALSE;
 END_IF
 
-stateControl.Next();]]></ST>
+]]></ST>
       </Implementation>
     </Method>
   </POU>

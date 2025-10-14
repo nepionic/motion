@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.13">
-  <POU Name="Mc2Axis_1" Id="{6e97a636-edfd-431a-aa77-aa588809daba}" SpecialFunc="None">
+  <POU Name="Mc2Axis" Id="{6e97a636-edfd-431a-aa77-aa588809daba}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'linkalways'} 
 {attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
 {attribute 'enable_dynamic_creation'}
-FUNCTION_BLOCK Mc2Axis_1 IMPLEMENTS Axis
+FUNCTION_BLOCK Mc2Axis IMPLEMENTS Axis
 VAR
 	axis_ref : Tc2_Mc2.Axis_Ref;
-	_power : Tc2_Mc2.Mc_Power;
-	_reset : Tc2_Mc2.Mc_Reset;
-	_halt : Tc2_Mc2.Mc_Halt;
-	_stop : Tc2_Mc2.Mc_Stop;
+	power_fb : Tc2_Mc2.Mc_Power;
+	reset_fb : Tc2_Mc2.Mc_Reset;
+	halt_fb : Tc2_Mc2.Mc_Halt;
+	stop_fb : Tc2_Mc2.Mc_Stop;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -28,49 +28,49 @@ END_VAR]]></Declaration>
     <Method Name="CyclicCall" Id="{36628ad1-601b-4db9-a5b4-f8bc2eeaa654}" FolderPath="Cyclic\">
       <Declaration><![CDATA[METHOD PUBLIC CyclicCall]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_power(Axis := axis_ref);
-_reset(Axis := axis_ref);
-_halt(Axis := axis_ref);
-_stop(Axis := axis_ref);
+        <ST><![CDATA[power_fb(Axis := axis_ref);
+reset_fb(Axis := axis_ref);
+halt_fb(Axis := axis_ref);
+stop_fb(Axis := axis_ref);
 axis_ref.ReadStatus();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Disable" Id="{5b07042d-2174-4970-8b42-3f13bdef5e51}" FolderPath="Administrative\">
       <Declaration><![CDATA[METHOD PUBLIC Disable]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_power.Enable := FALSE;
-_power.Enable_Positive := FALSE;
-_power.Enable_Negative := FALSE;]]></ST>
+        <ST><![CDATA[power_fb.Enable := FALSE;
+power_fb.Enable_Positive := FALSE;
+power_fb.Enable_Negative := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="DisableNegative" Id="{dcc59d90-2edb-4687-8636-7c6ccc44b583}" FolderPath="Administrative\">
       <Declaration><![CDATA[METHOD PUBLIC DisableNegative]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_power.Enable_Negative := FALSE;]]></ST>
+        <ST><![CDATA[power_fb.Enable_Negative := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="DisablePositive" Id="{e030387f-fa40-464a-b9e6-21a7eb2c1a2d}" FolderPath="Administrative\">
       <Declaration><![CDATA[METHOD PUBLIC DisablePositive]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_power.Enable_Positive := FALSE;]]></ST>
+        <ST><![CDATA[power_fb.Enable_Positive := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Enable" Id="{916d02f0-2e83-4950-ab85-11395d32ec27}" FolderPath="Administrative\">
       <Declaration><![CDATA[METHOD PUBLIC Enable]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_power.Enable := TRUE;]]></ST>
+        <ST><![CDATA[power_fb.Enable := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="EnableNegative" Id="{e777a0fc-9545-4bc3-9ee8-635e417dcfa5}" FolderPath="Administrative\">
       <Declaration><![CDATA[METHOD PUBLIC EnableNegative]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_power.Enable_Negative := TRUE;]]></ST>
+        <ST><![CDATA[power_fb.Enable_Negative := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="EnablePositive" Id="{2906bcea-5f60-4441-8e4f-8836889c025c}" FolderPath="Administrative\">
       <Declaration><![CDATA[METHOD PUBLIC EnablePositive]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_power.Enable_Positive := TRUE;]]></ST>
+        <ST><![CDATA[power_fb.Enable_Positive := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Property Name="ErrorId" Id="{262c810c-3045-4d09-acde-ee5801ec12ab}" FolderPath="Properties\Error\">
@@ -756,8 +756,7 @@ MoveVelocity := command_pointer^;]]></ST>
       </Implementation>
     </Method>
     <Property Name="OpMode" Id="{ade1ab77-aa72-41d1-a4d6-1489e83426ae}" FolderPath="Properties\">
-      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC OpMode : Tc2_Mc2.St_AxisOpModes]]></Declaration>
+      <Declaration><![CDATA[PROPERTY PUBLIC OpMode : Tc2_Mc2.St_AxisOpModes]]></Declaration>
       <Get Name="Get" Id="{4a359b48-1bf2-4a62-88db-4d94519d78c0}">
         <Declaration><![CDATA[PUBLIC]]></Declaration>
         <Implementation>

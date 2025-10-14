@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.13">
-  <Itf Name="Axis_1" Id="{868b05a5-8e66-4652-9986-071154d5c754}">
-    <Declaration><![CDATA[INTERFACE PUBLIC Axis_1 EXTENDS __System.IQueryInterface]]></Declaration>
+  <Itf Name="Axis" Id="{868b05a5-8e66-4652-9986-071154d5c754}">
+    <Declaration><![CDATA[INTERFACE PUBLIC Axis EXTENDS __System.IQueryInterface]]></Declaration>
     <Folder Name="Administrative" Id="{4712258c-2ee2-401f-ae66-5136216164e4}" />
     <Folder Name="Motion" Id="{b1218527-b154-417f-a44e-cf5a8a59fe1f}">
       <Folder Name="Coupling" Id="{566e857a-c636-462d-83ba-5448d2b11619}" />
@@ -37,22 +37,22 @@ PROPERTY PUBLIC ErrorId : UDINT]]></Declaration>
       </Get>
     </Property>
     <Method Name="GearIn" Id="{7191be9e-c672-448b-a9fa-cf82981057e3}" FolderPath="Motion\Coupling\">
-      <Declaration><![CDATA[METHOD GearIn : AsyncCommand
+      <Declaration><![CDATA[METHOD PUBLIC GearIn : AsyncCommand
 VAR_INPUT
 	master_axis : Axis;
 	numerator : LREAL;
 	denominator : UINT := 1;
-	//acceleration : LREAL := 0;
-	//deceleration : LREAL := 0;
-	//jerk : LREAL := 0;
-	//buffer_mode	: MotionBufferMode := MotionBufferMode.Aborting;
+	// acceleration : LREAL := 0;
+	// deceleration : LREAL := 0;
+	// jerk : LREAL := 0;
+	// buffer_mode	: MotionBufferMode := MotionBufferMode.Aborting;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="GearOut" Id="{5650eba8-c120-406a-9d56-2a29bcd16946}" FolderPath="Motion\Coupling\">
-      <Declaration><![CDATA[METHOD GearOut : AsyncCommand]]></Declaration>
+      <Declaration><![CDATA[METHOD PUBLIC GearOut : AsyncCommand]]></Declaration>
     </Method>
     <Method Name="Halt" Id="{c1681f50-87e3-4094-9b19-2dae50b44272}" FolderPath="Motion\PointToPoint\">
-      <Declaration><![CDATA[METHOD Halt : MotionCommand
+      <Declaration><![CDATA[METHOD PUBLIC Halt : MotionCommand
 VAR_INPUT
 	deceleration : LREAL := 0;
 	jerk : LREAL := 0;
@@ -347,7 +347,7 @@ PROPERTY PUBLIC MotionState : AxisMotionState]]></Declaration>
       </Get>
     </Property>
     <Method Name="MoveAbsolute" Id="{41672225-1128-445d-b31b-f157b7749366}" FolderPath="Motion\PointToPoint\">
-      <Declaration><![CDATA[METHOD MoveAbsolute : MotionCommand
+      <Declaration><![CDATA[METHOD PUBLIC MoveAbsolute : MotionCommand
 VAR_INPUT
 	position : LREAL;
 	velocity : LREAL;
@@ -413,8 +413,7 @@ VAR_INPUT
 END_VAR]]></Declaration>
     </Method>
     <Property Name="OpMode" Id="{7882e105-e350-4033-a9a7-f8b905e72cae}" FolderPath="Properties\">
-      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC OpMode : Tc2_Mc2.St_AxisOpModes]]></Declaration>
+      <Declaration><![CDATA[PROPERTY PUBLIC OpMode : Tc2_Mc2.St_AxisOpModes]]></Declaration>
       <Get Name="Get" Id="{a3af51c7-387c-4067-8ec1-29b3cc803665}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>

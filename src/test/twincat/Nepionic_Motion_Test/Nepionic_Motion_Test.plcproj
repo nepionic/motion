@@ -19,45 +19,18 @@
   <ItemGroup>
     <Folder Include="Lib" />
     <Folder Include="Lib\Motion" />
-    <Folder Include="Lib\Motion\Administrative" />
-    <Folder Include="Lib\Motion\Axis" />
-    <Folder Include="Lib\Motion\Base" />
-    <Folder Include="Lib\Motion\Homing" />
-    <Folder Include="Lib\Motion\Homing\Builder" />
-    <Folder Include="Lib\Motion\Moves" />
-    <Folder Include="Lib\Motion\Moves\Builder" />
     <Folder Include="Lib\Motion\Importy" />
     <Folder Include="Lib\Motion\Coupling" />
     <Folder Include="Lib\Motion\Functions" />
-    <Folder Include="Lib\Motion\PointToPoint" />
-    <Folder Include="Lib\Motion\Stops" />
+    <Folder Include="Lib\Motion\Builders" />
     <Folder Include="Lib\Motion\Types" />
+    <Folder Include="Lib\Motion\Stops" />
+    <Folder Include="Lib\Motion\PointToPoint" />
     <Folder Include="Tasks" />
     <Folder Include="Programs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Lib\Motion\Administrative\ResetCommand.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Administrative\SetPositionCommand.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Axis\Mc2Axis.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Axis\AxisJogger.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Axis\Axis.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Axis\I_AxisJogger.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Base\Mc2AxisCommand.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Base\AxisCommand.TcIO">
+    <Compile Include="Lib\Motion\Axis.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Lib\Motion\Coupling\GearInCommand.TcPOU">
@@ -78,91 +51,22 @@
     <Compile Include="Lib\Motion\Functions\Mc2DirectionConvertTo.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Lib\Motion\Homing\Builder\DefaultHomingBuilder.TcPOU">
+    <Compile Include="Lib\Motion\Mc2AsyncCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Lib\Motion\Homing\Builder\I_DefaultHomingBuilder.TcIO">
+    <Compile Include="Lib\Motion\Mc2Axis.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Lib\Motion\Homing\Builder\I_HomingBuilder.TcIO">
+    <Compile Include="Lib\Motion\MotionCommand.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Lib\Motion\Homing\Builder\I_PositioningHomingBuilder.TcIO">
+    <Compile Include="Lib\Motion\MotionCommandStateMachine.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Lib\Motion\Homing\Mc2HomingCommand.TcPOU">
+    <Compile Include="Lib\Motion\PointToPoint\MoveAbsoluteCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Lib\Motion\Homing\HomingCommand.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Importy\AxisMotionState.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Importy\Axis_1.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Importy\HaltCommand_1.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Importy\Mc2AsyncCommand.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Importy\Mc2Axis_1.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Importy\MotionBufferMode.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Importy\MotionCommand.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Importy\MotionCommandStateMachine.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Importy\MotionDirection.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Importy\StopCommand_1.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Moves\Builder\DefaultMoveBuilder.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Moves\Builder\I_JogMoveBuilder.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Moves\Builder\I_MoveAbsoluteBuilder.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Moves\Builder\I_MoveBuilder.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Moves\Builder\I_MoveRelativeBuilder.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Moves\I_MoveCommand.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Moves\MoveAbsoluteCommand.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Moves\MoveAdditiveCommand.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Moves\MoveCommand.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Moves\MoveRelativeCommand.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Moves\MoveVelocityCommand.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\PointToPoint\MoveAbsoluteCommand_1.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\PointToPoint\MoveAdditiveCommand_1.TcPOU">
+    <Compile Include="Lib\Motion\PointToPoint\MoveAdditiveCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Lib\Motion\PointToPoint\MoveContinuousAbsoluteCommand.TcPOU">
@@ -174,10 +78,10 @@
     <Compile Include="Lib\Motion\PointToPoint\MoveModuloCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Lib\Motion\PointToPoint\MoveRelativeCommand_1.TcPOU">
+    <Compile Include="Lib\Motion\PointToPoint\MoveRelativeCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Lib\Motion\PointToPoint\MoveVelocityCommand_1.TcPOU">
+    <Compile Include="Lib\Motion\PointToPoint\MoveVelocityCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Lib\Motion\Stops\HaltCommand.TcPOU">
@@ -186,22 +90,13 @@
     <Compile Include="Lib\Motion\Stops\StopCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Lib\Motion\Types\AxisBufferMode.TcDUT">
+    <Compile Include="Lib\Motion\Types\AxisMotionState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Lib\Motion\Types\AxisState.TcDUT">
+    <Compile Include="Lib\Motion\Types\MotionBufferMode.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Lib\Motion\Types\Direction.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Types\EncoderReferenceMode.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Types\HomingMode.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lib\Motion\Types\SetPositionMode.TcDUT">
+    <Compile Include="Lib\Motion\Types\MotionDirection.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Programs\Test.TcPOU">
@@ -219,6 +114,7 @@
     <PlaceholderReference Include="Tc2_MC2">
       <DefaultResolution>Tc2_MC2, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_MC2</Namespace>
+      <QualifiedOnly>true</QualifiedOnly>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc2_System">
       <DefaultResolution>Tc2_System, * (Beckhoff Automation GmbH)</DefaultResolution>
@@ -228,6 +124,11 @@
       <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_Module</Namespace>
     </PlaceholderReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Nepionic_Motion_Test.tmc">
+      <SubType>Content</SubType>
+    </None>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>

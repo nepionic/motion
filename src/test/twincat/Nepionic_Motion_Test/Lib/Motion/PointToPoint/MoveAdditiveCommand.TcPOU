@@ -1,34 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.13">
-  <POU Name="StopCommand_1" Id="{db71aab2-8061-4d80-866e-67eb58e8a6a8}" SpecialFunc="None">
+  <POU Name="MoveAdditiveCommand" Id="{42f22a6c-7a89-42c4-8079-dce57b8029da}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'linkalways'} 
 {attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
 {attribute 'enable_dynamic_creation'}
-FUNCTION_BLOCK StopCommand_1 EXTENDS Mc2AsyncCommand
+FUNCTION_BLOCK MoveAdditiveCommand EXTENDS Mc2AsyncCommand
 VAR
-	fb : Tc2_Mc2.Mc_Stop;
+	fb : Tc2_Mc2.Mc_MoveAdditive;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Property Name="Active" Id="{b9903db8-5b4d-4867-85a8-7fba49fdd64f}">
+    <Property Name="Active" Id="{06662ea0-4a5f-4fe8-acb9-0a896ee25b75}">
       <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
 PROPERTY PUBLIC Active : BOOL]]></Declaration>
-      <Get Name="Get" Id="{a20d420c-6254-42ea-8d05-823e75050ada}">
+      <Get Name="Get" Id="{57a3d9c6-3d75-4db5-988f-0ed9f570875d}">
         <Declaration><![CDATA[PUBLIC]]></Declaration>
         <Implementation>
           <ST><![CDATA[Active := fb.Active;]]></ST>
         </Implementation>
       </Get>
     </Property>
-    <Method Name="CyclicCall" Id="{6b17f833-3ad5-4050-ad22-ac50b84313d6}">
+    <Method Name="CyclicCall" Id="{d970fcd9-ce09-46ba-9e85-ecda5668d725}">
       <Declaration><![CDATA[METHOD PUBLIC CyclicCall]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.CyclicCall();
 fb(Axis := axis_ref);]]></ST>
       </Implementation>
     </Method>
-    <Method Name="FB_Init" Id="{7886e2a7-162c-4ebc-b641-6db7385ef135}">
+    <Method Name="FB_Init" Id="{01fc868d-8bc5-4ddd-8112-8565f6337198}">
       <Declaration><![CDATA[(*FB_Init is always available implicitly and it is used primarily for initialization.
 The return value is not evaluated. For a specific influence, you can also declare the
 methods explicitly and provide additional code there with the standard initialization
@@ -40,15 +40,21 @@ VAR_INPUT
 	(* TRUE: the instance will be copied to the copy code afterward (online change)*)
 	bInCopyCode	: BOOL;
 	axis : REFERENCE TO Mc2Axis;
+	velocity : LREAL;
+	acceleration : LREAL := 0;
 	deceleration : LREAL := 0;
 	jerk : LREAL := 0;
+	buffer_mode	: MotionBufferMode := MotionBufferMode.Aborting;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fb.Deceleration := deceleration;
-fb.Jerk := jerk;]]></ST>
+        <ST><![CDATA[fb.Velocity := velocity;
+fb.Acceleration := acceleration;
+fb.Deceleration := deceleration;
+fb.Jerk := jerk;
+fb.BufferMode := Mc2BufferModeConvertTo(buffer_mode);]]></ST>
       </Implementation>
     </Method>
-    <Method Name="OnExecuting" Id="{52ddd194-a2d8-4295-933c-f14ce7508771}">
+    <Method Name="OnExecuting" Id="{f03cd200-84fb-4dcb-8ae7-ebeb1c89b675}">
       <Declaration><![CDATA[METHOD PROTECTED OnExecuting
 VAR_INPUT
 	state_control : AsyncCommandStateControl;

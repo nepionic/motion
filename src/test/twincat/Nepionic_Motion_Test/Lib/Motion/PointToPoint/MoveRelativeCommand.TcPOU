@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.13">
-  <POU Name="MoveRelativeCommand_1" Id="{28eb87a4-0403-4bb6-ba18-46a2fbdb4aa8}" SpecialFunc="None">
+  <POU Name="MoveRelativeCommand" Id="{28eb87a4-0403-4bb6-ba18-46a2fbdb4aa8}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'linkalways'} 
 {attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
 {attribute 'enable_dynamic_creation'}
-FUNCTION_BLOCK MoveRelativeCommand_1 EXTENDS Mc2AsyncCommand
+FUNCTION_BLOCK MoveRelativeCommand EXTENDS Mc2AsyncCommand
 VAR
 	fb : Tc2_Mc2.Mc_MoveRelative;
 END_VAR]]></Declaration>

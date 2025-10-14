@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.13">
   <POU Name="Mc2AsyncCommand" Id="{953adf88-71d4-4ebb-b9ec-f788d1d872b6}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK INTERNAL ABSTRACT Mc2AsyncCommand EXTENDS DefaultAsyncCommand IMPLEMENTS MotionCommand
+    <Declaration><![CDATA[FUNCTION_BLOCK INTERNAL ABSTRACT Mc2AsyncCommand EXTENDS NoopAsyncCommand IMPLEMENTS MotionCommand
 VAR
 	axis_ref : REFERENCE TO Tc2_Mc2.Axis_Ref;
 END_VAR]]></Declaration>
