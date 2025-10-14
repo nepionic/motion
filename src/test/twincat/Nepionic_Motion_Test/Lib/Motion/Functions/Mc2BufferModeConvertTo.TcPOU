@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.13">
+  <POU Name="Mc2BufferModeConvertTo" Id="{853e382a-cc19-4eb8-9e22-b8eaaf899cd4}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION INTERNAL Mc2BufferModeConvertTo : Tc2_Mc2.Mc_BufferMode
+VAR_INPUT
+	buffer_mode : MotionBufferMode;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE buffer_mode OF
+	MotionBufferMode.Aborting: Mc2BufferModeConvertTo := Tc2_Mc2.Mc_BufferMode.Mc_Aborting;
+    MotionBufferMode.Buffered: Mc2BufferModeConvertTo := Tc2_Mc2.Mc_BufferMode.Mc_Buffered;
+    MotionBufferMode.BlendingLow: Mc2BufferModeConvertTo := Tc2_Mc2.Mc_BufferMode.Mc_BlendingLow;
+   	MotionBufferMode.BlendingPrevious: Mc2BufferModeConvertTo := Tc2_Mc2.Mc_BufferMode.Mc_BlendingPrevious;
+    MotionBufferMode.BlendingNext: Mc2BufferModeConvertTo := Tc2_Mc2.Mc_BufferMode.Mc_BlendingNext;
+    MotionBufferMode.BlendingHigh: Mc2BufferModeConvertTo := Tc2_Mc2.Mc_BufferMode.Mc_BlendingHigh;
+END_CASE]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.13">
+  <POU Name="Test" Id="{2e61a8d4-f677-443a-9a2d-e2cd0bfcaaea}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM Test
+VAR
+	axis1 : Mc2Axis;	
+	
+	enable: BOOL;
+	disable: BOOL;
+	reset: BOOL;
+	halt: BOOL;
+	stop: BOOL;
+	
+	startHoming : BOOL;
+	homePosition : LREAL := 10;
+	homeCam : BOOL;
+	
+	setPositionAbsolute : BOOL;
+	setPositionRelative : BOOL;
+	setPositionValue : LREAL;
+
+	jogForward : BOOL;
+	jogBackwards : BOOL;
+	
+	startMove1 : BOOL;
+	startMove2 : BOOL;	
+	moveVelocity : LREAL := 200;
+	movePosition1 : LREAL := 1000;
+	movePosition2 : LREAL := 0;
+	command : I_MoveCommand;
+	commandResult : I_Result;
+	
+	commandResult_Completed : BOOL;
+	commandResult_Aborted : BOOL;
+	commandResult_Error : BOOL;
+	commandResult_ErrorId : UDINT;
+	
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[axis1.CyclicCall();
+
+IF enable THEN
+	enable := FALSE;
+	axis1.Enable(AxisBufferMode.Buffered);
+	axis1.EnablePositive();
+	axis1.EnableNegative();
+END_IF
+
+IF disable THEN
+	disable := FALSE;
+	axis1.Disable();
+END_IF
+
+IF reset THEN
+	reset := FALSE;
+	axis1.Reset();
+END_IF
+
+IF halt THEN
+	halt := FALSE;
+	axis1.Halt();
+END_IF
+
+IF stop THEN
+	stop := FALSE;
+	axis1.Stop();
+END_IF
+
+IF jogForward THEN
+	axis1.JogForward(100);
+ELSIF jogBackwards THEN
+	axis1.JogBackwards(100);
+ELSE
+	// Don't like this, since jogging now acts like MC_MoveVelocity
+	// although I guess that is what it is exactly
+	axis1.StopJogging();
+END_IF
+
+IF startHoming THEN
+	startHoming := FALSE;
+	(*axis1.HomingBuilder()
+		.Position(homePosition)
+		.BuildDirectHomingCommand()
+		.Execute(homingFeedback)
+		.ThenRelease();*)
+	(*command := axis1.HomingBuilder()
+		.Position(homePosition)
+		.Cam(homeCam)
+		.ReferenceMode(EncoderReferenceMode.PLCCam)
+		.BuildDefaultHomingCommand();*)
+END_IF
+
+(*IF setPositionAbsolute THEN
+	setPositionAbsolute := FALSE;
+	axis1.SetPositionAbsolute(setPositionValue);
+END_IF*)
+
+(*IF setPositionRelative THEN
+	setPositionRelative := FALSE;
+	axis1.SetPositionRelative(setPositionValue);
+END_IF*)
+
+IF startMove1 THEN
+	startMove1 := FALSE;
+	command := axis1.MoveBuilder()
+		.Velocity(100)
+		.BufferMode(AxisBufferMode.Aborting)
+		.Position(movePosition1)
+		.BuildMoveAbsoluteCommand();
+END_IF
+
+IF startMove2 THEN
+	startMove2 := FALSE;
+	command := axis1.MoveBuilder()
+		.Velocity(100)
+		.BufferMode(AxisBufferMode.Buffered)
+		.Position(movePosition2)
+		.BuildMoveAbsoluteCommand();
+END_IF
+
+IF command <> 0 THEN
+	IF command.Idle THEN
+		command.Execute();
+	ELSIF command.Executing THEN
+		command.CyclicCall();
+	ELSIF command.Stopped THEN
+		commandResult := command.GetResult();
+		command.Dispose();
+		command := 0;
+		commandResult_Completed := commandResult.Completed;
+		commandResult_Aborted := commandResult.Aborted;
+		commandResult_Error := commandResult.Error;
+		commandResult_ErrorId := commandResult.ErrorId;
+		commandResult.Dispose();
+		commandResult := 0;
+	END_IF
+END_IF]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

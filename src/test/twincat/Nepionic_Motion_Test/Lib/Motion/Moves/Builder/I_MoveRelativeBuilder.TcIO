@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="I_MoveRelativeBuilder" Id="{92bfbb92-30ca-044e-2086-373ce6e74546}">
+    <Declaration><![CDATA[INTERFACE PUBLIC I_MoveRelativeBuilder EXTENDS __System.IQueryInterface]]></Declaration>
+    <Method Name="Acceleration" Id="{bc2fcec8-2803-0c6f-02df-3be45e1f6930}">
+      <Declaration><![CDATA[METHOD PUBLIC Acceleration : I_MoveBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="BufferMode" Id="{e20fd57c-c923-043d-20d1-027baa20e4f1}">
+      <Declaration><![CDATA[METHOD PUBLIC BufferMode : I_MoveBuilder
+VAR_INPUT
+	mode : AxisBufferMode;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="BuildMoveAdditiveCommand" Id="{19fe8faf-fac6-024a-1ae4-eb0d85d91941}">
+      <Declaration><![CDATA[METHOD PUBLIC BuildMoveAdditiveCommand : I_MoveCommand]]></Declaration>
+    </Method>
+    <Method Name="BuildMoveRelativeCommand" Id="{a7a86cde-a9a1-0ba9-3f20-8cc71c1ec9e9}">
+      <Declaration><![CDATA[METHOD PUBLIC BuildMoveRelativeCommand : I_MoveCommand]]></Declaration>
+    </Method>
+    <Method Name="Deceleration" Id="{09bee452-7f5a-0fb1-1473-8c146dc19f50}">
+      <Declaration><![CDATA[METHOD PUBLIC Deceleration : I_MoveBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Distance" Id="{540dfee5-5339-0731-2f18-2e04d53bf765}">
+      <Declaration><![CDATA[METHOD PUBLIC Distance : I_MoveRelativeBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Jerk" Id="{deafd6ef-a4a1-06a3-26d1-2414840d5025}">
+      <Declaration><![CDATA[METHOD PUBLIC Jerk : I_MoveBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Velocity" Id="{542cbae5-b808-01b7-1173-3727773f7285}">
+      <Declaration><![CDATA[METHOD PUBLIC Velocity : I_MoveBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

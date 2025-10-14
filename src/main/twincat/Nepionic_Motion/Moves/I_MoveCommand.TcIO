@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="I_MoveCommand" Id="{ace235f2-e3c9-4384-9979-8089e1813370}">
+    <Declaration><![CDATA[INTERFACE PUBLIC I_MoveCommand EXTENDS I_AsyncCommand]]></Declaration>
+    <Property Name="IsActive" Id="{7440f60b-eea9-007f-0eeb-decc794bf55c}">
+      <Declaration><![CDATA[PROPERTY PUBLIC IsActive : BOOL]]></Declaration>
+      <Get Name="Get" Id="{0357b9df-10e9-063d-046c-748ce5aac12b}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="MotionBufferMode" Id="{4ba33e21-6ebc-40da-8029-2a7c9be36be9}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+{attribute 'to_string'}
+TYPE MotionBufferMode :
+(
+	Aborting,
+    Buffered,
+    BlendingLow,
+    BlendingPrevious,
+    BlendingNext,
+    BlendingHigh
+);
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

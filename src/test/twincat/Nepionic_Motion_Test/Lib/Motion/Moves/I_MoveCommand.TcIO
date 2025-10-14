@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.13">
+  <Itf Name="I_MoveCommand" Id="{b6727b9e-4791-0f05-1d47-70b23b903054}">
+    <Declaration><![CDATA[INTERFACE PUBLIC I_MoveCommand EXTENDS AxisCommand]]></Declaration>
+    <Property Name="IsActive" Id="{07dfa685-afcf-0682-382c-33a3c90ba725}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsActive : BOOL]]></Declaration>
+      <Get Name="Get" Id="{d448bb17-d37c-025e-0194-0b48d05b973d}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.13">
+  <Itf Name="I_HomingBuilder" Id="{1502ebfb-6262-0c79-05bd-2fcc0e8b4561}">
+    <Declaration><![CDATA[INTERFACE PUBLIC I_HomingBuilder EXTENDS __System.IQueryInterface]]></Declaration>
+    <Method Name="BuildForceCalibrationCommand" Id="{ee6c6235-136e-0786-13e2-899bf3e8c5f3}">
+      <Declaration><![CDATA[METHOD BuildForceCalibrationCommand : HomingCommand]]></Declaration>
+    </Method>
+    <Method Name="BuildResetCalibrationCommand" Id="{2866cf16-5cd8-05fa-19c4-e1f7c57f03c4}">
+      <Declaration><![CDATA[METHOD BuildResetCalibrationCommand : HomingCommand]]></Declaration>
+    </Method>
+    <Method Name="Position" Id="{f1f9add0-954b-0697-2815-fe57829c420f}">
+      <Declaration><![CDATA[METHOD Position : I_PositioningHomingBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

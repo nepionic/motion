@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.13">
+  <POU Name="MoveAdditiveCommand" Id="{6b92db2e-b022-00dd-0eac-8b0e649993a8}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK INTERNAL MoveAdditiveCommand EXTENDS MoveCommand
+VAR
+	_fb : MC_MoveAdditive;
+	_distance : LREAL;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="Constructor" Id="{6c7bee07-914d-0be0-2214-75c91930f89b}" />
+    <Method Name="FB_init" Id="{c82d136e-663d-004e-1be8-75237ef933c6}" FolderPath="Constructor\">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	axis : Axis;
+	distance : LREAL;
+	velocity : LREAL;
+	acceleration : LREAL;
+	deceleration : LREAL;
+	jerk : LREAL;
+	bufferMode : AxisBufferMode;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_axis := axis;
+_distance := distance;
+_velocity := velocity;
+_acceleration := acceleration;
+_deceleration := deceleration;
+_jerk := jerk;
+_bufferMode := bufferMode;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="IsActive" Id="{266a60d1-f452-0357-2d68-6723634ba590}">
+      <Declaration><![CDATA[PROPERTY PUBLIC IsActive : BOOL]]></Declaration>
+      <Get Name="Get" Id="{799f0e31-34e1-0537-0666-716e18344e49}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsActive := _fb.Active;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="OnExecuting" Id="{8ddca54c-e79f-0c65-36c1-b7a0a87166ef}">
+      <Declaration><![CDATA[METHOD PROTECTED OnExecuting
+VAR_INPUT
+	stateControl : I_AsyncCommandStateControl;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_fb(
+	Axis := _axis._InternalAxisRef,
+	Execute := TRUE,
+	Distance := _distance,
+	Velocity := _velocity,
+	Acceleration := _acceleration,
+	Deceleration := _deceleration,
+	Jerk := _jerk,
+	BufferMode := _bufferMode
+);
+
+IF _fb.Busy THEN
+	RETURN;
+END_IF
+
+_fb(Axis := _axis._InternalAxisRef, Execute := FALSE);
+
+IF _fb.CommandAborted THEN
+	THIS^.Abort();
+	RETURN;
+END_IF
+
+IF _fb.Error THEN
+	stateControl.Error(_fb.ErrorID);
+	RETURN;
+END_IF
+
+stateControl.Next();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,430 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.13">
+  <Itf Name="Axis_1" Id="{868b05a5-8e66-4652-9986-071154d5c754}">
+    <Declaration><![CDATA[INTERFACE PUBLIC Axis_1 EXTENDS __System.IQueryInterface]]></Declaration>
+    <Folder Name="Administrative" Id="{4712258c-2ee2-401f-ae66-5136216164e4}" />
+    <Folder Name="Motion" Id="{b1218527-b154-417f-a44e-cf5a8a59fe1f}">
+      <Folder Name="Coupling" Id="{566e857a-c636-462d-83ba-5448d2b11619}" />
+      <Folder Name="PointToPoint" Id="{8c2f85d5-64df-4245-b2ec-a065aeaeb190}" />
+    </Folder>
+    <Folder Name="Properties" Id="{5a5de83c-6946-4d42-bc7a-57c51f89d4ad}">
+      <Folder Name="Error" Id="{8eaf1f38-524b-45c3-a752-ea48a60df13a}" />
+      <Folder Name="States" Id="{96422984-e942-4e17-9507-5aa4841bd1df}" />
+    </Folder>
+    <Method Name="Disable" Id="{b5f8cb0b-5f7f-4c67-bc2f-9a6274da20fa}" FolderPath="Administrative\">
+      <Declaration><![CDATA[METHOD PUBLIC Disable]]></Declaration>
+    </Method>
+    <Method Name="DisableNegative" Id="{2ad2c421-6bf5-4f9a-b0d7-b349f7b3bb12}" FolderPath="Administrative\">
+      <Declaration><![CDATA[METHOD PUBLIC DisableNegative]]></Declaration>
+    </Method>
+    <Method Name="DisablePositive" Id="{613b1167-596e-4b9e-9d94-f528e45de684}" FolderPath="Administrative\">
+      <Declaration><![CDATA[METHOD PUBLIC DisablePositive]]></Declaration>
+    </Method>
+    <Method Name="Enable" Id="{e63cc478-8b61-42e2-9c85-3bf69104a0b9}" FolderPath="Administrative\">
+      <Declaration><![CDATA[METHOD PUBLIC Enable]]></Declaration>
+    </Method>
+    <Method Name="EnableNegative" Id="{e37f86bb-d4b5-4cd5-a085-b2192ba983e9}" FolderPath="Administrative\">
+      <Declaration><![CDATA[METHOD PUBLIC EnableNegative]]></Declaration>
+    </Method>
+    <Method Name="EnablePositive" Id="{21aa8cc0-6b69-4f07-aa1d-e50030e3c544}" FolderPath="Administrative\">
+      <Declaration><![CDATA[METHOD PUBLIC EnablePositive]]></Declaration>
+    </Method>
+    <Property Name="ErrorId" Id="{2d6fcbba-8c91-45ba-b39a-46b327c2c838}" FolderPath="Properties\Error\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC ErrorId : UDINT]]></Declaration>
+      <Get Name="Get" Id="{f6ba16ce-6a38-44e7-9ce6-0c5bc0720797}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Method Name="GearIn" Id="{7191be9e-c672-448b-a9fa-cf82981057e3}" FolderPath="Motion\Coupling\">
+      <Declaration><![CDATA[METHOD GearIn : AsyncCommand
+VAR_INPUT
+	master_axis : Axis;
+	numerator : LREAL;
+	denominator : UINT := 1;
+	//acceleration : LREAL := 0;
+	//deceleration : LREAL := 0;
+	//jerk : LREAL := 0;
+	//buffer_mode	: MotionBufferMode := MotionBufferMode.Aborting;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="GearOut" Id="{5650eba8-c120-406a-9d56-2a29bcd16946}" FolderPath="Motion\Coupling\">
+      <Declaration><![CDATA[METHOD GearOut : AsyncCommand]]></Declaration>
+    </Method>
+    <Method Name="Halt" Id="{c1681f50-87e3-4094-9b19-2dae50b44272}" FolderPath="Motion\PointToPoint\">
+      <Declaration><![CDATA[METHOD Halt : MotionCommand
+VAR_INPUT
+	deceleration : LREAL := 0;
+	jerk : LREAL := 0;
+	buffer_mode	: MotionBufferMode := MotionBufferMode.Aborting;
+END_VAR]]></Declaration>
+    </Method>
+    <Property Name="HasBeenStopped" Id="{009072e0-b936-4a81-8486-c3aafd5fd405}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC HasBeenStopped : BOOL]]></Declaration>
+      <Get Name="Get" Id="{e8e4bf15-3dbe-448c-9dcb-8af5cc91a9ec}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="HasJob" Id="{352dec63-b3fa-413d-be0a-5638ca4d31e2}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC HasJob : BOOL]]></Declaration>
+      <Get Name="Get" Id="{15044dec-5eee-404b-871a-b90185c47b20}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsAccelerating" Id="{a1c46d47-2af8-4e4f-bb18-e590e6c7d1bd}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsAccelerating : BOOL]]></Declaration>
+      <Get Name="Get" Id="{55f788c2-7b36-4030-bd00-5efcb9892e9a}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsBusyHoming" Id="{2e9e6739-736a-4eb2-9eea-4c1b2d933731}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsBusyHoming : BOOL]]></Declaration>
+      <Get Name="Get" Id="{cfcb7929-5343-4a31-b718-131f6f53cddc}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsCamDataQueued" Id="{274fea8d-8fd5-45e9-b007-b891ab1bc45f}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsCamDataQueued : BOOL]]></Declaration>
+      <Get Name="Get" Id="{0accb5e4-886c-4352-a264-95cc9a54d5f4}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsCamScalingPending" Id="{fb4e81d6-269b-4959-9471-ae938d79f214}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsCamScalingPending : BOOL]]></Declaration>
+      <Get Name="Get" Id="{ba4f3524-90f2-4a57-92e9-ba798646804f}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsCamTableQueued" Id="{bea14f55-0c0f-4e7f-9d54-7b4ec1afe737}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsCamTableQueued : BOOL]]></Declaration>
+      <Get Name="Get" Id="{fbe512ac-50bf-436e-9c63-fcb86ae19118}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsCommandBuffered" Id="{47e30406-bdfa-446a-b2fc-69696db0256c}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsCommandBuffered : BOOL]]></Declaration>
+      <Get Name="Get" Id="{a76a9f99-7591-4d6d-a160-da3a7f3271c8}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsCompensating" Id="{f28e14d9-24e5-4807-befa-cad4f9e411cc}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsCompensating : BOOL]]></Declaration>
+      <Get Name="Get" Id="{df52829c-ebbf-4908-b677-7dd4311c5036}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsConstantVelocity" Id="{87643861-540a-4ff0-b6d5-32d004e8aa4e}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsConstantVelocity : BOOL]]></Declaration>
+      <Get Name="Get" Id="{d9c9a953-c4ba-427e-8ca6-feab2b88b6c7}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsContinuousMotion" Id="{d7604eda-91ec-4ffb-83d4-89158341d4ea}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsContinuousMotion : BOOL]]></Declaration>
+      <Get Name="Get" Id="{02d843b6-23da-476b-8ef6-e493a463594f}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsControlLoopClosed" Id="{39586afb-a894-49e3-a42d-2f2521d77097}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsControlLoopClosed : BOOL]]></Declaration>
+      <Get Name="Get" Id="{ac11ad10-694d-4089-b0a2-7f067c13c62d}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsCoupled" Id="{47865fc9-330a-47b6-a8dd-bf2c4f6590af}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsCoupled : BOOL]]></Declaration>
+      <Get Name="Get" Id="{3c8210ab-bf59-4b81-b4b5-db4dbb47f303}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsDecelerating" Id="{bae6bd88-fc3d-4a27-8cf8-84be3baf2801}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsDecelerating : BOOL]]></Declaration>
+      <Get Name="Get" Id="{4d751939-fe34-42c4-8868-289b25f0135a}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsDisabled" Id="{33c29a33-4f5a-46d7-90ae-732f9ad13de5}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsDisabled : BOOL]]></Declaration>
+      <Get Name="Get" Id="{1dd6f442-0105-4d26-8f43-edb7a1088ec1}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsDiscreteMotion" Id="{cbf1fd81-2470-4952-adb4-f90e13df7292}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsDiscreteMotion : BOOL]]></Declaration>
+      <Get Name="Get" Id="{2d482d98-7ec2-4c80-9cc5-fed27591746e}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsDriveDeviceErrored" Id="{ff7b0e7f-ab18-427c-8bb4-97e9c96ff230}" FolderPath="Properties\Error\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsDriveDeviceErrored : BOOL]]></Declaration>
+      <Get Name="Get" Id="{c92e6609-8a04-479c-acb0-4c1f86cb9dee}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsErrored" Id="{7c3bdfa3-545f-48e4-9d56-1ad943eff720}" FolderPath="Properties\Error\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsErrored : BOOL]]></Declaration>
+      <Get Name="Get" Id="{da53e8e3-0ded-45ae-8d6c-df62a6e28edd}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsErrorStop" Id="{19a5aeb4-400a-4fec-b2b9-ac4d85bbb96c}" FolderPath="Properties\Error\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsErrorStop : BOOL]]></Declaration>
+      <Get Name="Get" Id="{620cd9d1-db8a-41f2-a7bd-bbe7b4433838}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsExternalLatchValid" Id="{1e66d55a-87c9-405c-8429-69f4ad60b779}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsExternalLatchValid : BOOL]]></Declaration>
+      <Get Name="Get" Id="{24eb6237-c999-4bce-b4a7-1794da060829}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsExtSetPointGenEnabled" Id="{0eb9866e-1634-4b54-8818-1afafb704b63}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsExtSetPointGenEnabled : BOOL]]></Declaration>
+      <Get Name="Get" Id="{4a5e5279-5276-45de-a13a-9bbce0a27f21}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsHomed" Id="{e7d0f862-e56b-4cc9-8aee-e0fbe04b1760}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsHomed : BOOL]]></Declaration>
+      <Get Name="Get" Id="{35c64fcc-b962-43b9-88d4-55bbaa333491}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsHoming" Id="{1954a527-9921-4085-b332-589f51f1c9a6}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsHoming : BOOL]]></Declaration>
+      <Get Name="Get" Id="{e3785c00-1ece-4fb9-a297-032633932ccc}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsInPositionArea" Id="{7b76d0aa-0db2-4f25-8d58-9c0632c0f731}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsInPositionArea : BOOL]]></Declaration>
+      <Get Name="Get" Id="{d6410f97-ad34-4b1b-bc79-fec9fa45ae20}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsInTargetPosition" Id="{a4c0e7d2-f7e6-4345-a64e-43d64476eb23}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsInTargetPosition : BOOL]]></Declaration>
+      <Get Name="Get" Id="{54f9f63f-320f-4306-9a56-0445d03b811c}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsIoDataInvalid" Id="{d1b53a81-b246-404f-b978-e1c79a5b3b65}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsIoDataInvalid : BOOL]]></Declaration>
+      <Get Name="Get" Id="{fa093f02-b2c0-4502-baf4-3b8fe2701dbe}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsMotionCommandsLocked" Id="{1b3eaaba-b43a-422d-9710-6a38f1432fca}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsMotionCommandsLocked : BOOL]]></Declaration>
+      <Get Name="Get" Id="{daabea83-b442-4bae-8164-7deb1a8214a9}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsMoving" Id="{2713a9fa-e7a5-4a58-bcc9-4107fa4a8828}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsMoving : BOOL]]></Declaration>
+      <Get Name="Get" Id="{787d9e03-cf1d-4e1d-9a32-96a29bce9813}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsNegativeDirection" Id="{404a7ffa-5c35-4fec-966b-000fdd21c32f}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsNegativeDirection : BOOL]]></Declaration>
+      <Get Name="Get" Id="{05d33f65-686d-420e-bc36-8c2b154941c4}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsNewTargetPosition" Id="{653a0a38-3474-43ab-852e-cbcfe1a7d070}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsNewTargetPosition : BOOL]]></Declaration>
+      <Get Name="Get" Id="{b1a24fe5-9be8-447a-9d1f-f90a423fbf71}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsNotMoving" Id="{ec6a1a91-cf7d-4dc1-8af7-c1b532cfacbe}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsNotMoving : BOOL]]></Declaration>
+      <Get Name="Get" Id="{a517e49c-9eef-40f7-8f3c-97b51dc78c04}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsOperational" Id="{6ed39878-ff3e-4a77-bed3-a649bcd85a98}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsOperational : BOOL]]></Declaration>
+      <Get Name="Get" Id="{fb7c75d0-27b6-4c69-8440-c14bd0026142}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsPointToPointMode" Id="{204cd0d8-ef38-4fd4-8812-b7e9daafaced}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsPointToPointMode : BOOL]]></Declaration>
+      <Get Name="Get" Id="{8301e63d-dc72-461b-a35e-339d1384dd41}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsPositiveDirection" Id="{d751656b-a130-4b98-89a2-c137b76bd237}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsPositiveDirection : BOOL]]></Declaration>
+      <Get Name="Get" Id="{2b5d08d5-91bb-47cd-9b4c-6e9db2f265f2}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsProtected" Id="{830eb16e-750f-474b-aa8f-7cc68e44cac1}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsProtected : BOOL]]></Declaration>
+      <Get Name="Get" Id="{3d4b83d7-51d6-4d3f-aae8-3d4b81222b77}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsSoftLimitMaxExceeded" Id="{e4ac9ddd-151a-4eb8-a814-65b09855aae0}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsSoftLimitMaxExceeded : BOOL]]></Declaration>
+      <Get Name="Get" Id="{7a95cb39-ee41-4323-8bc3-83ef1f257161}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsSoftLimitMinExceeded" Id="{6731dd75-8ca8-40e4-a210-e9a127f80092}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsSoftLimitMinExceeded : BOOL]]></Declaration>
+      <Get Name="Get" Id="{d0cdc36c-2e24-462e-8b72-3d6f955516a0}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsStandstill" Id="{77346c31-7124-47e6-88ff-5a60d7c14eff}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsStandstill : BOOL]]></Declaration>
+      <Get Name="Get" Id="{4eddaec9-ed49-42f9-a8d4-0fc120c4f3b0}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsStopping" Id="{2f6b13f7-6857-479c-9a2d-cc3981f3b343}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsStopping : BOOL]]></Declaration>
+      <Get Name="Get" Id="{6f7614b7-653f-4248-9b64-6a6114c15e21}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsSynchronisedMotion" Id="{33cdd352-b2e5-4950-8400-8f9c3615b664}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsSynchronisedMotion : BOOL]]></Declaration>
+      <Get Name="Get" Id="{d4840864-5494-49fa-9605-e6192cc0424e}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="MotionState" Id="{8bb9e745-5c9a-40b0-83fb-cc5ed78e3376}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC MotionState : AxisMotionState]]></Declaration>
+      <Get Name="Get" Id="{960aaeb8-9447-470b-bee4-97e749dbb179}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Method Name="MoveAbsolute" Id="{41672225-1128-445d-b31b-f157b7749366}" FolderPath="Motion\PointToPoint\">
+      <Declaration><![CDATA[METHOD MoveAbsolute : MotionCommand
+VAR_INPUT
+	position : LREAL;
+	velocity : LREAL;
+	acceleration : LREAL := 0;
+	deceleration : LREAL := 0;
+	jerk : LREAL := 0;
+	buffer_mode	: MotionBufferMode := MotionBufferMode.Aborting;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="MoveContinuousAbsolute" Id="{0ddfca35-dd5a-4448-a402-f82db0136b82}" FolderPath="Motion\PointToPoint\">
+      <Declaration><![CDATA[METHOD MoveContinuousAbsolute : MotionCommand
+VAR_INPUT
+	position : LREAL;
+	velocity : LREAL;
+	acceleration : LREAL := 0;
+	deceleration : LREAL := 0;
+	jerk : LREAL := 0;
+	buffer_mode	: MotionBufferMode := MotionBufferMode.Aborting;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="MoveContinuousRelative" Id="{5adc9907-9427-4d81-b499-9983d1f37b4b}" FolderPath="Motion\PointToPoint\">
+      <Declaration><![CDATA[METHOD MoveContinuousRelative : MotionCommand
+VAR_INPUT
+	distance : LREAL;
+	velocity : LREAL;
+	acceleration : LREAL := 0;
+	deceleration : LREAL := 0;
+	jerk : LREAL := 0;
+	buffer_mode	: MotionBufferMode := MotionBufferMode.Aborting;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="MoveModulo" Id="{4e05686f-bd1c-4bb3-ab4c-94a789bc964a}" FolderPath="Motion\PointToPoint\">
+      <Declaration><![CDATA[METHOD MoveModulo : MotionCommand
+VAR_INPUT
+	position : LREAL;
+	direction : MotionDirection;
+	velocity : LREAL;
+	acceleration : LREAL := 0;
+	deceleration : LREAL := 0;
+	jerk : LREAL := 0;
+	buffer_mode	: MotionBufferMode := MotionBufferMode.Aborting;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="MoveRelative" Id="{f5e769e7-8a82-4fa0-a042-88c072cfc93d}" FolderPath="Motion\PointToPoint\">
+      <Declaration><![CDATA[METHOD MoveRelative : MotionCommand
+VAR_INPUT
+	distance : LREAL;
+	velocity : LREAL;
+	acceleration : LREAL := 0;
+	deceleration : LREAL := 0;
+	jerk : LREAL := 0;
+	buffer_mode	: MotionBufferMode := MotionBufferMode.Aborting;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="MoveVelocity" Id="{03461219-47e1-4d2e-8cc6-f156123b06b1}" FolderPath="Motion\PointToPoint\">
+      <Declaration><![CDATA[METHOD MoveVelocity : MotionCommand
+VAR_INPUT
+	velocity : LREAL;
+	acceleration : LREAL := 0;
+	deceleration : LREAL := 0;
+	jerk : LREAL := 0;
+	buffer_mode	: MotionBufferMode := MotionBufferMode.Aborting;
+END_VAR]]></Declaration>
+    </Method>
+    <Property Name="OpMode" Id="{7882e105-e350-4033-a9a7-f8b905e72cae}" FolderPath="Properties\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC OpMode : Tc2_Mc2.St_AxisOpModes]]></Declaration>
+      <Get Name="Get" Id="{a3af51c7-387c-4067-8ec1-29b3cc803665}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Method Name="Stop" Id="{9a58f20f-d7b6-4b1e-8b38-9dccb7dd1e6d}" FolderPath="Motion\PointToPoint\">
+      <Declaration><![CDATA[METHOD Stop : MotionCommand
+VAR_INPUT
+	deceleration : LREAL := 0;
+	jerk : LREAL := 0;
+END_VAR]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

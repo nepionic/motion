@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="I_JogMoveBuilder" Id="{63011fe5-43c5-0691-2811-26343292cc88}">
+    <Declaration><![CDATA[INTERFACE PUBLIC I_JogMoveBuilder EXTENDS __System.IQueryInterface]]></Declaration>
+    <Method Name="Acceleration" Id="{af89edba-a005-0f7a-08ee-62427ab92e8c}">
+      <Declaration><![CDATA[METHOD PUBLIC Acceleration : I_MoveBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="BuildBackwardsCommand" Id="{811b0cdc-1229-0e51-31b7-d139d434f5da}">
+      <Declaration><![CDATA[METHOD PUBLIC BuildBackwardsCommand : I_MoveCommand]]></Declaration>
+    </Method>
+    <Method Name="BuildForwardCommand" Id="{eb48d50f-4383-072c-36b0-a8587d3e78d1}">
+      <Declaration><![CDATA[METHOD PUBLIC BuildForwardCommand : I_MoveCommand]]></Declaration>
+    </Method>
+    <Method Name="Deceleration" Id="{81f51863-dcaa-08e1-131a-d2d14e3869a9}">
+      <Declaration><![CDATA[METHOD PUBLIC Deceleration : I_MoveBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Distance" Id="{e48b5c47-c8ce-0805-3136-ccdb4eb1e486}">
+      <Declaration><![CDATA[METHOD PUBLIC Distance : I_JogMoveBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Jerk" Id="{515fb89c-e14f-0eca-3e64-4213131f22cc}">
+      <Declaration><![CDATA[METHOD PUBLIC Jerk : I_MoveBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Velocity" Id="{e754fcf6-ed62-04aa-1e93-2f61470560c8}">
+      <Declaration><![CDATA[METHOD PUBLIC Velocity : I_MoveBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.13">
+  <POU Name="GearInCommand" Id="{6800f637-4125-4182-b958-ddcb94f87005}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK GearInCommand EXTENDS DefaultAsyncCommand
+VAR
+	master_axis_ref : REFERENCE TO Tc2_Mc2.Axis_Ref;
+	slave_axis_ref : REFERENCE TO Tc2_Mc2.Axis_Ref;
+	fb : Tc2_Mc2.Mc_GearIn;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="CyclicCall" Id="{7f9438ff-8d6d-454c-bd14-b05b5668c2f0}">
+      <Declaration><![CDATA[METHOD PUBLIC CyclicCall]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.CyclicCall();
+fb(Master := master_axis_ref, Slave := slave_axis_ref);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_Init" Id="{7e101ea2-d5eb-4169-8459-448dd4945c66}">
+      <Declaration><![CDATA[(*FB_Init is always available implicitly and it is used primarily for initialization.
+The return value is not evaluated. For a specific influence, you can also declare the
+methods explicitly and provide additional code there with the standard initialization
+code. You can evaluate the return value.*)
+METHOD FB_Init : BOOL
+VAR_INPUT
+	(* TRUE: the retain variables are initialized (reset warm / reset cold)*)
+	bInitRetains : BOOL;
+	(* TRUE: the instance will be copied to the copy code afterward (online change)*)
+	bInCopyCode	: BOOL;
+	master_axis : REFERENCE TO Mc2Axis;
+	slave_axis : REFERENCE TO Mc2Axis;
+	numerator : LREAL;
+	denominator : UINT := 1;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[master_axis_ref REF= master_axis.Mc2AxisRef;
+slave_axis_ref REF= slave_axis.Mc2AxisRef;
+fb.RatioNumerator := numerator;
+fb.RatioDenominator := denominator;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnExecuting" Id="{8c1d7a9e-bc5d-437d-9018-652122b5f907}">
+      <Declaration><![CDATA[METHOD PROTECTED OnExecuting
+VAR_INPUT
+	state_control : AsyncCommandStateControl;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fb.Execute := TRUE;
+
+IF fb.InGear THEN
+	state_control.Next();
+	fb.Execute := FALSE;
+END_IF
+
+IF fb.CommandAborted THEN
+	Abort();
+	fb.Execute := FALSE;
+END_IF
+
+IF fb.Error THEN
+	state_control.Error(fb.ErrorId);
+	fb.Execute := FALSE;
+END_IF
+
+]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.13">
+  <POU Name="MoveAbsoluteCommand" Id="{91289f49-05f8-09d8-2290-bf673566f58f}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK INTERNAL MoveAbsoluteCommand EXTENDS MoveCommand
+VAR
+	_fb : MC_MoveAbsolute;
+	_position : LREAL;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="Constructor" Id="{8cbeac32-cc1d-0bfb-09d3-07229703c753}" />
+    <Method Name="FB_init" Id="{c0027a57-f20f-0e8b-0296-aa411f3d931f}" FolderPath="Constructor\">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	axis : Axis;
+	position : LREAL;
+	velocity : LREAL;
+	acceleration : LREAL;
+	deceleration : LREAL;
+	jerk : LREAL;
+	bufferMode : AxisBufferMode;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_axis := axis;
+_position := position;
+_velocity := velocity;
+_acceleration := acceleration;
+_deceleration := deceleration;
+_jerk := jerk;
+_bufferMode := bufferMode;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="IsActive" Id="{93d52d97-a327-068d-3f5a-3d4f9cb73b68}">
+      <Declaration><![CDATA[PROPERTY PUBLIC IsActive : BOOL]]></Declaration>
+      <Get Name="Get" Id="{5645f14f-f48b-04fd-35bb-d9cce42a133b}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsActive := _fb.Active;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="OnExecuting" Id="{8fcf561e-9ff2-04da-25b5-118fb12abc19}">
+      <Declaration><![CDATA[METHOD PROTECTED OnExecuting
+VAR_INPUT
+	stateControl : I_AsyncCommandStateControl;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_fb(
+	Axis := _axis._InternalAxisRef,
+	Execute := TRUE,
+	Position := _position,
+	Velocity := _velocity,
+	Acceleration := _acceleration,
+	Deceleration := _deceleration,
+	Jerk := _jerk,
+	BufferMode := _bufferMode
+);
+
+IF _fb.Busy THEN
+	RETURN;
+END_IF
+
+_fb(Axis := _axis._InternalAxisRef, Execute := FALSE);
+
+IF _fb.CommandAborted THEN
+	THIS^.Abort();
+	RETURN;
+END_IF
+
+IF _fb.Error THEN
+	stateControl.Error(_fb.ErrorID);
+	RETURN;
+END_IF
+
+stateControl.Next();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.13">
+  <POU Name="Mc2DirectionConvertFrom" Id="{6c4f3642-f358-48b4-9390-a9d2ebfac9cf}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION INTERNAL Mc2DirectionConvertFrom : MotionDirection
+VAR_INPUT
+	direction : Tc2_Mc2.Mc_Direction;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE direction OF
+	Tc2_Mc2.Mc_Direction.Mc_Positive_Direction: Mc2DirectionConvertFrom := MotionDirection.Positive;
+	Tc2_Mc2.Mc_Direction.Mc_Shortest_Way: Mc2DirectionConvertFrom := MotionDirection.ShortestWay;
+	Tc2_Mc2.Mc_Direction.Mc_Negative_Direction: Mc2DirectionConvertFrom := MotionDirection.Negative;
+	Tc2_Mc2.Mc_Direction.Mc_Current_Direction: Mc2DirectionConvertFrom := MotionDirection.Current;
+	Tc2_Mc2.Mc_Direction.Mc_Undefined_Direction: Mc2DirectionConvertFrom := MotionDirection.Undefined;
+END_CASE]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

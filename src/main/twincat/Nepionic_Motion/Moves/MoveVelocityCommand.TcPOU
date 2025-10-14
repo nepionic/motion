@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="MoveVelocityCommand" Id="{b7ef6bbd-677a-4a49-9732-7d6bdc2cffe8}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK INTERNAL MoveVelocityCommand EXTENDS MoveCommand
+VAR
+	_fb : MC_MoveVelocity;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="Constructor" Id="{9f167e26-87ad-4e45-88bb-635a3e14b8fd}" />
+    <Method Name="FB_init" Id="{05ce250b-772e-48da-93e3-13b833c254d3}" FolderPath="Constructor\">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	axis : I_Axis;
+	velocity : LREAL;
+	acceleration : LREAL;
+	deceleration : LREAL;
+	jerk : LREAL;
+	bufferMode : AxisBufferMode;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_axis := axis;
+_velocity := velocity;
+_acceleration := acceleration;
+_deceleration := deceleration;
+_jerk := jerk;
+_bufferMode := bufferMode;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="IsActive" Id="{fc6e0815-2fc2-0297-2848-a7cb1e93f261}">
+      <Declaration><![CDATA[PROPERTY PUBLIC IsActive : BOOL]]></Declaration>
+      <Get Name="Get" Id="{e921460a-1203-0676-386f-c51ccf419e42}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsActive := _fb.Active;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="OnExecuting" Id="{65f7f1ba-cf8c-0a6c-3105-a8c04cf4c883}">
+      <Declaration><![CDATA[METHOD PROTECTED OnExecuting
+VAR_INPUT
+	stateControl : I_AsyncCommandStateControl;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_fb(
+	Axis := _axis._InternalAxisRef,
+	Execute := TRUE,
+	Velocity := _velocity,
+	Acceleration := _acceleration,
+	Deceleration := _deceleration,
+	Jerk := _jerk,
+	BufferMode := _bufferMode
+);
+
+IF _fb.Busy THEN
+	RETURN;
+END_IF
+
+_fb(Axis := _axis._InternalAxisRef, Execute := FALSE);
+
+IF _fb.CommandAborted THEN
+	THIS^.Abort();
+	RETURN;
+END_IF
+
+IF _fb.Error THEN
+	stateControl.Error(_fb.ErrorID);
+	RETURN;
+END_IF
+
+stateControl.Next();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

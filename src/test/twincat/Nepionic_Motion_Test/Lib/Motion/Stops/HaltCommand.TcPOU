@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.13">
+  <POU Name="HaltCommand" Id="{3aed1a34-c9f1-04de-1c72-b3ac8b00d3db}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK PUBLIC HaltCommand EXTENDS Mc2AxisCommand
+VAR
+	_fb : MC_Halt;
+	_deceleration : LREAL;
+	_jerk : LREAL;
+	buffer_mode : AxisBufferMode;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="Constructor" Id="{f07bae35-2c49-0716-1576-502ccd534319}" />
+    <Method Name="FB_init" Id="{bb6431b0-5237-0864-0e35-bf5c2780b9b5}" FolderPath="Constructor\">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	axis : Axis;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^.axis := axis;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnExecuting" Id="{3d7c13be-0de6-0ac9-0d78-a5534dc93332}">
+      <Declaration><![CDATA[METHOD PROTECTED OnExecuting
+VAR_INPUT
+	stateControl : I_AsyncCommandStateControl;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_fb(
+	Axis := _axis._InternalAxisRef,
+	Execute := TRUE,
+	Deceleration := _deceleration,
+	Jerk := _jerk,
+	BufferMode := buffer_mode
+);
+
+IF _fb.Busy THEN
+	RETURN;
+END_IF
+
+_fb(Axis := _axis._InternalAxisRef, Execute := FALSE);
+
+IF _fb.CommandAborted THEN
+	THIS^.Abort();
+	RETURN;
+END_IF
+
+IF _fb.Error THEN
+	stateControl.Error(_fb.ErrorID);
+	RETURN;
+END_IF
+
+stateControl.Next();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="I_AxisJogger" Id="{48e41886-d123-0619-3a5c-20d6a492c4b8}">
+    <Declaration><![CDATA[INTERFACE PUBLIC I_AxisJogger]]></Declaration>
+  </Itf>
+</TcPlcObject>
