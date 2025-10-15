@@ -15,7 +15,7 @@ VAR_INPUT
 END_VAR]]></Declaration>
     </Method>
     <Method Name="BuildMoveAbsoluteCommand" Id="{2e8fdce2-a664-0ca0-1ad6-082fefd9251e}">
-      <Declaration><![CDATA[METHOD PUBLIC BuildMoveAbsoluteCommand : MoveCommand
+      <Declaration><![CDATA[METHOD PUBLIC BuildMoveAbsoluteCommand : MotionCommand
 VAR_INPUT
 	axis : REFERENCE TO Mc2Axis;
 END_VAR]]></Declaration>

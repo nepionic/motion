@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="MoveVelocityBuilder" Id="{af81a36f-91e0-4229-8050-674aaf4d51c8}">
+    <Declaration><![CDATA[INTERFACE PUBLIC MoveVelocityBuilder EXTENDS __System.IQueryInterface]]></Declaration>
+    <Method Name="Acceleration" Id="{1a50edb1-113b-4f46-83c6-b8f26a71a15e}">
+      <Declaration><![CDATA[METHOD PUBLIC Acceleration : MoveVelocityBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="BufferMode" Id="{6a4f0400-b046-43df-b9ee-74e7ee22d50a}">
+      <Declaration><![CDATA[METHOD PUBLIC BufferMode : MoveVelocityBuilder
+VAR_INPUT
+	mode : MotionBufferMode;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="BuildMoveVelocityCommand" Id="{0fd3c392-d1e2-06f3-2fa5-d8869d117ef5}">
+      <Declaration><![CDATA[METHOD PUBLIC BuildMoveVelocityCommand : MotionCommand
+VAR_INPUT
+	axis : REFERENCE TO Mc2Axis;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Deceleration" Id="{2885aa42-90e4-4613-82d7-1c22ebf0dd39}">
+      <Declaration><![CDATA[METHOD PUBLIC Deceleration : MoveVelocityBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Distance" Id="{492191b7-499f-40fe-a63e-283905023ebf}">
+      <Declaration><![CDATA[METHOD PUBLIC Distance : MoveRelativeBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Jerk" Id="{d31e94a9-727f-4bfb-bd51-0dd8ad61940f}">
+      <Declaration><![CDATA[METHOD PUBLIC Jerk : MoveVelocityBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Position" Id="{2aad1022-9d1b-4af0-bc07-544790ecfdea}">
+      <Declaration><![CDATA[METHOD PUBLIC Position : MoveAbsoluteBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Velocity" Id="{eb1b270e-f436-450a-b153-6c07dbc75ac9}">
+      <Declaration><![CDATA[METHOD PUBLIC Velocity : MoveVelocityBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

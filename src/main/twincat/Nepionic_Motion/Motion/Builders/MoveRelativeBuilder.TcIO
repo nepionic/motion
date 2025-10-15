@@ -15,13 +15,13 @@ VAR_INPUT
 END_VAR]]></Declaration>
     </Method>
     <Method Name="BuildMoveAdditiveCommand" Id="{737ee63a-5b36-048b-3437-5e67558a0659}">
-      <Declaration><![CDATA[METHOD PUBLIC BuildMoveAdditiveCommand : MoveCommand
+      <Declaration><![CDATA[METHOD PUBLIC BuildMoveAdditiveCommand : MotionCommand
 VAR_INPUT
 	axis : REFERENCE TO Mc2Axis;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="BuildMoveRelativeCommand" Id="{a776305e-4062-066f-07bb-2fbb58ff07e6}">
-      <Declaration><![CDATA[METHOD PUBLIC BuildMoveRelativeCommand : MoveCommand
+      <Declaration><![CDATA[METHOD PUBLIC BuildMoveRelativeCommand : MotionCommand
 VAR_INPUT
 	axis : REFERENCE TO Mc2Axis;
 END_VAR]]></Declaration>

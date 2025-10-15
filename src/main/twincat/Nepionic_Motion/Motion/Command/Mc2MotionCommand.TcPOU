@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="Mc2MotionCommand" Id="{b9feb950-837c-0c63-3efe-0cf9473a606f}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK INTERNAL ABSTRACT Mc2MotionCommand EXTENDS BaseMotionCommand IMPLEMENTS MoveCommand
+    <Declaration><![CDATA[FUNCTION_BLOCK INTERNAL ABSTRACT Mc2MotionCommand EXTENDS BaseMotionCommand IMPLEMENTS MotionCommand
 VAR
 	axis_ref : REFERENCE TO Tc2_Mc2.Axis_Ref;
 END_VAR]]></Declaration>

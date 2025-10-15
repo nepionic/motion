@@ -52,7 +52,7 @@ END_VAR]]></Declaration>
       <Declaration><![CDATA[METHOD PUBLIC GearOut : AsyncCommand]]></Declaration>
     </Method>
     <Method Name="Halt" Id="{857bfe92-5b3b-0460-0e20-0e1a062d52c2}" FolderPath="Motion\PointToPoint\">
-      <Declaration><![CDATA[METHOD PUBLIC Halt : MoveCommand
+      <Declaration><![CDATA[METHOD PUBLIC Halt : MotionCommand
 VAR_INPUT
 	deceleration : LREAL := 0;
 	jerk : LREAL := 0;
@@ -347,7 +347,7 @@ PROPERTY PUBLIC MotionState : AxisMotionState]]></Declaration>
       </Get>
     </Property>
     <Method Name="MoveAbsolute" Id="{24f6d0f0-c756-0e2c-2e69-36a35123d3bf}" FolderPath="Motion\PointToPoint\">
-      <Declaration><![CDATA[METHOD PUBLIC MoveAbsolute : MoveCommand
+      <Declaration><![CDATA[METHOD PUBLIC MoveAbsolute : MotionCommand
 VAR_INPUT
 	position : LREAL;
 	velocity : LREAL;
@@ -358,7 +358,7 @@ VAR_INPUT
 END_VAR]]></Declaration>
     </Method>
     <Method Name="MoveContinuousAbsolute" Id="{bec77e45-0ed3-0f30-3f64-36326fa881ec}" FolderPath="Motion\PointToPoint\">
-      <Declaration><![CDATA[METHOD MoveContinuousAbsolute : MoveCommand
+      <Declaration><![CDATA[METHOD MoveContinuousAbsolute : MotionCommand
 VAR_INPUT
 	position : LREAL;
 	velocity : LREAL;
@@ -369,7 +369,7 @@ VAR_INPUT
 END_VAR]]></Declaration>
     </Method>
     <Method Name="MoveContinuousRelative" Id="{10ae54fa-7b1f-0cac-3dae-8bef66e97346}" FolderPath="Motion\PointToPoint\">
-      <Declaration><![CDATA[METHOD MoveContinuousRelative : MoveCommand
+      <Declaration><![CDATA[METHOD MoveContinuousRelative : MotionCommand
 VAR_INPUT
 	distance : LREAL;
 	velocity : LREAL;
@@ -380,7 +380,7 @@ VAR_INPUT
 END_VAR]]></Declaration>
     </Method>
     <Method Name="MoveModulo" Id="{eb978dfa-4a73-0e7f-16d4-f32a813ee916}" FolderPath="Motion\PointToPoint\">
-      <Declaration><![CDATA[METHOD MoveModulo : MoveCommand
+      <Declaration><![CDATA[METHOD MoveModulo : MotionCommand
 VAR_INPUT
 	position : LREAL;
 	direction : MotionDirection;
@@ -392,7 +392,7 @@ VAR_INPUT
 END_VAR]]></Declaration>
     </Method>
     <Method Name="MoveRelative" Id="{bc788328-475e-04ec-0c44-5ef8af983d23}" FolderPath="Motion\PointToPoint\">
-      <Declaration><![CDATA[METHOD MoveRelative : MoveCommand
+      <Declaration><![CDATA[METHOD MoveRelative : MotionCommand
 VAR_INPUT
 	distance : LREAL;
 	velocity : LREAL;
@@ -403,7 +403,7 @@ VAR_INPUT
 END_VAR]]></Declaration>
     </Method>
     <Method Name="MoveVelocity" Id="{461c3f75-3ca1-08b3-1b64-5d47d37ca039}" FolderPath="Motion\PointToPoint\">
-      <Declaration><![CDATA[METHOD MoveVelocity : MoveCommand
+      <Declaration><![CDATA[METHOD MoveVelocity : MotionCommand
 VAR_INPUT
 	velocity : LREAL;
 	acceleration : LREAL := 0;
@@ -419,7 +419,7 @@ END_VAR]]></Declaration>
       </Get>
     </Property>
     <Method Name="Stop" Id="{b2bbe657-41c8-03cf-1e29-d0733b3906f1}" FolderPath="Motion\PointToPoint\">
-      <Declaration><![CDATA[METHOD Stop : MoveCommand
+      <Declaration><![CDATA[METHOD Stop : MotionCommand
 VAR_INPUT
 	deceleration : LREAL := 0;
 	jerk : LREAL := 0;

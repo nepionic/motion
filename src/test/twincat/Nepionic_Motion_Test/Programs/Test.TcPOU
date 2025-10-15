@@ -26,8 +26,8 @@ VAR
 	
 	start_homing : BOOL;
 	
-	move1_command : MoveCommand;
-	move2_command : MoveCommand;
+	move1_command : MotionCommand;
+	move2_command : MotionCommand;
 	
 	
 	(*
@@ -49,9 +49,10 @@ VAR
 	commandResult_Error : BOOL;
 	commandResult_ErrorId : UDINT;*)
 	
-	halt_command: MoveCommand;
+	halt_command: MotionCommand;
+	stop_command: MotionCommand;
 	
-	move_builder : DefaultMoveBuilder;
+	move_builder : DefaultMotionBuilder;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[axis1.CyclicCall();
@@ -79,12 +80,27 @@ END_IF
 
 IF halt THEN
 	halt := FALSE;
-// 	halt_command := axis1.Halt();
+
+	IF halt_command = 0 THEN
+		halt_command := move_builder
+			.Reset()
+			.BuildHaltCommand(axis1);
+	END_IF
+	
+	halt_command.Execute();
+
 END_IF
 
 IF stop THEN
 	stop := FALSE;
-	axis1.Stop();
+
+	IF stop_command = 0 THEN
+		stop_command := move_builder
+			.Reset()
+			.BuildStopCommand(axis1);
+	END_IF
+	
+	stop_command.Execute();
 END_IF
 
 IF jog_forward THEN
@@ -146,9 +162,9 @@ IF start_move2 THEN
 	IF move2_command = 0 THEN
 		move2_command := move_builder
 			.Reset()
-			.Position(0)
+			.Distance(100)
 			.Velocity(100)
-			.BuildMoveAbsoluteCommand(axis1);
+			.BuildMoveRelativeCommand(axis1);
 	END_IF
 	
 	move2_command.Execute();

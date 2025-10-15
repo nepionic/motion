@@ -63,22 +63,34 @@
     <Compile Include="Motion\Builders\BuilderParameters.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Motion\Builders\DefaultMoveBuilder.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Motion\Builders\DefaultMoveAbsoluteBuilder.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Builders\DefaultMoveBuilder.TcPOU">
+    <Compile Include="Motion\Builders\DefaultMotionBuilder.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Motion\Builders\DefaultMoveRelativeBuilder.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Builders\MoveAbsoluteBuilder.TcIO">
+    <Compile Include="Motion\Builders\DefaultMoveVelocityBuilder.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Motion\Builders\MoveBuilder.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Motion\Builders\MoveAbsoluteBuilder.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Motion\Builders\MotionBuilder.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Motion\Builders\MoveRelativeBuilder.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Motion\Builders\MoveVelocityBuilder.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Motion\Command\BaseMotionCommand.TcPOU">
@@ -87,7 +99,7 @@
     <Compile Include="Motion\Command\Mc2MotionCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Command\MoveCommand.TcIO">
+    <Compile Include="Motion\Command\MotionCommand.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Motion\Coupling\GearInCommand.TcPOU">

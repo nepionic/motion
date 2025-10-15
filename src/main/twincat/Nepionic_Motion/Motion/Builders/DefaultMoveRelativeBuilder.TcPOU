@@ -4,9 +4,9 @@
     <Declaration><![CDATA[{attribute 'linkalways'} 
 {attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
 {attribute 'enable_dynamic_creation'}
-FUNCTION_BLOCK PUBLIC DefaultMoveRelativeBuilder IMPLEMENTS MoveRelativeBuilder
+FUNCTION_BLOCK INTERNAL DefaultMoveRelativeBuilder IMPLEMENTS MoveRelativeBuilder
 VAR
-	parent_builder : MoveBuilder;
+	parent_builder : MotionBuilder;
 	parameters : REFERENCE TO BuilderParameters;
 END_VAR]]></Declaration>
     <Implementation>
@@ -36,13 +36,13 @@ BufferMode := THIS^;]]></ST>
       </Implementation>
     </Method>
     <Method Name="BuildMoveAdditiveCommand" Id="{263793a8-3f0c-086f-1b11-ef104813208d}" FolderPath="Builders\">
-      <Declaration><![CDATA[METHOD PUBLIC BuildMoveAdditiveCommand : MoveCommand
+      <Declaration><![CDATA[METHOD PUBLIC BuildMoveAdditiveCommand : MotionCommand
 VAR_INPUT
 	axis : REFERENCE TO Mc2Axis;
 END_VAR
 VAR
 	command_ptr : POINTER TO MoveAdditiveCommand;
-	command : MoveCommand;
+	command : MotionCommand;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[command_ptr := __NEW(MoveAdditiveCommand(
@@ -58,13 +58,13 @@ BuildMoveAdditiveCommand := command_ptr^;]]></ST>
       </Implementation>
     </Method>
     <Method Name="BuildMoveRelativeCommand" Id="{54764e75-9878-02af-3eca-19e7a26d295f}" FolderPath="Builders\">
-      <Declaration><![CDATA[METHOD PUBLIC BuildMoveRelativeCommand : MoveCommand
+      <Declaration><![CDATA[METHOD PUBLIC BuildMoveRelativeCommand : MotionCommand
 VAR_INPUT
 	axis : REFERENCE TO Mc2Axis;
 END_VAR
 VAR
 	command_ptr : POINTER TO MoveRelativeCommand;
-	command : MoveCommand;
+	command : MotionCommand;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[command_ptr := __NEW(MoveRelativeCommand(
@@ -108,7 +108,7 @@ METHOD FB_Init: BOOL
 VAR_INPUT
     bInitRetains : BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
     bInCopyCode : BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)
-	parent_builder : MoveBuilder;
+	parent_builder : MotionBuilder;
 	parameters : REFERENCE TO BuilderParameters;
 END_VAR]]></Declaration>
       <Implementation>
