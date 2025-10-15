@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="BaseMotionCommand" Id="{031054ba-f892-0de3-09de-fc1b37e54d8c}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK PUBLIC ABSTRACT BaseMotionCommand EXTENDS NoopAsyncCommand IMPLEMENTS MoveCommand
+VAR
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Property Name="Active" Id="{6e440f34-2bfa-01bb-08ff-9edd6af43fbb}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC ABSTRACT Active : BOOL]]></Declaration>
+      <Get Name="Get" Id="{f0c67215-0008-0488-0c4d-4470e62a6019}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="OnExecuting" Id="{0faeb363-a03a-046b-0514-184c987e2eaa}">
+      <Declaration><![CDATA[METHOD PROTECTED ABSTRACT OnExecuting
+VAR_INPUT
+	state_control : AsyncCommandStateControl;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

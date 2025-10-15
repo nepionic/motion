@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.13">
+  <DUT Name="BuilderParameters" Id="{548db3ec-1c7f-04ea-1b3a-f2ba0ddcf02f}">
+    <Declaration><![CDATA[TYPE BuilderParameters :
+STRUCT
+	position : LREAL;
+	distance : LREAL;
+	velocity : LREAL;
+	acceleration : LREAL;
+	deceleration : LREAL;
+	jerk : LREAL;
+	buffer_mode : MotionBufferMode;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

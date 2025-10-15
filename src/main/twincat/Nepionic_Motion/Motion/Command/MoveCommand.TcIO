@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="MoveCommand" Id="{07d8a13b-72f8-0c09-155b-77cec9d4c2ed}">
+    <Declaration><![CDATA[INTERFACE PUBLIC MoveCommand EXTENDS AsyncCommand]]></Declaration>
+    <Property Name="Active" Id="{5e61e82e-e49e-0a63-19c1-b1cac31b367a}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC Active : BOOL]]></Declaration>
+      <Get Name="Get" Id="{89635625-ce37-0a1a-2ec1-8520494e0172}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>

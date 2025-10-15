@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="MoveAdditiveCommand" Id="{5ab5a710-b32c-0372-0d49-2fb9c78ac001}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK MoveAdditiveCommand EXTENDS Mc2MotionCommand
+VAR
+	fb : Tc2_Mc2.Mc_MoveAdditive;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Property Name="Active" Id="{c557c4fd-dd66-0076-064d-f881130fe03f}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC Active : BOOL]]></Declaration>
+      <Get Name="Get" Id="{ad0b5e4d-b3c4-07de-2662-d1b9f74f7d4d}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Active := fb.Active;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="CyclicCall" Id="{4760951b-e663-0bc4-1cea-e860fb3e48da}">
+      <Declaration><![CDATA[METHOD PUBLIC CyclicCall]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.CyclicCall();
+fb(Axis := axis_ref);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_Init" Id="{d5458f1a-8731-0231-13bd-ece35579b9dd}">
+      <Declaration><![CDATA[(*FB_Init is always available implicitly and it is used primarily for initialization.
+The return value is not evaluated. For a specific influence, you can also declare the
+methods explicitly and provide additional code there with the standard initialization
+code. You can evaluate the return value.*)
+METHOD FB_Init : BOOL
+VAR_INPUT
+	(* TRUE: the retain variables are initialized (reset warm / reset cold)*)
+	bInitRetains : BOOL;
+	(* TRUE: the instance will be copied to the copy code afterward (online change)*)
+	bInCopyCode	: BOOL;
+	axis : REFERENCE TO Mc2Axis;
+	distance : LREAL;
+	velocity : LREAL;
+	acceleration : LREAL := 0;
+	deceleration : LREAL := 0;
+	jerk : LREAL := 0;
+	buffer_mode	: MotionBufferMode := MotionBufferMode.Aborting;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fb.Distance := distance;
+fb.Velocity := velocity;
+fb.Acceleration := acceleration;
+fb.Deceleration := deceleration;
+fb.Jerk := jerk;
+fb.BufferMode := Mc2BufferModeConvertTo(buffer_mode);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnExecuting" Id="{eb152d3e-b4e5-035a-21fd-ce529f7b4c71}">
+      <Declaration><![CDATA[METHOD PROTECTED OnExecuting
+VAR_INPUT
+	state_control : AsyncCommandStateControl;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fb.Execute := TRUE;
+
+IF fb.Done THEN
+	state_control.Next();
+	fb.Execute := FALSE;
+END_IF
+
+IF fb.CommandAborted THEN
+	Abort();
+	fb.Execute := FALSE;
+END_IF
+
+IF fb.Error THEN
+	state_control.Error(fb.ErrorId);
+	fb.Execute := FALSE;
+END_IF
+
+]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

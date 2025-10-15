@@ -1,0 +1,789 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="Mc2Axis" Id="{f6d24d44-bf88-05ab-17dd-e51bfbadd54a}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK Mc2Axis IMPLEMENTS Axis
+VAR
+	axis_ref : Tc2_Mc2.Axis_Ref;
+	power_fb : Tc2_Mc2.Mc_Power;
+	reset_fb : Tc2_Mc2.Mc_Reset;
+	halt_fb : Tc2_Mc2.Mc_Halt;
+	stop_fb : Tc2_Mc2.Mc_Stop;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="Administrative" Id="{c7a39c65-0d79-0e29-1377-7896a907f259}" />
+    <Folder Name="Cyclic" Id="{4bf04a9e-5f39-0347-2cc3-7f566b01be46}" />
+    <Folder Name="Motion" Id="{042d880c-d6a7-0bf4-26fc-fbf1514355b4}">
+      <Folder Name="Coupling" Id="{c0c3d91b-c064-008c-3bc5-b7d09afefae3}" />
+      <Folder Name="PointToPoint" Id="{f7c42b14-1338-020f-0e42-fbe1e01f13ed}" />
+    </Folder>
+    <Folder Name="Properties" Id="{14bd5cf8-6829-0857-0543-912990d6f17c}">
+      <Folder Name="Error" Id="{2ffa55bd-1a34-0c90-1876-f6f0946a309e}" />
+      <Folder Name="States" Id="{06982f99-509a-0977-0c86-36e4c9e4d884}" />
+    </Folder>
+    <Method Name="CyclicCall" Id="{c3d150dc-498f-087b-1e2a-cb28255a9a2e}" FolderPath="Cyclic\">
+      <Declaration><![CDATA[METHOD PUBLIC CyclicCall]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[power_fb(Axis := axis_ref);
+reset_fb(Axis := axis_ref);
+halt_fb(Axis := axis_ref);
+stop_fb(Axis := axis_ref);
+axis_ref.ReadStatus();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Disable" Id="{4475c6cd-2c80-0d86-32a6-2a6f85fa4e57}" FolderPath="Administrative\">
+      <Declaration><![CDATA[METHOD PUBLIC Disable]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[power_fb.Enable := FALSE;
+power_fb.Enable_Positive := FALSE;
+power_fb.Enable_Negative := FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DisableNegative" Id="{ab9e5fd9-cc11-0564-18aa-e34304f4e2e1}" FolderPath="Administrative\">
+      <Declaration><![CDATA[METHOD PUBLIC DisableNegative]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[power_fb.Enable_Negative := FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DisablePositive" Id="{a7b584fc-cefd-0b94-3aad-fa7d09eaf38c}" FolderPath="Administrative\">
+      <Declaration><![CDATA[METHOD PUBLIC DisablePositive]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[power_fb.Enable_Positive := FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Enable" Id="{51a4f218-30db-0a36-1b4f-54113e679d4a}" FolderPath="Administrative\">
+      <Declaration><![CDATA[METHOD PUBLIC Enable]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[power_fb.Enable := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="EnableNegative" Id="{1b82506a-a2bc-0e96-166c-a270fe33b5e2}" FolderPath="Administrative\">
+      <Declaration><![CDATA[METHOD PUBLIC EnableNegative]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[power_fb.Enable_Negative := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="EnablePositive" Id="{5bc6496b-cc67-0922-28fc-331c9ad48fe1}" FolderPath="Administrative\">
+      <Declaration><![CDATA[METHOD PUBLIC EnablePositive]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[power_fb.Enable_Positive := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="ErrorId" Id="{78f66620-fc8b-04ba-2c81-52c0f1fef6cb}" FolderPath="Properties\Error\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC ErrorId : UDINT]]></Declaration>
+      <Get Name="Get" Id="{572858b0-3000-039e-294f-09db91a746f0}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ErrorId := axis_ref.Status.ErrorId;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="GearIn" Id="{19d44698-3c91-0578-1b51-8d7bddf03ae4}" FolderPath="Motion\Coupling\">
+      <Declaration><![CDATA[METHOD PUBLIC GearIn : AsyncCommand
+VAR_INPUT
+	master_axis : Axis;
+	numerator : LREAL;
+	denominator : UINT := 1;
+	//acceleration : LREAL := 0;
+	//deceleration : LREAL := 0;
+	//jerk : LREAL := 0;
+	//buffer_mode	: MotionBufferMode := MotionBufferMode.Aborting;
+END_VAR
+VAR
+	mc2_master_axis : POINTER TO Mc2Axis;
+	command_pointer : POINTER TO GearInCommand;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF __QUERYPOINTER(master_axis, mc2_master_axis) THEN
+	command_pointer := __NEW(
+		GearInCommand(
+			master_axis := mc2_master_axis^,
+			slave_axis := THIS^,
+			numerator := numerator,
+			denominator := denominator
+		)
+	);
+	
+	GearIn := command_pointer^;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GearOut" Id="{9f828a07-ad5e-0a29-08a3-d170a741d665}" FolderPath="Motion\Coupling\">
+      <Declaration><![CDATA[METHOD PUBLIC GearOut : AsyncCommand
+VAR
+	command_pointer : POINTER TO GearOutCommand;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[command_pointer := __NEW(
+	GearOutCommand(
+		axis := THIS^
+	)
+);
+
+GearOut := command_pointer^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Halt" Id="{bd9a8884-e367-05ac-2011-44121e4bfe1a}" FolderPath="Motion\PointToPoint\">
+      <Declaration><![CDATA[METHOD PUBLIC Halt : MoveCommand
+VAR_INPUT
+	deceleration : LREAL := 0;
+	jerk : LREAL := 0;
+	buffer_mode	: MotionBufferMode := MotionBufferMode.Aborting;
+END_VAR
+VAR
+	command_pointer : POINTER TO HaltCommand;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[command_pointer := __NEW(
+	HaltCommand(
+		axis := THIS^,
+		deceleration := deceleration,
+		jerk := jerk,
+		buffer_mode := buffer_mode
+	)
+);
+
+Halt := command_pointer^;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="HasBeenStopped" Id="{5da5e438-a929-084d-1690-b4c7d430baa3}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC HasBeenStopped : BOOL]]></Declaration>
+      <Get Name="Get" Id="{05db3da7-bc46-0833-1b83-d37a59337621}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[HasBeenStopped := axis_ref.Status.HasBeenStopped;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="HasJob" Id="{523d496b-9657-07d6-055e-41f49b8ff99e}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC HasJob : BOOL]]></Declaration>
+      <Get Name="Get" Id="{c3ce1acb-5d1c-0428-06e4-a53819984a3e}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[HasJob := axis_ref.Status.HasJob;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsAccelerating" Id="{ef93bcd0-2e43-098c-1e45-93ea63d85c21}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsAccelerating : BOOL]]></Declaration>
+      <Get Name="Get" Id="{3748b6f5-bad3-03a0-00b8-5541692d4281}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsAccelerating := axis_ref.Status.Accelerating;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsBusyHoming" Id="{78e0242c-43f6-00dd-1c0b-3a112bedd1f3}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsBusyHoming : BOOL]]></Declaration>
+      <Get Name="Get" Id="{26cefb18-7e13-0f7c-3fd5-9a2d9a945033}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsBusyHoming := axis_ref.Status.HomingBusy;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsCamDataQueued" Id="{bfa5e2c6-a1b8-072e-1343-f2c82e2465be}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsCamDataQueued : BOOL]]></Declaration>
+      <Get Name="Get" Id="{0b42bbbc-7152-0758-1356-6a1b6ab20d4c}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsCamDataQueued := axis_ref.Status.CamDataQueued;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsCamScalingPending" Id="{de860177-b0c1-0299-154b-3806a6cdca90}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsCamScalingPending : BOOL]]></Declaration>
+      <Get Name="Get" Id="{766aa1a8-0d4f-0a15-39e4-a4660b05a7ae}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsCamScalingPending := axis_ref.Status.CamScalingPending;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsCamTableQueued" Id="{75ed77cd-a788-0e3f-31e7-de98fdd30099}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsCamTableQueued : BOOL]]></Declaration>
+      <Get Name="Get" Id="{d7ca3a57-bd1e-0e46-35f4-470c422ef820}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsCamTableQueued := axis_ref.Status.CamTableQueued;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsCommandBuffered" Id="{b037e227-a8b9-0e70-281b-08080b252061}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+ PROPERTY PUBLIC IsCommandBuffered : BOOL]]></Declaration>
+      <Get Name="Get" Id="{8a4994b4-3b18-006c-3fb6-5613e0d8d1ee}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsCommandBuffered := axis_ref.Status.CmdBuffered;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsCompensating" Id="{316b11c2-e12a-069f-0be2-e4005b9003d4}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsCompensating : BOOL]]></Declaration>
+      <Get Name="Get" Id="{fbc2ddf1-0a8a-0035-3b7a-a7896e19c528}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsCompensating := axis_ref.Status.Compensating;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsConstantVelocity" Id="{6a4d0ff6-a626-0141-307e-e4fe966b6439}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsConstantVelocity : BOOL]]></Declaration>
+      <Get Name="Get" Id="{8d2e3362-7b09-0633-0b5c-d5df8abd82b4}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsConstantVelocity := axis_ref.Status.ConstantVelocity;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsContinuousMotion" Id="{9f4ef97f-2075-0ac0-350c-4a0af1ec6345}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsContinuousMotion : BOOL]]></Declaration>
+      <Get Name="Get" Id="{8ab7cb67-9d1e-0111-03e1-3647dd557e65}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsContinuousMotion := axis_ref.Status.ContinuousMotion;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsControlLoopClosed" Id="{486a5c27-9a7c-0132-2b3d-22502f8b0d89}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsControlLoopClosed : BOOL]]></Declaration>
+      <Get Name="Get" Id="{2062416c-cf8c-08bc-344f-0ef2f454f4b4}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsControlLoopClosed := axis_ref.Status.ControlLoopClosed;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsCoupled" Id="{0e90c18b-5f7e-097f-1af7-f4b40426fa87}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsCoupled : BOOL]]></Declaration>
+      <Get Name="Get" Id="{482e08a2-b9fb-0005-3233-477b456b0cbc}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsCoupled := axis_ref.Status.Coupled;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsDecelerating" Id="{5afc1dd6-c5b1-023c-2124-55b5060fb994}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsDecelerating : BOOL]]></Declaration>
+      <Get Name="Get" Id="{65bd9ee6-64dd-05fd-1de9-d2cfe2928e77}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsDecelerating := axis_ref.Status.Decelerating;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsDisabled" Id="{f757a26e-d51f-0b87-3f2a-165df82210b7}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsDisabled : BOOL]]></Declaration>
+      <Get Name="Get" Id="{360a4cab-ee53-0d36-1188-4ca485d88d9c}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsDisabled := axis_ref.Status.Disabled;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsDiscreteMotion" Id="{6128acf7-fffa-0b89-0bd3-268f2e3ef87f}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsDiscreteMotion : BOOL]]></Declaration>
+      <Get Name="Get" Id="{a134065a-97d7-092e-1f91-aec42a5fe214}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsDriveDeviceErrored" Id="{8fba9b9f-e00b-0afa-1a40-033c77c15f6d}" FolderPath="Properties\Error\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsDriveDeviceErrored : BOOL]]></Declaration>
+      <Get Name="Get" Id="{530d8c63-b6fb-0efc-1067-106ef31a8d19}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsDriveDeviceErrored := axis_ref.Status.Error;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsErrored" Id="{fb79de2a-70de-03ce-20b3-7e182dc76677}" FolderPath="Properties\Error\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsErrored : BOOL]]></Declaration>
+      <Get Name="Get" Id="{65d19f8f-3395-00d8-33df-359ddb0050db}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsErrored := axis_ref.Status.Error;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsErrorStop" Id="{c23cd7da-639f-056e-354b-bedd34cd525b}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsErrorStop : BOOL]]></Declaration>
+      <Get Name="Get" Id="{ae835b87-db68-0f59-1fbb-a992e82263fd}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsErrorStop := axis_ref.Status.ErrorStop;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsExternalLatchValid" Id="{379a565b-82b4-0d23-3b42-ba0e8e9de69c}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsExternalLatchValid : BOOL]]></Declaration>
+      <Get Name="Get" Id="{227f0c80-7f76-0083-20f4-8fef89af8090}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsExternalLatchValid := axis_ref.Status.ExternalLatchValid;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsExtSetPointGenEnabled" Id="{bf17920a-9b33-0c32-2dbd-9f7dd2872eb4}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsExtSetPointGenEnabled : BOOL]]></Declaration>
+      <Get Name="Get" Id="{1c5b6205-c17d-05b0-0f8c-a8d2872fd975}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsExtSetPointGenEnabled := axis_ref.Status.ExtSetPointGenEnabled;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsHomed" Id="{8a697d40-9c5a-0ddc-0c77-007dbc5d6060}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsHomed : BOOL]]></Declaration>
+      <Get Name="Get" Id="{1c2d286b-bf77-0fdc-0c67-ce0132c4b88f}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsHomed := axis_ref.Status.Homed;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsHoming" Id="{3d3a9cd9-3c28-00d2-23cd-3ffaae3f4dc8}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsHoming : BOOL]]></Declaration>
+      <Get Name="Get" Id="{3cbdd7b0-3538-0993-215f-c98e09cdfb99}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsHoming := axis_ref.Status.Homing;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsInPositionArea" Id="{d7721505-775c-0972-1a9c-d04ad8f80693}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsInPositionArea : BOOL]]></Declaration>
+      <Get Name="Get" Id="{9c28b412-d198-0ccb-2b73-a4ffd412110e}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsInPositionArea := axis_ref.Status.InPositionArea;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsInTargetPosition" Id="{8a037e9a-6014-0f20-014c-1cb37ffabe8e}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsInTargetPosition : BOOL]]></Declaration>
+      <Get Name="Get" Id="{73be103e-8a2d-0202-2f33-617acbbc95f7}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsInTargetPosition := axis_ref.Status.InTargetPosition;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsIoDataInvalid" Id="{e586fbb9-881b-00a7-21a4-491863630ad3}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsIoDataInvalid : BOOL]]></Declaration>
+      <Get Name="Get" Id="{44329c13-b919-09d5-24c1-55826d1d928c}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsIoDataInvalid := axis_ref.Status.IoDataInvalid;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsMotionCommandsLocked" Id="{8792db0e-b6e1-09bf-2a09-7eed78f99c4b}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsMotionCommandsLocked : BOOL]]></Declaration>
+      <Get Name="Get" Id="{c93c0bfa-33c3-0178-2ce1-752ce0d58edb}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsMotionCommandsLocked := axis_ref.Status.MotionCommandsLocked;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsMoving" Id="{f0c8dcb7-c3ef-0a5a-2bfd-70089708db86}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsMoving : BOOL]]></Declaration>
+      <Get Name="Get" Id="{8bedff62-0000-0e2b-2c61-a40aa2e8e092}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsMoving := axis_ref.Status.Moving;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsNegativeDirection" Id="{1d0bbd0a-e60d-0563-2931-92b64cc23cd7}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsNegativeDirection : BOOL]]></Declaration>
+      <Get Name="Get" Id="{18e961b8-071d-05a5-3c48-d8569ec5fe58}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsNegativeDirection := axis_ref.Status.NegativeDirection;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsNewTargetPosition" Id="{f30cfb4b-9007-00dd-23ce-5428c054c856}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsNewTargetPosition : BOOL]]></Declaration>
+      <Get Name="Get" Id="{be835f59-7610-05d4-046b-bbdc556e8eac}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsNewTargetPosition := axis_ref.Status.NewTargetPosition;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsNotMoving" Id="{40fe11d1-5990-0b21-399d-566f4ae6ffa3}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsNotMoving : BOOL]]></Declaration>
+      <Get Name="Get" Id="{9d66c255-2e58-08c5-16a8-21a9a8ec0f4a}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsNotMoving := axis_ref.Status.NotMoving;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsOperational" Id="{b4f3b1f9-9f4e-0b26-22d0-5b879ad50af2}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsOperational : BOOL]]></Declaration>
+      <Get Name="Get" Id="{28570211-377c-03fe-3da4-0c0537a51626}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsOperational := axis_ref.Status.Operational;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsPointToPointMode" Id="{8e61ad4d-3e20-0b40-0400-450a88f36809}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsPointToPointMode : BOOL]]></Declaration>
+      <Get Name="Get" Id="{e72289f6-b5dd-0b57-2378-44bddb740173}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsPointToPointMode := axis_ref.Status.PTPmode;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsPositiveDirection" Id="{3d940cdb-6245-0bf7-12c5-426feaf2df04}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsPositiveDirection : BOOL]]></Declaration>
+      <Get Name="Get" Id="{a0c27ab4-7afe-00f0-2938-2c9cbb9c1197}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsPositiveDirection := axis_ref.Status.PositiveDirection;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsProtected" Id="{f1d9e2db-1136-000e-2d22-dac81ddfd437}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsProtected : BOOL]]></Declaration>
+      <Get Name="Get" Id="{0f7f9efa-c917-0056-07e9-3ff374231520}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsProtected := axis_ref.Status.ProtectedMode;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsSoftLimitMaxExceeded" Id="{e914973f-eb5c-040b-3d6a-623c5105ea01}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsSoftLimitMaxExceeded : BOOL]]></Declaration>
+      <Get Name="Get" Id="{aca6918b-241a-0d01-1264-9caba7e27cce}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsSoftLimitMaxExceeded := axis_ref.Status.SoftLimitMaxExceeded;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsSoftLimitMinExceeded" Id="{172367ef-f52f-0fd1-1f93-f115f3ddf06e}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsSoftLimitMinExceeded : BOOL]]></Declaration>
+      <Get Name="Get" Id="{86e3479c-522a-0d6a-2ed4-69925a8b156d}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsSoftLimitMinExceeded := axis_ref.Status.SoftLimitMinExceeded;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsStandstill" Id="{9cd772b9-621b-0d81-0ee2-1a0d2bdb6ebd}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsStandstill : BOOL]]></Declaration>
+      <Get Name="Get" Id="{c5a99af5-a4bf-024d-0c88-bc9c19c4dc96}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsStandstill := axis_ref.Status.StandStill;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsStopping" Id="{ec574189-c78a-0dfb-29c3-2b0dfb259bf5}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsStopping : BOOL]]></Declaration>
+      <Get Name="Get" Id="{0b392166-cd5c-040e-2a41-3dc0ea9840a5}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsStopping := axis_ref.Status.Stopping;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsSynchronisedMotion" Id="{e3ebe054-e597-0ab2-324d-e16e7f5d7836}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC IsSynchronisedMotion : BOOL]]></Declaration>
+      <Get Name="Get" Id="{94169aa8-2ebb-0267-2eda-e2ca94088856}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsSynchronisedMotion := axis_ref.Status.SynchronizedMotion;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Mc2AxisRef" Id="{ae5866bb-3683-0a90-2259-7ccc10947c6c}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Mc2AxisRef : REFERENCE TO Tc2_Mc2.Axis_Ref]]></Declaration>
+      <Get Name="Get" Id="{fb8a0f8d-990d-0f9e-3f0c-06d665d956b7}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Mc2AxisRef REF= THIS^.axis_ref;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="MotionState" Id="{c0cc5701-fbfb-05ed-3d3e-2b4764faf07c}" FolderPath="Properties\States\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC MotionState : AxisMotionState]]></Declaration>
+      <Get Name="Get" Id="{b95dbae7-b719-0a18-321d-00327a4e6720}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[CASE axis_ref.Status.MotionState OF
+	Tc2_Mc2.Mc_AxisState_Disabled: MotionState := AxisMotionState.Disabled;
+	Tc2_Mc2.Mc_AxisState_Standstill: MotionState := AxisMotionState.Standstill;
+	Tc2_Mc2.Mc_AxisState_ErrorStop: MotionState := AxisMotionState.ErrorStop;
+	Tc2_Mc2.Mc_AxisState_Stopping: MotionState := AxisMotionState.Stopping;
+	Tc2_Mc2.Mc_AxisState_Homing: MotionState := AxisMotionState.Homing;
+	Tc2_Mc2.Mc_AxisState_DiscreteMotion: MotionState := AxisMotionState.DiscreteMotion;
+	Tc2_Mc2.Mc_AxisState_ContinousMotion: MotionState := AxisMotionState.ContinuousMotion;
+	Tc2_Mc2.Mc_AxisState_SynchronizedMotion: MotionState := AxisMotionState.SynchronisedMotion;
+ELSE
+	MotionState := AxisMotionState.Undefined;
+END_CASE]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="MoveAbsolute" Id="{ba7aac53-f182-0124-2760-6e9ca44693a7}" FolderPath="Motion\PointToPoint\">
+      <Declaration><![CDATA[METHOD PUBLIC MoveAbsolute : MoveCommand
+VAR_INPUT
+	position : LREAL;
+	velocity : LREAL;
+	acceleration : LREAL := 0;
+	deceleration : LREAL := 0;
+	jerk : LREAL := 0;
+	buffer_mode	: MotionBufferMode := MotionBufferMode.Aborting;
+END_VAR
+VAR
+	command_pointer : POINTER TO MoveAbsoluteCommand;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[command_pointer := __NEW(
+	MoveAbsoluteCommand(
+		axis := THIS^,
+		position := position,
+		velocity := velocity,
+		acceleration := acceleration,
+		deceleration := deceleration,
+		jerk := jerk,
+		buffer_mode := buffer_mode
+	)
+);
+
+MoveAbsolute := command_pointer^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="MoveContinuousAbsolute" Id="{5ddeacc5-a151-0e3f-08e1-27b2f63b62da}" FolderPath="Motion\PointToPoint\">
+      <Declaration><![CDATA[METHOD PUBLIC MoveContinuousAbsolute : MoveCommand
+VAR_INPUT
+	position : LREAL;
+	velocity : LREAL;
+	acceleration : LREAL := 0;
+	deceleration : LREAL := 0;
+	jerk : LREAL := 0;
+	buffer_mode	: MotionBufferMode := MotionBufferMode.Aborting;
+END_VAR
+VAR
+	command_pointer : POINTER TO MoveContinuousAbsoluteCommand;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[command_pointer := __NEW(
+	MoveContinuousAbsoluteCommand(
+		axis := THIS^,
+		position := position,
+		velocity := velocity,
+		acceleration := acceleration,
+		deceleration := deceleration,
+		jerk := jerk,
+		buffer_mode := buffer_mode
+	)
+);
+
+MoveContinuousAbsolute := command_pointer^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="MoveContinuousRelative" Id="{2522a323-0580-0b3c-0982-42121392ccfc}" FolderPath="Motion\PointToPoint\">
+      <Declaration><![CDATA[METHOD PUBLIC MoveContinuousRelative : MoveCommand
+VAR_INPUT
+	distance : LREAL;
+	velocity : LREAL;
+	acceleration : LREAL := 0;
+	deceleration : LREAL := 0;
+	jerk : LREAL := 0;
+	buffer_mode	: MotionBufferMode := MotionBufferMode.Aborting;
+END_VAR
+VAR
+	command_pointer : POINTER TO MoveContinuousRelativeCommand;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[command_pointer := __NEW(
+	MoveContinuousRelativeCommand(
+		axis := THIS^,
+		distance := distance,
+		velocity := velocity,
+		acceleration := acceleration,
+		deceleration := deceleration,
+		jerk := jerk,
+		buffer_mode := buffer_mode
+	)
+);
+
+MoveContinuousRelative := command_pointer^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="MoveModulo" Id="{3f82f632-2d6e-0a6c-000e-b08d835c76d4}" FolderPath="Motion\PointToPoint\">
+      <Declaration><![CDATA[METHOD PUBLIC MoveModulo : MoveCommand
+VAR_INPUT
+	position : LREAL;
+	direction : MotionDirection;
+	velocity : LREAL;
+	acceleration : LREAL := 0;
+	deceleration : LREAL := 0;
+	jerk : LREAL := 0;
+	buffer_mode	: MotionBufferMode := MotionBufferMode.Aborting;
+END_VAR
+VAR
+	command_pointer : POINTER TO MoveModuloCommand;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[command_pointer := __NEW(
+	MoveModuloCommand(
+		axis := THIS^,
+		position := position,
+		direction := direction,
+		velocity := velocity,
+		acceleration := acceleration,
+		deceleration := deceleration,
+		jerk := jerk,
+		buffer_mode := buffer_mode
+	)
+);
+
+MoveModulo := command_pointer^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="MoveRelative" Id="{55b852ad-4981-0b09-365a-969af570766f}" FolderPath="Motion\PointToPoint\">
+      <Declaration><![CDATA[METHOD PUBLIC MoveRelative : MoveCommand
+VAR_INPUT
+	distance : LREAL;
+	velocity : LREAL;
+	acceleration : LREAL := 0;
+	deceleration : LREAL := 0;
+	jerk : LREAL := 0;
+	buffer_mode	: MotionBufferMode := MotionBufferMode.Aborting;
+END_VAR
+VAR
+	command_pointer : POINTER TO MoveRelativeCommand;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[command_pointer := __NEW(
+	MoveRelativeCommand(
+		axis := THIS^,
+		distance := distance,
+		velocity := velocity,
+		acceleration := acceleration,
+		deceleration := deceleration,
+		jerk := jerk,
+		buffer_mode := buffer_mode
+	)
+);
+
+MoveRelative := command_pointer^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="MoveVelocity" Id="{411c70a5-a751-02d2-30fb-eae8e1e29394}" FolderPath="Motion\PointToPoint\">
+      <Declaration><![CDATA[METHOD PUBLIC MoveVelocity : MoveCommand
+VAR_INPUT
+	velocity : LREAL;
+	acceleration : LREAL := 0;
+	deceleration : LREAL := 0;
+	jerk : LREAL := 0;
+	buffer_mode	: MotionBufferMode := MotionBufferMode.Aborting;
+END_VAR
+VAR
+	command_pointer : POINTER TO MoveVelocityCommand;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[command_pointer := __NEW(
+	MoveVelocityCommand(
+		axis := THIS^,
+		velocity := velocity,
+		acceleration := acceleration,
+		deceleration := deceleration,
+		jerk := jerk,
+		buffer_mode := buffer_mode
+	)
+);
+
+MoveVelocity := command_pointer^;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="OpMode" Id="{847e6f11-c9a7-0d26-1f26-0dcdf9c3787c}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC OpMode : Tc2_Mc2.St_AxisOpModes]]></Declaration>
+      <Get Name="Get" Id="{0c360fe3-6c1d-0982-34c6-93b59a552721}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[OpMode := axis_ref.Status.OpMode;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Stop" Id="{a905c6b0-65a3-0b2e-0f5f-bf9f5c9e621b}" FolderPath="Motion\PointToPoint\">
+      <Declaration><![CDATA[METHOD PUBLIC Stop : MoveCommand
+VAR_INPUT
+	deceleration : LREAL := 0;
+	jerk : LREAL := 0;
+END_VAR
+VAR
+	command_pointer : POINTER TO StopCommand;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[command_pointer := __NEW(
+	StopCommand(
+		axis := THIS^,
+		deceleration := deceleration,
+		jerk := jerk
+	)
+);
+
+Stop := command_pointer^;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="DefaultMoveRelativeBuilder" Id="{c6102aa3-88d2-0377-128b-eac98f3d6b32}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK PUBLIC DefaultMoveRelativeBuilder IMPLEMENTS MoveRelativeBuilder
+VAR
+	parent_builder : MoveBuilder;
+	parameters : REFERENCE TO BuilderParameters;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="Builders" Id="{47f4285d-d3d3-078f-03aa-c4d44941fee7}" />
+    <Folder Name="Constructor" Id="{8d125b26-ac37-0d8d-166d-133255e4d31d}" />
+    <Folder Name="Property Setters" Id="{8bf196a3-07ee-0508-1071-966a9a17bf21}" />
+    <Method Name="Acceleration" Id="{24ce3efc-64bc-0939-3915-559b8a7e3764}" FolderPath="Property Setters\">
+      <Declaration><![CDATA[METHOD PUBLIC Acceleration : MoveRelativeBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parent_builder.Acceleration(value);
+Acceleration := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="BufferMode" Id="{29c25805-9e8c-0c67-1a5a-827b15bfe679}" FolderPath="Property Setters\">
+      <Declaration><![CDATA[METHOD PUBLIC BufferMode : MoveRelativeBuilder
+VAR_INPUT
+	mode : MotionBufferMode;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parent_builder.BufferMode(mode);
+BufferMode := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="BuildMoveAdditiveCommand" Id="{263793a8-3f0c-086f-1b11-ef104813208d}" FolderPath="Builders\">
+      <Declaration><![CDATA[METHOD PUBLIC BuildMoveAdditiveCommand : MoveCommand
+VAR_INPUT
+	axis : REFERENCE TO Mc2Axis;
+END_VAR
+VAR
+	command_ptr : POINTER TO MoveAdditiveCommand;
+	command : MoveCommand;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[command_ptr := __NEW(MoveAdditiveCommand(
+	axis := axis,
+	distance := parameters.distance,
+	velocity := parameters.velocity,
+	acceleration := parameters.acceleration,
+	deceleration := parameters.deceleration,
+	jerk := parameters.jerk,
+	buffer_mode := parameters.buffer_mode
+));
+BuildMoveAdditiveCommand := command_ptr^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="BuildMoveRelativeCommand" Id="{54764e75-9878-02af-3eca-19e7a26d295f}" FolderPath="Builders\">
+      <Declaration><![CDATA[METHOD PUBLIC BuildMoveRelativeCommand : MoveCommand
+VAR_INPUT
+	axis : REFERENCE TO Mc2Axis;
+END_VAR
+VAR
+	command_ptr : POINTER TO MoveRelativeCommand;
+	command : MoveCommand;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[command_ptr := __NEW(MoveRelativeCommand(
+	axis := axis,
+	distance := parameters.distance,
+	velocity := parameters.velocity,
+	acceleration := parameters.acceleration,
+	deceleration := parameters.deceleration,
+	jerk := parameters.jerk,
+	buffer_mode := parameters.buffer_mode
+));
+BuildMoveRelativeCommand := command_ptr^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Deceleration" Id="{4ebeea11-7eaf-01e9-1d61-faf592392d0c}" FolderPath="Property Setters\">
+      <Declaration><![CDATA[METHOD PUBLIC Deceleration : MoveRelativeBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parent_builder.Deceleration(value);
+Deceleration := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Distance" Id="{3163c9f3-e2d7-0dfd-2009-95b8309c8762}" FolderPath="Property Setters\">
+      <Declaration><![CDATA[METHOD PUBLIC Distance : MoveRelativeBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parameters.distance := value;
+Distance := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_Init" Id="{22c8d30a-c427-025a-0aee-cac61654f2ab}" FolderPath="Constructor\">
+      <Declaration><![CDATA[//FB_Init is always available implicitly and it is used primarily for initialization.
+//The return value is not evaluated. For a specific influence, you can also declare the
+//methods explicitly and provide additional code there with the standard initialization
+//code. You can evaluate the return value.
+METHOD FB_Init: BOOL
+VAR_INPUT
+    bInitRetains : BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
+    bInCopyCode : BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)
+	parent_builder : MoveBuilder;
+	parameters : REFERENCE TO BuilderParameters;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^.parent_builder := parent_builder;
+THIS^.parameters REF= parameters;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Jerk" Id="{ef56365e-8f32-0842-20ff-fefaac7bf80a}" FolderPath="Property Setters\">
+      <Declaration><![CDATA[METHOD PUBLIC Jerk : MoveRelativeBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parent_builder.Jerk(value);
+Jerk := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Reset" Id="{01eb06aa-60b9-0f2f-22a9-98f1c45d3418}" FolderPath="Property Setters\">
+      <Declaration><![CDATA[METHOD PUBLIC Reset : MoveRelativeBuilder]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parent_builder.Reset();
+Reset := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Velocity" Id="{bdc2d397-9ec5-0496-1351-fc73c0eb986d}" FolderPath="Property Setters\">
+      <Declaration><![CDATA[METHOD PUBLIC Velocity : MoveRelativeBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parent_builder.Velocity(value);
+Velocity := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

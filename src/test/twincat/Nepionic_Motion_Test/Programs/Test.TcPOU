@@ -5,6 +5,10 @@
 VAR
 	axis1 : Mc2Axis;	
 	
+	busy : BOOL;
+	active : BOOL;
+	done : BOOL;
+	aborted : BOOL;
 	error : BOOL;
 	error_id : UDINT;
 	
@@ -18,10 +22,14 @@ VAR
 	jog_backwards : BOOL;
 	
 	start_move1 : BOOL;
-	start_move2 : BOOL;	
+	start_move2 : BOOL;
+	
 	start_homing : BOOL;
 	
-	command : MotionCommand;
+	move1_command : MoveCommand;
+	move2_command : MoveCommand;
+	
+	
 	(*
 	homePosition : LREAL := 10;
 	homeCam : BOOL;
@@ -41,7 +49,9 @@ VAR
 	commandResult_Error : BOOL;
 	commandResult_ErrorId : UDINT;*)
 	
-	halt_command: MotionCommand;
+	halt_command: MoveCommand;
+	
+	move_builder : DefaultMoveBuilder;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[axis1.CyclicCall();
@@ -69,7 +79,7 @@ END_IF
 
 IF halt THEN
 	halt := FALSE;
-	halt_command := axis1.Halt();
+// 	halt_command := axis1.Halt();
 END_IF
 
 IF stop THEN
@@ -114,13 +124,15 @@ END_IF*)
 IF start_move1 THEN
 	start_move1 := FALSE;
 	
-	command := axis1.MoveAbsolute(
-		1000,
-		100,
-		
-	);
+	IF move1_command = 0 THEN
+		move1_command := move_builder
+			.Reset()
+			.Position(1000)
+			.Velocity(100)
+			.BuildMoveAbsoluteCommand(axis1);
+	END_IF
 	
-	command.Execute();
+	move1_command.Execute();
 	(*command := axis1.MoveBuilder()
 		.Velocity(100)
 		.BufferMode(AxisBufferMode.Aborting)
@@ -130,6 +142,16 @@ END_IF
 
 IF start_move2 THEN
 	start_move2 := FALSE;
+	
+	IF move2_command = 0 THEN
+		move2_command := move_builder
+			.Reset()
+			.Position(0)
+			.Velocity(100)
+			.BuildMoveAbsoluteCommand(axis1);
+	END_IF
+	
+	move2_command.Execute();
 	(*command := axis1.MoveBuilder()
 		.Velocity(100)
 		.BufferMode(AxisBufferMode.Buffered)
@@ -155,9 +177,21 @@ END_IF
 	END_IF
 END_IF*)
 
-IF command <> 0 THEN
-	command.CyclicCall();
-END_IF]]></ST>
+IF move1_command <> 0 THEN
+	move1_command.CyclicCall();
+
+	busy := move1_command.Busy;
+	active := move1_command.Active;
+	done := move1_command.Done;
+	aborted := move1_command.Aborted;
+	error := move1_command.Error;
+	error_id := move1_command.ErrorId;
+END_IF
+
+IF move2_command <> 0 THEN
+	move2_command.CyclicCall();
+END_IF
+]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="MoveRelativeBuilder" Id="{bddc8931-0c19-0eb2-24a5-b0ff1c07fd66}">
+    <Declaration><![CDATA[INTERFACE PUBLIC MoveRelativeBuilder EXTENDS __System.IQueryInterface]]></Declaration>
+    <Method Name="Acceleration" Id="{6f259ded-a150-0d36-15c9-f78bb90a64eb}">
+      <Declaration><![CDATA[METHOD PUBLIC Acceleration : MoveRelativeBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="BufferMode" Id="{ac9b4e6c-172d-09f1-2143-396f9f3b2b02}">
+      <Declaration><![CDATA[METHOD PUBLIC BufferMode : MoveRelativeBuilder
+VAR_INPUT
+	mode : MotionBufferMode;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="BuildMoveAdditiveCommand" Id="{737ee63a-5b36-048b-3437-5e67558a0659}">
+      <Declaration><![CDATA[METHOD PUBLIC BuildMoveAdditiveCommand : MoveCommand
+VAR_INPUT
+	axis : REFERENCE TO Mc2Axis;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="BuildMoveRelativeCommand" Id="{a776305e-4062-066f-07bb-2fbb58ff07e6}">
+      <Declaration><![CDATA[METHOD PUBLIC BuildMoveRelativeCommand : MoveCommand
+VAR_INPUT
+	axis : REFERENCE TO Mc2Axis;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Deceleration" Id="{0e6e74d6-91d3-0325-3fa7-7efc9eaa2442}">
+      <Declaration><![CDATA[METHOD PUBLIC Deceleration : MoveRelativeBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Distance" Id="{23a8e663-60a3-0135-03f3-8e7c13c775e1}">
+      <Declaration><![CDATA[METHOD PUBLIC Distance : MoveRelativeBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Jerk" Id="{556e6fc9-f979-01e4-163c-9a912f2eac29}">
+      <Declaration><![CDATA[METHOD PUBLIC Jerk : MoveRelativeBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Velocity" Id="{745bd3a9-6e78-0053-3978-064d4ff508e1}">
+      <Declaration><![CDATA[METHOD PUBLIC Velocity : MoveRelativeBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>
