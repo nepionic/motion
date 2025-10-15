@@ -983,7 +983,7 @@ External Setpoint Generation:
 		</DataType>
 	</DataTypes>
 	<Project GUID="{61AAF36A-8E63-4C92-A06C-2882256DFBC6}" Name="Nepionic_Motion_Test" PrjFilePath="..\..\Nepionic_Motion_Test\Nepionic_Motion_Test.plcproj" TmcFilePath="..\..\Nepionic_Motion_Test\Nepionic_Motion_Test.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{1DD1C732-C5C4-F755-8AEB-918DBEC63B6A}" TmcPath="Nepionic_Motion_Test\Nepionic_Motion_Test.tmc">
+		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{A1A5481C-4B20-87E7-2C36-610062BECB7E}" TmcPath="Nepionic_Motion_Test\Nepionic_Motion_Test.tmc">
 			<Name>Nepionic_Motion_Test Instance</Name>
 			<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 			<Vars VarGrpType="2" AreaNo="1">

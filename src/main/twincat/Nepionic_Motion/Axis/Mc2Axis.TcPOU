@@ -22,6 +22,42 @@ END_VAR]]></Declaration>
       <Folder Name="Error" Id="{2ffa55bd-1a34-0c90-1876-f6f0946a309e}" />
       <Folder Name="States" Id="{06982f99-509a-0977-0c86-36e4c9e4d884}" />
     </Folder>
+    <Property Name="ActualAcceleration" Id="{ecd32dee-125f-421e-9bd4-98b5c789e764}">
+      <Declaration><![CDATA[PROPERTY PUBLIC ActualAcceleration : LREAL]]></Declaration>
+      <Get Name="Get" Id="{e173e307-e3ba-4a75-9cca-a45e60d7bdd3}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ActualAcceleration := axis_ref.NcToPlc.ActAcc;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="ActualPosition" Id="{3aa92e12-52f5-4f52-a7ee-c37218cb64c9}">
+      <Declaration><![CDATA[PROPERTY PUBLIC ActualPosition : LREAL]]></Declaration>
+      <Get Name="Get" Id="{5a157221-1e86-43b3-9939-98cfdf1ac337}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ActualPosition := axis_ref.NcToPlc.ActPos;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="ActualVelocity" Id="{9d1f14fa-1082-487f-91e9-424275d88223}">
+      <Declaration><![CDATA[PROPERTY PUBLIC ActualVelocity : LREAL]]></Declaration>
+      <Get Name="Get" Id="{2d443465-9b70-426b-af46-54882f5f2693}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ActualVelocity := axis_ref.NcToPlc.ActVelo;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="AxisRef" Id="{ae5866bb-3683-0a90-2259-7ccc10947c6c}">
+      <Declaration><![CDATA[PROPERTY PUBLIC AxisRef : REFERENCE TO Tc2_Mc2.Axis_Ref]]></Declaration>
+      <Get Name="Get" Id="{fb8a0f8d-990d-0f9e-3f0c-06d665d956b7}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[AxisRef REF= THIS^.axis_ref;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Method Name="CyclicCall" Id="{c3d150dc-498f-087b-1e2a-cb28255a9a2e}" FolderPath="Cyclic\">
       <Declaration><![CDATA[METHOD PUBLIC CyclicCall]]></Declaration>
       <Implementation>
@@ -477,15 +513,6 @@ PROPERTY PUBLIC IsSynchronisedMotion : BOOL]]></Declaration>
         <Declaration><![CDATA[PUBLIC]]></Declaration>
         <Implementation>
           <ST><![CDATA[IsSynchronisedMotion := axis_ref.Status.SynchronizedMotion;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="Mc2AxisRef" Id="{ae5866bb-3683-0a90-2259-7ccc10947c6c}">
-      <Declaration><![CDATA[PROPERTY PUBLIC Mc2AxisRef : REFERENCE TO Tc2_Mc2.Axis_Ref]]></Declaration>
-      <Get Name="Get" Id="{fb8a0f8d-990d-0f9e-3f0c-06d665d956b7}">
-        <Declaration><![CDATA[PUBLIC]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Mc2AxisRef REF= THIS^.axis_ref;]]></ST>
         </Implementation>
       </Get>
     </Property>

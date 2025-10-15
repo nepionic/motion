@@ -39,7 +39,7 @@ VAR_INPUT
 	bInitRetains : BOOL;
 	(* TRUE: the instance will be copied to the copy code afterward (online change)*)
 	bInCopyCode	: BOOL;
-	axis : REFERENCE TO Mc2Axis;
+	axis : Axis;
 	position : LREAL;
 	direction : MotionDirection;
 	velocity : LREAL;

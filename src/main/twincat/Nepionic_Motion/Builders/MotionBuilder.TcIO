@@ -19,25 +19,31 @@ END_VAR]]></Declaration>
     <Method Name="BuildGearOutCommand" Id="{0a48949c-f0ab-44e8-aba9-83d5c5c0e8f0}" FolderPath="Builders\">
       <Declaration><![CDATA[METHOD PUBLIC BuildGearOutCommand : AsyncCommand
 VAR_INPUT
-	axis : REFERENCE TO Mc2Axis;
+	axis : Axis;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="BuildHaltCommand" Id="{912c37e5-6cd0-4428-b2cf-715a0536e0df}" FolderPath="Builders\">
       <Declaration><![CDATA[METHOD PUBLIC BuildHaltCommand : MotionCommand
 VAR_INPUT
-	axis : REFERENCE TO Mc2Axis;
+	axis : Axis;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="BuildStopCommand" Id="{7d4223b3-a3e3-4025-b131-6b6b401467eb}" FolderPath="Builders\">
       <Declaration><![CDATA[METHOD PUBLIC BuildStopCommand : MotionCommand
 VAR_INPUT
-	axis : REFERENCE TO Mc2Axis;
+	axis : Axis;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="Deceleration" Id="{4f849c2b-2837-0ef6-3983-b8af5bf49e80}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Deceleration : MotionBuilder
 VAR_INPUT
 	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Denominator" Id="{8dc17ba8-7de3-4b51-9288-fde3f7526438}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC Denominator : GearInBuilder
+VAR_INPUT
+	value : UINT;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="Distance" Id="{ccf28c55-362b-01fc-3ee6-b57b36715a07}" FolderPath="PropertySetters\">
@@ -52,20 +58,14 @@ VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
     </Method>
-    <Method Name="Position" Id="{062b27ce-68c0-01a3-03b0-70dfca1efac6}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC Position : MoveAbsoluteBuilder
+    <Method Name="Numerator" Id="{4c136005-48a5-4a19-8206-1c2b20370311}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC Numerator : GearInBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
     </Method>
-    <Method Name="RatioDenominator" Id="{8dc17ba8-7de3-4b51-9288-fde3f7526438}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC RatioDenominator : GearInBuilder
-VAR_INPUT
-	value : UINT;
-END_VAR]]></Declaration>
-    </Method>
-    <Method Name="RatioNumerator" Id="{4c136005-48a5-4a19-8206-1c2b20370311}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC RatioNumerator : GearInBuilder
+    <Method Name="Position" Id="{062b27ce-68c0-01a3-03b0-70dfca1efac6}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC Position : MoveAbsoluteBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>

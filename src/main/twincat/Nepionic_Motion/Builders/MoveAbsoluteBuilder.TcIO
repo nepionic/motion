@@ -19,7 +19,7 @@ END_VAR]]></Declaration>
     <Method Name="BuildMoveAbsoluteCommand" Id="{2e8fdce2-a664-0ca0-1ad6-082fefd9251e}" FolderPath="Builders\">
       <Declaration><![CDATA[METHOD PUBLIC BuildMoveAbsoluteCommand : MotionCommand
 VAR_INPUT
-	axis : REFERENCE TO Mc2Axis;
+	axis : Axis;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="Deceleration" Id="{bbf31b63-5621-0046-3f6a-c1482b4c4e66}" FolderPath="PropertySetters\">

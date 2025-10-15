@@ -154,8 +154,8 @@ IF gear_in THEN
 	gear_in := FALSE;
 	IF gear_in_command = 0 THEN
 		gear_in_command := move_builder
-			.RatioNumerator(gear_in_numerator)
-			.RatioDenominator(gear_in_denominator)
+			.Numerator(gear_in_numerator)
+			.Denominator(gear_in_denominator)
 			.BuildGearInCommand(axis1, axis2);
 	END_IF
 	gear_in_command.Execute();

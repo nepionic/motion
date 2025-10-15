@@ -20,10 +20,10 @@ METHOD FB_Init: BOOL
 VAR_INPUT
     bInitRetains: BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
     bInCopyCode: BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)
-	axis : REFERENCE TO Mc2Axis;   
+	axis : Axis;   
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[axis_ref REF= axis.Mc2AxisRef;]]></ST>
+        <ST><![CDATA[axis_ref REF= axis.AxisRef;]]></ST>
       </Implementation>
     </Method>
     <Method Name="OnExecuting" Id="{0faeb363-a03a-046b-0514-184c987e2eaa}">

@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Builders" />
+    <Folder Include="Builders\Implementation" />
     <Folder Include="Command" />
     <Folder Include="Commands" />
     <Folder Include="Commands\Administrative" />
@@ -59,28 +60,28 @@
     <Folder Include="Types" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Builders\BuilderParameters.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Builders\DefaultGearInBuilder.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Builders\DefaultMotionBuilder.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Builders\DefaultMoveAbsoluteBuilder.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Builders\DefaultMoveBuilder.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Builders\DefaultMoveRelativeBuilder.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Builders\DefaultMoveVelocityBuilder.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Builders\GearInBuilder.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Builders\Implementation\DefaultBuilderParameters.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Builders\Implementation\DefaultGearInBuilder.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Builders\Implementation\DefaultMotionBuilder.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Builders\Implementation\DefaultMoveAbsoluteBuilder.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Builders\Implementation\DefaultMoveBuilder.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Builders\Implementation\DefaultMoveRelativeBuilder.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Builders\Implementation\DefaultMoveVelocityBuilder.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Builders\MotionBuilder.TcIO">

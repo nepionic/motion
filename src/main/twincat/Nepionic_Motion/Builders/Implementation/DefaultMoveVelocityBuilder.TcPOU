@@ -7,7 +7,7 @@
 FUNCTION_BLOCK INTERNAL DefaultMoveVelocityBuilder IMPLEMENTS MoveVelocityBuilder
 VAR
 	parent_builder : MotionBuilder;
-	parameters : REFERENCE TO BuilderParameters;
+	parameters : REFERENCE TO DefaultBuilderParameters;
 	move_absolute_builder : DefaultMoveAbsoluteBuilder(parent_builder := parent_builder, parameters := parameters);
 	move_relative_builder : DefaultMoveRelativeBuilder(parent_builder := parent_builder, parameters := parameters);
 END_VAR]]></Declaration>
@@ -40,7 +40,7 @@ BufferMode := THIS^;]]></ST>
     <Method Name="BuildMoveVelocityCommand" Id="{9f3fc142-58fe-08d5-0e8b-502b0083054d}" FolderPath="Builders\">
       <Declaration><![CDATA[METHOD PUBLIC BuildMoveVelocityCommand : MotionCommand
 VAR_INPUT
-	axis : REFERENCE TO Mc2Axis;
+	axis : Axis;
 END_VAR
 VAR
 	command_ptr : POINTER TO MoveVelocityCommand;
@@ -74,7 +74,7 @@ VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parameters.distance := value;
+        <ST><![CDATA[parent_builder.Distance(value);
 Distance := move_relative_builder;]]></ST>
       </Implementation>
     </Method>
@@ -88,7 +88,7 @@ VAR_INPUT
     bInitRetains : BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
     bInCopyCode : BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)
 	parent_builder : MotionBuilder;
-	parameters : REFERENCE TO BuilderParameters;
+	parameters : REFERENCE TO DefaultBuilderParameters;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[THIS^.parent_builder := parent_builder;
@@ -111,7 +111,7 @@ VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parameters.position := value;
+        <ST><![CDATA[parent_builder.Position(value);
 Position := move_absolute_builder;]]></ST>
       </Implementation>
     </Method>

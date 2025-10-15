@@ -7,7 +7,7 @@
 FUNCTION_BLOCK PUBLIC DefaultGearInBuilder IMPLEMENTS GearInBuilder
 VAR
 	parent_builder : MotionBuilder;
-	parameters : REFERENCE TO BuilderParameters;
+	parameters : REFERENCE TO DefaultBuilderParameters;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -21,7 +21,7 @@ VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parameters.acceleration := value;
+        <ST><![CDATA[parent_builder.Acceleration(value);
 Acceleration := THIS^;]]></ST>
       </Implementation>
     </Method>
@@ -31,15 +31,15 @@ VAR_INPUT
 	mode : MotionBufferMode;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parameters.buffer_mode := mode;
+        <ST><![CDATA[parent_builder.BufferMode(mode);
 BufferMode := THIS^;]]></ST>
       </Implementation>
     </Method>
     <Method Name="BuildGearInCommand" Id="{26f7a18f-b7a2-4ae9-8cc2-3b63d5f66dca}" FolderPath="Builders\">
       <Declaration><![CDATA[METHOD PUBLIC BuildGearInCommand : AsyncCommand
 VAR_INPUT
-	master_axis : REFERENCE TO Mc2Axis;
-	slave_axis : REFERENCE TO Mc2Axis;
+	master_axis : Axis;
+	slave_axis : Axis;
 END_VAR
 VAR
 	command_ptr : POINTER TO GearInCommand;
@@ -64,8 +64,18 @@ VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parameters.deceleration := value;
+        <ST><![CDATA[parent_builder.Deceleration(value);
 Deceleration := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Denominator" Id="{a064103a-9f48-4f01-a3db-3bc5357139f9}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD Denominator : GearInBuilder
+VAR_INPUT
+	value : UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parent_builder.Denominator(value);
+Denominator := THIS^;]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_Init" Id="{df11c2a3-7de9-4dfc-9ec5-21fa31be91f8}" FolderPath="Constructor\">
@@ -78,7 +88,7 @@ VAR_INPUT
     bInitRetains : BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
     bInCopyCode : BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)
 	parent_builder : MotionBuilder;
-	parameters : REFERENCE TO BuilderParameters;
+	parameters : REFERENCE TO DefaultBuilderParameters;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[THIS^.parent_builder := parent_builder;
@@ -91,38 +101,25 @@ VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parameters.jerk := value;
+        <ST><![CDATA[parent_builder.Jerk(value);
 Jerk := THIS^;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="RatioDenominator" Id="{a064103a-9f48-4f01-a3db-3bc5357139f9}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD RatioDenominator : GearInBuilder
-VAR_INPUT
-	value : UINT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[parameters.ratio_denominator := value;
-RatioDenominator := THIS^;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="RatioNumerator" Id="{a138d0e2-b3ce-4048-be0b-19caa30bfd77}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD RatioNumerator : GearInBuilder
+    <Method Name="Numerator" Id="{a138d0e2-b3ce-4048-be0b-19caa30bfd77}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD Numerator : GearInBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parameters.ratio_numerator := value;
-RatioNumerator := THIS^;]]></ST>
+        <ST><![CDATA[parent_builder.Numerator(value);
+Numerator := THIS^;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Reset" Id="{7818dd78-3afd-491d-b0dc-f792ab891978}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Reset : GearInBuilder]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parameters.acceleration := 0;
-parameters.deceleration := 0;
-parameters.jerk := 0;
-parameters.buffer_mode := MotionBufferMode.Aborting;
+        <ST><![CDATA[parent_builder.Reset();
 Reset := THIS^;]]></ST>
       </Implementation>
     </Method>

@@ -19,13 +19,19 @@ END_VAR]]></Declaration>
     <Method Name="BuildHaltCommand" Id="{ebd66191-b8f2-4024-bd49-c999e19098fc}" FolderPath="Builders\">
       <Declaration><![CDATA[METHOD PUBLIC BuildHaltCommand : MotionCommand
 VAR_INPUT
-	axis : REFERENCE TO Mc2Axis;
+	axis : Axis;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="Deceleration" Id="{daa5e752-931f-4000-99f1-50606b781115}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Deceleration : MoveBuilder
 VAR_INPUT
 	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Denominator" Id="{1d8f5281-54cd-404e-b60a-97bd4e3a0886}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC Denominator : GearInBuilder
+VAR_INPUT
+	value : UINT;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="Distance" Id="{05b63bdd-011e-4a5c-9f70-45656c27f14c}" FolderPath="PropertySetters\">
@@ -40,20 +46,14 @@ VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
     </Method>
-    <Method Name="Position" Id="{8be46f17-348c-4112-824d-e833917f592a}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC Position : MoveAbsoluteBuilder
+    <Method Name="Numerator" Id="{e72ba6f6-5678-452e-8f93-f70b02b92e25}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC Numerator : GearInBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
     </Method>
-    <Method Name="RatioDenominator" Id="{1d8f5281-54cd-404e-b60a-97bd4e3a0886}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC RatioDenominator : GearInBuilder
-VAR_INPUT
-	value : UINT;
-END_VAR]]></Declaration>
-    </Method>
-    <Method Name="RatioNumerator" Id="{e72ba6f6-5678-452e-8f93-f70b02b92e25}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC RatioNumerator : GearInBuilder
+    <Method Name="Position" Id="{8be46f17-348c-4112-824d-e833917f592a}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC Position : MoveAbsoluteBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>

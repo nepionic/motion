@@ -7,7 +7,7 @@
 FUNCTION_BLOCK INTERNAL DefaultMoveRelativeBuilder IMPLEMENTS MoveRelativeBuilder
 VAR
 	parent_builder : MotionBuilder;
-	parameters : REFERENCE TO BuilderParameters;
+	parameters : REFERENCE TO DefaultBuilderParameters;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -38,7 +38,7 @@ BufferMode := THIS^;]]></ST>
     <Method Name="BuildMoveAdditiveCommand" Id="{263793a8-3f0c-086f-1b11-ef104813208d}" FolderPath="Builders\">
       <Declaration><![CDATA[METHOD PUBLIC BuildMoveAdditiveCommand : MotionCommand
 VAR_INPUT
-	axis : REFERENCE TO Mc2Axis;
+	axis : Axis;
 END_VAR
 VAR
 	command_ptr : POINTER TO MoveAdditiveCommand;
@@ -60,7 +60,7 @@ BuildMoveAdditiveCommand := command_ptr^;]]></ST>
     <Method Name="BuildMoveRelativeCommand" Id="{54764e75-9878-02af-3eca-19e7a26d295f}" FolderPath="Builders\">
       <Declaration><![CDATA[METHOD PUBLIC BuildMoveRelativeCommand : MotionCommand
 VAR_INPUT
-	axis : REFERENCE TO Mc2Axis;
+	axis : Axis;
 END_VAR
 VAR
 	command_ptr : POINTER TO MoveRelativeCommand;
@@ -95,7 +95,7 @@ VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parameters.distance := value;
+        <ST><![CDATA[parent_builder.Distance(value);
 Distance := THIS^;]]></ST>
       </Implementation>
     </Method>
@@ -109,7 +109,7 @@ VAR_INPUT
     bInitRetains : BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
     bInCopyCode : BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)
 	parent_builder : MotionBuilder;
-	parameters : REFERENCE TO BuilderParameters;
+	parameters : REFERENCE TO DefaultBuilderParameters;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[THIS^.parent_builder := parent_builder;

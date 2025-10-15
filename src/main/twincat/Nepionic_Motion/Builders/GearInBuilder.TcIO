@@ -19,8 +19,8 @@ END_VAR]]></Declaration>
     <Method Name="BuildGearInCommand" Id="{59ea0ef2-f250-4ee5-a25e-9d58a2cb3e3b}" FolderPath="Builders\">
       <Declaration><![CDATA[METHOD PUBLIC BuildGearInCommand : AsyncCommand
 VAR_INPUT
-	master_axis : REFERENCE TO Mc2Axis;
-	slave_axis : REFERENCE TO Mc2Axis;
+	master_axis : Axis;
+	slave_axis : Axis;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="Deceleration" Id="{f33b942b-113f-439c-add7-f2a6fab37660}" FolderPath="PropertySetters\">
@@ -29,20 +29,20 @@ VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
     </Method>
+    <Method Name="Denominator" Id="{9dbdd9b5-8741-4761-a6e3-536dec103931}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC Denominator : GearInBuilder
+VAR_INPUT
+	value : UINT;
+END_VAR]]></Declaration>
+    </Method>
     <Method Name="Jerk" Id="{f9fa90bf-4920-471c-8017-b657a4f8c047}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Jerk : GearInBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
     </Method>
-    <Method Name="RatioDenominator" Id="{9dbdd9b5-8741-4761-a6e3-536dec103931}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC RatioDenominator : GearInBuilder
-VAR_INPUT
-	value : UINT;
-END_VAR]]></Declaration>
-    </Method>
-    <Method Name="RatioNumerator" Id="{4dac2121-7a7e-48c3-bd03-e2e268e0e0e8}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC RatioNumerator : GearInBuilder
+    <Method Name="Numerator" Id="{4dac2121-7a7e-48c3-bd03-e2e268e0e0e8}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC Numerator : GearInBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>

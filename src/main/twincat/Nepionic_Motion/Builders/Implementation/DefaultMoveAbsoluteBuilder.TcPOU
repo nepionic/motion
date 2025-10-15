@@ -7,7 +7,7 @@
 FUNCTION_BLOCK INTERNAL DefaultMoveAbsoluteBuilder IMPLEMENTS MoveAbsoluteBuilder
 VAR
 	parent_builder : MotionBuilder;
-	parameters : REFERENCE TO BuilderParameters;
+	parameters : REFERENCE TO DefaultBuilderParameters;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -38,7 +38,7 @@ BufferMode := THIS^;]]></ST>
     <Method Name="BuildMoveAbsoluteCommand" Id="{25567da8-96d8-0d92-11ec-c0615cca58cf}" FolderPath="Builders\">
       <Declaration><![CDATA[METHOD PUBLIC BuildMoveAbsoluteCommand : MotionCommand
 VAR_INPUT
-	axis : REFERENCE TO Mc2Axis;
+	axis : Axis;
 END_VAR
 VAR
 	command_ptr : POINTER TO MoveAbsoluteCommand;
@@ -77,7 +77,7 @@ VAR_INPUT
     bInitRetains : BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
     bInCopyCode : BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)
 	parent_builder : MotionBuilder;
-	parameters : REFERENCE TO BuilderParameters;
+	parameters : REFERENCE TO DefaultBuilderParameters;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[THIS^.parent_builder := parent_builder;

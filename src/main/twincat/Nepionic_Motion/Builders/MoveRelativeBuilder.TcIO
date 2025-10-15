@@ -19,13 +19,13 @@ END_VAR]]></Declaration>
     <Method Name="BuildMoveAdditiveCommand" Id="{737ee63a-5b36-048b-3437-5e67558a0659}" FolderPath="Builders\">
       <Declaration><![CDATA[METHOD PUBLIC BuildMoveAdditiveCommand : MotionCommand
 VAR_INPUT
-	axis : REFERENCE TO Mc2Axis;
+	axis : Axis;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="BuildMoveRelativeCommand" Id="{a776305e-4062-066f-07bb-2fbb58ff07e6}" FolderPath="Builders\">
       <Declaration><![CDATA[METHOD PUBLIC BuildMoveRelativeCommand : MotionCommand
 VAR_INPUT
-	axis : REFERENCE TO Mc2Axis;
+	axis : Axis;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="Deceleration" Id="{0e6e74d6-91d3-0325-3fa7-7efc9eaa2442}" FolderPath="PropertySetters\">

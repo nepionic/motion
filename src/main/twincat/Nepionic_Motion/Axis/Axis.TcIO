@@ -7,6 +7,30 @@
       <Folder Name="Error" Id="{889617d4-74f4-00da-0368-904025c0ed15}" />
       <Folder Name="States" Id="{4929de12-0456-0102-2418-fae0fd74bfe7}" />
     </Folder>
+    <Property Name="ActualAcceleration" Id="{eb78764a-0e1c-4a23-b26a-9b3748fe498c}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC ActualAcceleration : LREAL]]></Declaration>
+      <Get Name="Get" Id="{2e3dbe3a-9015-4ceb-a189-130bbb931f7e}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="ActualPosition" Id="{00b86376-771a-4078-9690-2bbd115ea617}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC ActualPosition : LREAL]]></Declaration>
+      <Get Name="Get" Id="{5edc81d7-c250-4ea7-b30c-5f79851bd516}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="ActualVelocity" Id="{6cf767a7-e068-44a2-bf2e-5a8ff0928763}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC ActualVelocity : LREAL]]></Declaration>
+      <Get Name="Get" Id="{072e0b18-144d-45e0-8f94-fe8039dd141b}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="AxisRef" Id="{af9facd9-3243-4100-9a4b-6d1d265d43d7}">
+      <Declaration><![CDATA[PROPERTY PUBLIC AxisRef : REFERENCE TO Tc2_Mc2.Axis_Ref]]></Declaration>
+      <Get Name="Get" Id="{14f224c4-de52-47f6-a7f0-28ef6397ac66}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
     <Method Name="Disable" Id="{f7decc8d-2d61-034d-1c47-55c0c78e8160}" FolderPath="Administrative\">
       <Declaration><![CDATA[METHOD PUBLIC Disable]]></Declaration>
     </Method>

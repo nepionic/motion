@@ -7,7 +7,7 @@
 FUNCTION_BLOCK INTERNAL DefaultMoveBuilder IMPLEMENTS MoveBuilder
 VAR
 	parent_builder : MotionBuilder;
-	parameters : REFERENCE TO BuilderParameters;
+	parameters : REFERENCE TO DefaultBuilderParameters;
 	move_velocity_builder : DefaultMoveVelocityBuilder(parent_builder := parent_builder, parameters := parameters);
 	move_absolute_builder : DefaultMoveAbsoluteBuilder(parent_builder := parent_builder, parameters := parameters);
 	move_relative_builder : DefaultMoveRelativeBuilder(parent_builder := parent_builder, parameters := parameters);
@@ -25,7 +25,7 @@ VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parameters.acceleration := value;
+        <ST><![CDATA[parent_builder.Acceleration(value);
 Acceleration := THIS^;]]></ST>
       </Implementation>
     </Method>
@@ -35,14 +35,14 @@ VAR_INPUT
 	mode : MotionBufferMode;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parameters.buffer_mode := mode;
+        <ST><![CDATA[parent_builder.BufferMode(mode);
 BufferMode := THIS^;]]></ST>
       </Implementation>
     </Method>
     <Method Name="BuildHaltCommand" Id="{b610c3c1-e30d-45a1-a3a3-8fb000d29513}" FolderPath="Builders\">
       <Declaration><![CDATA[METHOD PUBLIC BuildHaltCommand : MotionCommand
 VAR_INPUT
-	axis : REFERENCE TO Mc2Axis;
+	axis : Axis;
 END_VAR
 VAR
 	command_ptr : POINTER TO HaltCommand;
@@ -64,8 +64,18 @@ VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parameters.deceleration := value;
+        <ST><![CDATA[parent_builder.Deceleration(value);
 Deceleration := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Denominator" Id="{b3551f1c-727f-4df8-8acd-575ea808fc30}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC Denominator : GearInBuilder
+VAR_INPUT
+	value : UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parent_builder.Denominator(value);
+Denominator := gear_in_builder;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Distance" Id="{f40db5ff-34b7-481f-9549-a30b818e4037}" FolderPath="PropertySetters\">
@@ -74,7 +84,7 @@ VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parameters.distance := value;
+        <ST><![CDATA[parent_builder.Distance(value);
 Distance := move_relative_builder;]]></ST>
       </Implementation>
     </Method>
@@ -88,7 +98,7 @@ VAR_INPUT
     bInitRetains : BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
     bInCopyCode : BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)
 	parent_builder : MotionBuilder;
-	parameters : REFERENCE TO BuilderParameters;
+	parameters : REFERENCE TO DefaultBuilderParameters;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[THIS^.parent_builder := parent_builder;
@@ -101,8 +111,19 @@ VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parameters.jerk := value;
+        <ST><![CDATA[parent_builder.Jerk(value);
 Jerk := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Numerator" Id="{50e1974e-a297-4304-b9f4-b6e58132657d}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC Numerator : GearInBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parent_builder.Numerator(value);
+Numerator := gear_in_builder;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Position" Id="{8a5dd1c1-c600-4226-ac69-4c19e2e8a891}" FolderPath="PropertySetters\">
@@ -111,38 +132,14 @@ VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parameters.position := value;
+        <ST><![CDATA[parent_builder.Position(value);
 Position := move_absolute_builder;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="RatioDenominator" Id="{b3551f1c-727f-4df8-8acd-575ea808fc30}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC RatioDenominator : GearInBuilder
-VAR_INPUT
-	value : UINT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[parameters.ratio_denominator := value;
-RatioDenominator := gear_in_builder;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="RatioNumerator" Id="{50e1974e-a297-4304-b9f4-b6e58132657d}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC RatioNumerator : GearInBuilder
-VAR_INPUT
-	value : LREAL;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[parameters.ratio_numerator := value;
-RatioNumerator := gear_in_builder;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Reset" Id="{d0804fb5-655e-4075-aeca-60466590d206}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Reset : MoveBuilder]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parameters.acceleration := 0;
-parameters.deceleration := 0;
-parameters.jerk := 0;
-parameters.buffer_mode := MotionBufferMode.Aborting;
+        <ST><![CDATA[parent_builder.Reset();
 Reset := THIS^;]]></ST>
       </Implementation>
     </Method>
@@ -152,7 +149,7 @@ VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parameters.velocity := value;
+        <ST><![CDATA[parent_builder.Velocity(value);
 Velocity := move_velocity_builder;]]></ST>
       </Implementation>
     </Method>

@@ -31,14 +31,14 @@ VAR_INPUT
 	bInitRetains : BOOL;
 	(* TRUE: the instance will be copied to the copy code afterward (online change)*)
 	bInCopyCode	: BOOL;
-	master_axis : REFERENCE TO Mc2Axis;
-	slave_axis : REFERENCE TO Mc2Axis;
+	master_axis : Axis;
+	slave_axis : Axis;
 	numerator : LREAL;
 	denominator : UINT := 1;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[master_axis_ref REF= master_axis.Mc2AxisRef;
-slave_axis_ref REF= slave_axis.Mc2AxisRef;
+        <ST><![CDATA[master_axis_ref REF= master_axis.AxisRef;
+slave_axis_ref REF= slave_axis.AxisRef;
 fb.RatioNumerator := numerator;
 fb.RatioDenominator := denominator;]]></ST>
       </Implementation>
