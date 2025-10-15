@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="ResetCommand" Id="{ab382299-9781-4c30-8cf1-37357f1c5577}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK PUBLIC ResetCommand EXTENDS Mc2MotionCommand IMPLEMENTS AsyncCommand
+VAR
+	fb : Tc2_Mc2.Mc_Reset;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="CyclicCall" Id="{d93c1e30-d8b1-414f-be8f-3ddbd9814b47}">
+      <Declaration><![CDATA[METHOD PUBLIC CyclicCall]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.CyclicCall();
+fb(Axis := axis_ref);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnExecuting" Id="{758fedff-551d-4d78-a3be-bfd51fe2bab3}">
+      <Declaration><![CDATA[METHOD PROTECTED OnExecuting
+VAR_INPUT
+	state_control : AsyncCommandStateControl;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fb.Execute := TRUE;
+
+IF fb.Done THEN
+	fb.Execute := FALSE;
+	state_control.Next();
+END_IF
+
+IF fb.Error THEN
+	fb.Execute := FALSE;
+	state_control.Error(fb.ErrorId);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

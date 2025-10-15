@@ -2,58 +2,78 @@
 <TcPlcObject Version="1.1.0.1">
   <Itf Name="MotionBuilder" Id="{2515b8d1-881d-0ccb-15a6-7d04a4e73429}">
     <Declaration><![CDATA[INTERFACE PUBLIC MotionBuilder EXTENDS __System.IQueryInterface]]></Declaration>
-    <Method Name="Acceleration" Id="{a50d0b42-c60e-06d2-0dc7-a428b5bd2858}">
+    <Folder Name="Builders" Id="{fe8e8a8e-9878-4e4d-8ef2-bdbb4f617e1c}" />
+    <Folder Name="PropertySetters" Id="{be721eb3-fe3e-4352-8d90-4a6ca961a1d0}" />
+    <Method Name="Acceleration" Id="{a50d0b42-c60e-06d2-0dc7-a428b5bd2858}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Acceleration : MoveBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
     </Method>
-    <Method Name="BufferMode" Id="{8058df80-7c06-0a07-018e-a453bfa23e97}">
+    <Method Name="BufferMode" Id="{8058df80-7c06-0a07-018e-a453bfa23e97}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC BufferMode : MoveBuilder
 VAR_INPUT
 	mode : MotionBufferMode;
 END_VAR]]></Declaration>
     </Method>
-    <Method Name="BuildHaltCommand" Id="{912c37e5-6cd0-4428-b2cf-715a0536e0df}">
+    <Method Name="BuildGearOutCommand" Id="{0a48949c-f0ab-44e8-aba9-83d5c5c0e8f0}" FolderPath="Builders\">
+      <Declaration><![CDATA[METHOD PUBLIC BuildGearOutCommand : AsyncCommand
+VAR_INPUT
+	axis : REFERENCE TO Mc2Axis;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="BuildHaltCommand" Id="{912c37e5-6cd0-4428-b2cf-715a0536e0df}" FolderPath="Builders\">
       <Declaration><![CDATA[METHOD PUBLIC BuildHaltCommand : MotionCommand
 VAR_INPUT
 	axis : REFERENCE TO Mc2Axis;
 END_VAR]]></Declaration>
     </Method>
-    <Method Name="BuildStopCommand" Id="{7d4223b3-a3e3-4025-b131-6b6b401467eb}">
+    <Method Name="BuildStopCommand" Id="{7d4223b3-a3e3-4025-b131-6b6b401467eb}" FolderPath="Builders\">
       <Declaration><![CDATA[METHOD PUBLIC BuildStopCommand : MotionCommand
 VAR_INPUT
 	axis : REFERENCE TO Mc2Axis;
 END_VAR]]></Declaration>
     </Method>
-    <Method Name="Deceleration" Id="{4f849c2b-2837-0ef6-3983-b8af5bf49e80}">
+    <Method Name="Deceleration" Id="{4f849c2b-2837-0ef6-3983-b8af5bf49e80}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Deceleration : MotionBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
     </Method>
-    <Method Name="Distance" Id="{ccf28c55-362b-01fc-3ee6-b57b36715a07}">
+    <Method Name="Distance" Id="{ccf28c55-362b-01fc-3ee6-b57b36715a07}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Distance : MoveRelativeBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
     </Method>
-    <Method Name="Jerk" Id="{ff2bdc64-e58b-0579-3e8d-dece01005d36}">
+    <Method Name="Jerk" Id="{ff2bdc64-e58b-0579-3e8d-dece01005d36}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Jerk : MotionBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
     </Method>
-    <Method Name="Position" Id="{062b27ce-68c0-01a3-03b0-70dfca1efac6}">
+    <Method Name="Position" Id="{062b27ce-68c0-01a3-03b0-70dfca1efac6}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Position : MoveAbsoluteBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
     </Method>
-    <Method Name="Reset" Id="{84b0d7e3-ce89-06b9-389b-7164012f5ce1}">
+    <Method Name="RatioDenominator" Id="{8dc17ba8-7de3-4b51-9288-fde3f7526438}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC RatioDenominator : GearInBuilder
+VAR_INPUT
+	value : UINT;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="RatioNumerator" Id="{4c136005-48a5-4a19-8206-1c2b20370311}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC RatioNumerator : GearInBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Reset" Id="{84b0d7e3-ce89-06b9-389b-7164012f5ce1}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Reset : MotionBuilder]]></Declaration>
     </Method>
-    <Method Name="Velocity" Id="{9b858d16-c130-0881-30d5-ac32592effd9}">
+    <Method Name="Velocity" Id="{9b858d16-c130-0881-30d5-ac32592effd9}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Velocity : MoveVelocityBuilder
 VAR_INPUT
 	value : LREAL;

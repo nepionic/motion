@@ -4,7 +4,7 @@
     <Declaration><![CDATA[{attribute 'linkalways'} 
 {attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
 {attribute 'enable_dynamic_creation'}
-FUNCTION_BLOCK GearInCommand EXTENDS BaseMotionCommand
+FUNCTION_BLOCK GearInCommand EXTENDS NoopAsyncCommand IMPLEMENTS AsyncCommand
 VAR
 	master_axis_ref : REFERENCE TO Tc2_Mc2.Axis_Ref;
 	slave_axis_ref : REFERENCE TO Tc2_Mc2.Axis_Ref;
@@ -64,9 +64,7 @@ END_IF
 IF fb.Error THEN
 	state_control.Error(fb.ErrorId);
 	fb.Execute := FALSE;
-END_IF
-
-]]></ST>
+END_IF]]></ST>
       </Implementation>
     </Method>
   </POU>

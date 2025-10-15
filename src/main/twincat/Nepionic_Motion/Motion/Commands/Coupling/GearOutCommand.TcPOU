@@ -4,9 +4,8 @@
     <Declaration><![CDATA[{attribute 'linkalways'} 
 {attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
 {attribute 'enable_dynamic_creation'}
-FUNCTION_BLOCK GearOutCommand EXTENDS BaseMotionCommand
+FUNCTION_BLOCK GearOutCommand EXTENDS Mc2Command
 VAR
-	axis_ref : REFERENCE TO Tc2_Mc2.Axis_Ref;
 	fb : Tc2_Mc2.Mc_GearOut;
 END_VAR]]></Declaration>
     <Implementation>
@@ -17,23 +16,6 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.CyclicCall();
 fb(Slave := axis_ref);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="FB_Init" Id="{743259bc-6362-0235-29ec-97f7bb02b355}">
-      <Declaration><![CDATA[(*FB_Init is always available implicitly and it is used primarily for initialization.
-The return value is not evaluated. For a specific influence, you can also declare the
-methods explicitly and provide additional code there with the standard initialization
-code. You can evaluate the return value.*)
-METHOD FB_Init : BOOL
-VAR_INPUT
-	(* TRUE: the retain variables are initialized (reset warm / reset cold)*)
-	bInitRetains : BOOL;
-	(* TRUE: the instance will be copied to the copy code afterward (online change)*)
-	bInCopyCode	: BOOL;
-	axis : REFERENCE TO Mc2Axis;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[axis_ref REF= axis.Mc2AxisRef;]]></ST>
       </Implementation>
     </Method>
     <Method Name="OnExecuting" Id="{97d197df-2bd1-09da-0357-323ac344c517}">

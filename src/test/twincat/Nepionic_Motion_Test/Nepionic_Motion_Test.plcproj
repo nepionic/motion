@@ -30,6 +30,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <PlaceholderReference Include="Nepionic_Core">
+      <DefaultResolution>Nepionic_Core, * (Nepionic)</DefaultResolution>
+      <Namespace>Nepionic_Core</Namespace>
+    </PlaceholderReference>
     <PlaceholderReference Include="Nepionic_Motion">
       <DefaultResolution>[Nepionic_Motion], * (Nepionic)</DefaultResolution>
       <Namespace>Nepionic_Motion</Namespace>

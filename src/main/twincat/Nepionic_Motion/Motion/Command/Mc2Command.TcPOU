@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="Mc2Command" Id="{031054ba-f892-0de3-09de-fc1b37e54d8c}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK PUBLIC ABSTRACT Mc2Command EXTENDS NoopAsyncCommand IMPLEMENTS AsyncCommand
+VAR
+	axis_ref : REFERENCE TO Tc2_Mc2.Axis_Ref;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="FB_Init" Id="{15ab17dc-e15a-46aa-89c2-4d8cd6df81c7}">
+      <Declaration><![CDATA[//FB_Init is always available implicitly and it is used primarily for initialization.
+//The return value is not evaluated. For a specific influence, you can also declare the
+//methods explicitly and provide additional code there with the standard initialization
+//code. You can evaluate the return value.
+METHOD FB_Init: BOOL
+VAR_INPUT
+    bInitRetains: BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
+    bInCopyCode: BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)
+	axis : REFERENCE TO Mc2Axis;   
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[axis_ref REF= axis.Mc2AxisRef;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnExecuting" Id="{0faeb363-a03a-046b-0514-184c987e2eaa}">
+      <Declaration><![CDATA[METHOD PROTECTED ABSTRACT OnExecuting
+VAR_INPUT
+	state_control : AsyncCommandStateControl;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

@@ -3,7 +3,8 @@
   <POU Name="Test" Id="{2e61a8d4-f677-443a-9a2d-e2cd0bfcaaea}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM Test
 VAR
-	axis1 : Mc2Axis;	
+	axis1 : Mc2Axis;
+	axis2 : Mc2Axis;
 	
 	busy : BOOL;
 	active : BOOL;
@@ -26,36 +27,24 @@ VAR
 	
 	start_homing : BOOL;
 	
+	gear_in : BOOL;
+	gear_in_numerator : LREAL := 1;
+	gear_in_denominator : UINT := 1;
+	
+	gear_out : BOOL;
+	
 	move1_command : MotionCommand;
 	move2_command : MotionCommand;
-	
-	
-	(*
-	homePosition : LREAL := 10;
-	homeCam : BOOL;
-	
-	setPositionAbsolute : BOOL;
-	setPositionRelative : BOOL;
-	setPositionValue : LREAL;
-
-	moveVelocity : LREAL := 200;
-	movePosition1 : LREAL := 1000;
-	movePosition2 : LREAL := 0;
-	
-	commandResult : I_Result;
-	
-	commandResult_Completed : BOOL;
-	commandResult_Aborted : BOOL;
-	commandResult_Error : BOOL;
-	commandResult_ErrorId : UDINT;*)
-	
-	halt_command: MotionCommand;
-	stop_command: MotionCommand;
+	halt_command : MotionCommand;
+	stop_command : MotionCommand;
+	gear_in_command : AsyncCommand;
+	gear_out_command : AsyncCommand;
 	
 	move_builder : DefaultMotionBuilder;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[axis1.CyclicCall();
+axis2.CyclicCall();
 
 error := axis1.IsErrored;
 error_id := axis1.ErrorId;
@@ -66,6 +55,9 @@ IF enable THEN
 	axis1.Enable();
 	axis1.EnablePositive();
 	axis1.EnableNegative();
+	axis2.Enable();
+	axis2.EnablePositive();
+	axis2.EnableNegative();
 END_IF
 
 IF disable THEN
@@ -75,31 +67,27 @@ END_IF
 
 IF reset THEN
 	reset := FALSE;
-	//axis1.Reset();
+	axis1.Reset();
+	axis2.Reset();
 END_IF
 
 IF halt THEN
 	halt := FALSE;
-
 	IF halt_command = 0 THEN
 		halt_command := move_builder
 			.Reset()
 			.BuildHaltCommand(axis1);
 	END_IF
-	
 	halt_command.Execute();
-
 END_IF
 
 IF stop THEN
 	stop := FALSE;
-
 	IF stop_command = 0 THEN
 		stop_command := move_builder
 			.Reset()
 			.BuildStopCommand(axis1);
 	END_IF
-	
 	stop_command.Execute();
 END_IF
 
@@ -139,59 +127,48 @@ END_IF*)
 
 IF start_move1 THEN
 	start_move1 := FALSE;
-	
 	IF move1_command = 0 THEN
 		move1_command := move_builder
 			.Reset()
 			.Position(1000)
-			.Velocity(100)
+			.Velocity(101)
+			.BufferMode(MotionBufferMode.Buffered)
 			.BuildMoveAbsoluteCommand(axis1);
 	END_IF
-	
 	move1_command.Execute();
-	(*command := axis1.MoveBuilder()
-		.Velocity(100)
-		.BufferMode(AxisBufferMode.Aborting)
-		.Position(movePosition1)
-		.BuildMoveAbsoluteCommand();*)
 END_IF
 
 IF start_move2 THEN
 	start_move2 := FALSE;
-	
 	IF move2_command = 0 THEN
 		move2_command := move_builder
 			.Reset()
-			.Distance(100)
+			.Distance(1000)
 			.Velocity(100)
 			.BuildMoveRelativeCommand(axis1);
 	END_IF
-	
 	move2_command.Execute();
-	(*command := axis1.MoveBuilder()
-		.Velocity(100)
-		.BufferMode(AxisBufferMode.Buffered)
-		.Position(movePosition2)
-		.BuildMoveAbsoluteCommand();*)
 END_IF
 
-(*IF command <> 0 THEN
-	IF command.Idle THEN
-		command.Execute();
-	ELSIF command.Executing THEN
-		command.CyclicCall();
-	ELSIF command.Stopped THEN
-		commandResult := command.GetResult();
-		command.Dispose();
-		command := 0;
-		commandResult_Completed := commandResult.Completed;
-		commandResult_Aborted := commandResult.Aborted;
-		commandResult_Error := commandResult.Error;
-		commandResult_ErrorId := commandResult.ErrorId;
-		commandResult.Dispose();
-		commandResult := 0;
+IF gear_in THEN
+	gear_in := FALSE;
+	IF gear_in_command = 0 THEN
+		gear_in_command := move_builder
+			.RatioNumerator(gear_in_numerator)
+			.RatioDenominator(gear_in_denominator)
+			.BuildGearInCommand(axis1, axis2);
 	END_IF
-END_IF*)
+	gear_in_command.Execute();
+END_IF
+
+IF gear_out THEN
+	gear_out := FALSE;
+	IF gear_out_command = 0 THEN
+		gear_out_command := move_builder
+			.BuildGearOutCommand(axis2);
+	END_IF
+	gear_out_command.Execute();
+END_IF
 
 IF move1_command <> 0 THEN
 	move1_command.CyclicCall();
@@ -207,7 +184,22 @@ END_IF
 IF move2_command <> 0 THEN
 	move2_command.CyclicCall();
 END_IF
-]]></ST>
+
+IF halt_command <> 0 THEN
+	halt_command.CyclicCall();
+END_IF
+
+IF stop_command <> 0 THEN
+	stop_command.CyclicCall();
+END_IF
+
+IF gear_in_command <> 0 THEN
+	gear_in_command.CyclicCall();
+END_IF
+
+IF gear_out_command <> 0 THEN
+	gear_out_command.CyclicCall();
+END_IF]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

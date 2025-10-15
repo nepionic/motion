@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.13">
+<TcPlcObject Version="1.1.0.1">
   <DUT Name="BuilderParameters" Id="{548db3ec-1c7f-04ea-1b3a-f2ba0ddcf02f}">
     <Declaration><![CDATA[TYPE BuilderParameters :
 STRUCT
@@ -10,6 +10,8 @@ STRUCT
 	deceleration : LREAL;
 	jerk : LREAL;
 	buffer_mode : MotionBufferMode;
+	ratio_numerator : LREAL;
+	ratio_denominator : UINT;
 END_STRUCT
 END_TYPE]]></Declaration>
   </DUT>

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="GearInBuilder" Id="{6914666e-a5d8-474e-a41b-e9dc7d407a97}">
+    <Declaration><![CDATA[INTERFACE PUBLIC GearInBuilder EXTENDS __System.IQueryInterface]]></Declaration>
+    <Folder Name="Builders" Id="{2a605434-7c64-4911-a69b-97e386e523fe}" />
+    <Folder Name="PropertySetters" Id="{466eea1a-7031-4ba2-93e1-7bd4bd587077}" />
+    <Method Name="Acceleration" Id="{0882a4c0-2758-44ff-911d-69375527d0c3}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC Acceleration : GearInBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="BufferMode" Id="{8d17fd63-a712-4454-a4a8-be38b1959e3c}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC BufferMode : GearInBuilder
+VAR_INPUT
+	mode : MotionBufferMode;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="BuildGearInCommand" Id="{59ea0ef2-f250-4ee5-a25e-9d58a2cb3e3b}" FolderPath="Builders\">
+      <Declaration><![CDATA[METHOD PUBLIC BuildGearInCommand : AsyncCommand
+VAR_INPUT
+	master_axis : REFERENCE TO Mc2Axis;
+	slave_axis : REFERENCE TO Mc2Axis;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Deceleration" Id="{f33b942b-113f-439c-add7-f2a6fab37660}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC Deceleration : GearInBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Jerk" Id="{f9fa90bf-4920-471c-8017-b657a4f8c047}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC Jerk : GearInBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="RatioDenominator" Id="{9dbdd9b5-8741-4761-a6e3-536dec103931}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC RatioDenominator : GearInBuilder
+VAR_INPUT
+	value : UINT;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="RatioNumerator" Id="{4dac2121-7a7e-48c3-bd03-e2e268e0e0e8}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC RatioNumerator : GearInBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Reset" Id="{06665cc8-a7a8-43d7-a508-35b653df95a1}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC Reset : GearInBuilder]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

@@ -11,6 +11,7 @@ VAR
 	move_velocity_builder : DefaultMoveVelocityBuilder(parent_builder := parent_builder, parameters := parameters);
 	move_absolute_builder : DefaultMoveAbsoluteBuilder(parent_builder := parent_builder, parameters := parameters);
 	move_relative_builder : DefaultMoveRelativeBuilder(parent_builder := parent_builder, parameters := parameters);
+	gear_in_builder : DefaultGearInBuilder(parent_builder := parent_builder, parameters := parameters);
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -38,22 +39,23 @@ END_VAR]]></Declaration>
 BufferMode := THIS^;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="BuildStopCommand" Id="{b610c3c1-e30d-45a1-a3a3-8fb000d29513}" FolderPath="Builders\">
-      <Declaration><![CDATA[METHOD PUBLIC BuildStopCommand : MotionCommand
+    <Method Name="BuildHaltCommand" Id="{b610c3c1-e30d-45a1-a3a3-8fb000d29513}" FolderPath="Builders\">
+      <Declaration><![CDATA[METHOD PUBLIC BuildHaltCommand : MotionCommand
 VAR_INPUT
 	axis : REFERENCE TO Mc2Axis;
 END_VAR
 VAR
-	command_ptr : POINTER TO StopCommand;
+	command_ptr : POINTER TO HaltCommand;
 	command : MotionCommand;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[command_ptr := __NEW(StopCommand(
+        <ST><![CDATA[command_ptr := __NEW(HaltCommand(
 	axis := axis,
 	deceleration := parameters.deceleration,
-	jerk := parameters.jerk
+	jerk := parameters.jerk,
+	buffer_mode := parameters.buffer_mode
 ));
-BuildStopCommand := command_ptr^;]]></ST>
+BuildHaltCommand := command_ptr^;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Deceleration" Id="{7295ce6e-e8e9-4be9-a64d-a3d271cf3adb}" FolderPath="Property Setters\">
@@ -111,6 +113,27 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[parameters.position := value;
 Position := move_absolute_builder;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RatioDenominator" Id="{b3551f1c-727f-4df8-8acd-575ea808fc30}" FolderPath="Property Setters\">
+      <Declaration><![CDATA[METHOD PUBLIC RatioDenominator : GearInBuilder
+VAR_INPUT
+	value : UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parameters.ratio_denominator := value;
+RatioDenominator := gear_in_builder;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RatioNumerator" Id="{50e1974e-a297-4304-b9f4-b6e58132657d}" FolderPath="Property Setters\">
+      <Declaration><![CDATA[METHOD PUBLIC RatioNumerator : GearInBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parameters.ratio_numerator := value;
+RatioNumerator := gear_in_builder;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Reset" Id="{d0804fb5-655e-4075-aeca-60466590d206}" FolderPath="Property Setters\">
