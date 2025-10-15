@@ -14,8 +14,8 @@ END_VAR]]></Declaration>
     </Implementation>
     <Folder Name="Builders" Id="{72fe9b7c-c2aa-49d3-ac4a-02868f1bc328}" />
     <Folder Name="Constructor" Id="{b1076fcb-a73d-4e53-92b1-3fb815d7db3d}" />
-    <Folder Name="Property Setters" Id="{0b15a9ed-0629-413d-91e9-daf95a0082be}" />
-    <Method Name="Acceleration" Id="{7bab9b14-43b5-4d02-b321-0c028237cf78}" FolderPath="Property Setters\">
+    <Folder Name="PropertySetters" Id="{0b15a9ed-0629-413d-91e9-daf95a0082be}" />
+    <Method Name="Acceleration" Id="{7bab9b14-43b5-4d02-b321-0c028237cf78}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Acceleration : GearInBuilder
 VAR_INPUT
 	value : LREAL;
@@ -25,7 +25,7 @@ END_VAR]]></Declaration>
 Acceleration := THIS^;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="BufferMode" Id="{ff03d52e-de7f-4997-b3a2-a81177243076}" FolderPath="Property Setters\">
+    <Method Name="BufferMode" Id="{ff03d52e-de7f-4997-b3a2-a81177243076}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC BufferMode : GearInBuilder
 VAR_INPUT
 	mode : MotionBufferMode;
@@ -58,7 +58,7 @@ END_VAR]]></Declaration>
 BuildGearInCommand := command_ptr^;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Deceleration" Id="{11d6416e-405c-4adb-87d3-5c8c03f96f47}" FolderPath="Property Setters\">
+    <Method Name="Deceleration" Id="{11d6416e-405c-4adb-87d3-5c8c03f96f47}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Deceleration : GearInBuilder
 VAR_INPUT
 	value : LREAL;
@@ -85,7 +85,7 @@ END_VAR]]></Declaration>
 THIS^.parameters REF= parameters;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Jerk" Id="{b78bf362-1583-47a6-9535-ee8109063b04}" FolderPath="Property Setters\">
+    <Method Name="Jerk" Id="{b78bf362-1583-47a6-9535-ee8109063b04}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Jerk : GearInBuilder
 VAR_INPUT
 	value : LREAL;
@@ -95,7 +95,7 @@ END_VAR]]></Declaration>
 Jerk := THIS^;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="RatioDenominator" Id="{a064103a-9f48-4f01-a3db-3bc5357139f9}" FolderPath="Property Setters\">
+    <Method Name="RatioDenominator" Id="{a064103a-9f48-4f01-a3db-3bc5357139f9}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD RatioDenominator : GearInBuilder
 VAR_INPUT
 	value : UINT;
@@ -105,7 +105,7 @@ END_VAR]]></Declaration>
 RatioDenominator := THIS^;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="RatioNumerator" Id="{a138d0e2-b3ce-4048-be0b-19caa30bfd77}" FolderPath="Property Setters\">
+    <Method Name="RatioNumerator" Id="{a138d0e2-b3ce-4048-be0b-19caa30bfd77}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD RatioNumerator : GearInBuilder
 VAR_INPUT
 	value : LREAL;
@@ -116,7 +116,7 @@ END_VAR
 RatioNumerator := THIS^;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Reset" Id="{7818dd78-3afd-491d-b0dc-f792ab891978}" FolderPath="Property Setters\">
+    <Method Name="Reset" Id="{7818dd78-3afd-491d-b0dc-f792ab891978}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Reset : GearInBuilder]]></Declaration>
       <Implementation>
         <ST><![CDATA[parameters.acceleration := 0;

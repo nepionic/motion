@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.13">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="Mc2BufferModeConvertTo" Id="{853e382a-cc19-4eb8-9e22-b8eaaf899cd4}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION INTERNAL Mc2BufferModeConvertTo : Tc2_Mc2.Mc_BufferMode
 VAR_INPUT

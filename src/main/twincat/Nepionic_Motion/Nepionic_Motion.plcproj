@@ -47,127 +47,127 @@
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Motion" />
-    <Folder Include="Motion\Builders" />
-    <Folder Include="Motion\Command" />
-    <Folder Include="Motion\Commands\Administrative" />
-    <Folder Include="Motion\Commands\Coupling" />
-    <Folder Include="Motion\Commands\PointToPoint" />
-    <Folder Include="Motion\Commands\Stops" />
-    <Folder Include="Motion\Functions" />
-    <Folder Include="Motion\Commands" />
-    <Folder Include="Motion\Types" />
+    <Folder Include="Builders" />
+    <Folder Include="Command" />
+    <Folder Include="Commands" />
+    <Folder Include="Commands\Administrative" />
+    <Folder Include="Commands\Coupling" />
+    <Folder Include="Commands\PointToPoint" />
+    <Folder Include="Commands\Stops" />
+    <Folder Include="Functions" />
+    <Folder Include="Axis" />
+    <Folder Include="Types" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Motion\Axis.TcIO">
+    <Compile Include="Builders\BuilderParameters.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Builders\BuilderParameters.TcDUT">
+    <Compile Include="Builders\DefaultGearInBuilder.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Builders\DefaultGearInBuilder.TcPOU">
+    <Compile Include="Builders\DefaultMotionBuilder.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Builders\DefaultMoveBuilder.TcPOU">
+    <Compile Include="Builders\DefaultMoveAbsoluteBuilder.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Builders\DefaultMoveAbsoluteBuilder.TcPOU">
+    <Compile Include="Builders\DefaultMoveBuilder.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Builders\DefaultMotionBuilder.TcPOU">
+    <Compile Include="Builders\DefaultMoveRelativeBuilder.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Builders\DefaultMoveRelativeBuilder.TcPOU">
+    <Compile Include="Builders\DefaultMoveVelocityBuilder.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Builders\DefaultMoveVelocityBuilder.TcPOU">
+    <Compile Include="Builders\GearInBuilder.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Builders\MoveBuilder.TcIO">
+    <Compile Include="Builders\MotionBuilder.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Builders\MoveAbsoluteBuilder.TcIO">
+    <Compile Include="Builders\MoveAbsoluteBuilder.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Builders\MotionBuilder.TcIO">
+    <Compile Include="Builders\MoveBuilder.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Builders\GearInBuilder.TcIO">
+    <Compile Include="Builders\MoveRelativeBuilder.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Builders\MoveRelativeBuilder.TcIO">
+    <Compile Include="Builders\MoveVelocityBuilder.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Builders\MoveVelocityBuilder.TcIO">
+    <Compile Include="Commands\Administrative\ResetCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Commands\Administrative\ResetCommand.TcPOU">
+    <Compile Include="Commands\Coupling\GearInCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Commands\Coupling\GearInCommand.TcPOU">
+    <Compile Include="Commands\Coupling\GearOutCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Commands\Coupling\GearOutCommand.TcPOU">
+    <Compile Include="Commands\PointToPoint\MoveAbsoluteCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Commands\PointToPoint\MoveAbsoluteCommand.TcPOU">
+    <Compile Include="Commands\PointToPoint\MoveAdditiveCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Commands\PointToPoint\MoveAdditiveCommand.TcPOU">
+    <Compile Include="Commands\PointToPoint\MoveContinuousAbsoluteCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Commands\PointToPoint\MoveContinuousAbsoluteCommand.TcPOU">
+    <Compile Include="Commands\PointToPoint\MoveContinuousRelativeCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Commands\PointToPoint\MoveContinuousRelativeCommand.TcPOU">
+    <Compile Include="Commands\PointToPoint\MoveModuloCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Commands\PointToPoint\MoveModuloCommand.TcPOU">
+    <Compile Include="Commands\PointToPoint\MoveRelativeCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Commands\PointToPoint\MoveRelativeCommand.TcPOU">
+    <Compile Include="Commands\PointToPoint\MoveVelocityCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Commands\PointToPoint\MoveVelocityCommand.TcPOU">
+    <Compile Include="Commands\Stops\HaltCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Commands\Stops\HaltCommand.TcPOU">
+    <Compile Include="Commands\Stops\StopCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Commands\Stops\StopCommand.TcPOU">
+    <Compile Include="Command\Mc2Command.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Command\Mc2Command.TcPOU">
+    <Compile Include="Command\Mc2MotionCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Command\Mc2MotionCommand.TcPOU">
+    <Compile Include="Command\MotionCommand.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Command\MotionCommand.TcIO">
+    <Compile Include="Functions\Mc2BufferModeConvertFrom.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Functions\Mc2BufferModeConvertFrom.TcPOU">
+    <Compile Include="Functions\Mc2BufferModeConvertTo.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Functions\Mc2BufferModeConvertTo.TcPOU">
+    <Compile Include="Functions\Mc2DirectionConvertFrom.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Functions\Mc2DirectionConvertFrom.TcPOU">
+    <Compile Include="Functions\Mc2DirectionConvertTo.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Functions\Mc2DirectionConvertTo.TcPOU">
+    <Compile Include="Axis\Axis.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Mc2Axis.TcPOU">
+    <Compile Include="Axis\Mc2Axis.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Types\AxisMotionState.TcDUT">
+    <Compile Include="Types\AxisMotionState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Types\MotionBufferMode.TcDUT">
+    <Compile Include="Types\MotionBufferMode.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Motion\Types\MotionDirection.TcDUT">
+    <Compile Include="Types\MotionDirection.TcDUT">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

@@ -14,8 +14,8 @@ END_VAR]]></Declaration>
     </Implementation>
     <Folder Name="Builders" Id="{47f4285d-d3d3-078f-03aa-c4d44941fee7}" />
     <Folder Name="Constructor" Id="{8d125b26-ac37-0d8d-166d-133255e4d31d}" />
-    <Folder Name="Property Setters" Id="{8bf196a3-07ee-0508-1071-966a9a17bf21}" />
-    <Method Name="Acceleration" Id="{24ce3efc-64bc-0939-3915-559b8a7e3764}" FolderPath="Property Setters\">
+    <Folder Name="PropertySetters" Id="{8bf196a3-07ee-0508-1071-966a9a17bf21}" />
+    <Method Name="Acceleration" Id="{24ce3efc-64bc-0939-3915-559b8a7e3764}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Acceleration : MoveRelativeBuilder
 VAR_INPUT
 	value : LREAL;
@@ -25,7 +25,7 @@ END_VAR]]></Declaration>
 Acceleration := THIS^;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="BufferMode" Id="{29c25805-9e8c-0c67-1a5a-827b15bfe679}" FolderPath="Property Setters\">
+    <Method Name="BufferMode" Id="{29c25805-9e8c-0c67-1a5a-827b15bfe679}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC BufferMode : MoveRelativeBuilder
 VAR_INPUT
 	mode : MotionBufferMode;
@@ -79,7 +79,7 @@ END_VAR]]></Declaration>
 BuildMoveRelativeCommand := command_ptr^;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Deceleration" Id="{4ebeea11-7eaf-01e9-1d61-faf592392d0c}" FolderPath="Property Setters\">
+    <Method Name="Deceleration" Id="{4ebeea11-7eaf-01e9-1d61-faf592392d0c}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Deceleration : MoveRelativeBuilder
 VAR_INPUT
 	value : LREAL;
@@ -89,7 +89,7 @@ END_VAR]]></Declaration>
 Deceleration := THIS^;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Distance" Id="{3163c9f3-e2d7-0dfd-2009-95b8309c8762}" FolderPath="Property Setters\">
+    <Method Name="Distance" Id="{3163c9f3-e2d7-0dfd-2009-95b8309c8762}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Distance : MoveRelativeBuilder
 VAR_INPUT
 	value : LREAL;
@@ -116,7 +116,7 @@ END_VAR]]></Declaration>
 THIS^.parameters REF= parameters;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Jerk" Id="{ef56365e-8f32-0842-20ff-fefaac7bf80a}" FolderPath="Property Setters\">
+    <Method Name="Jerk" Id="{ef56365e-8f32-0842-20ff-fefaac7bf80a}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Jerk : MoveRelativeBuilder
 VAR_INPUT
 	value : LREAL;
@@ -126,14 +126,14 @@ END_VAR]]></Declaration>
 Jerk := THIS^;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Reset" Id="{01eb06aa-60b9-0f2f-22a9-98f1c45d3418}" FolderPath="Property Setters\">
+    <Method Name="Reset" Id="{01eb06aa-60b9-0f2f-22a9-98f1c45d3418}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Reset : MoveRelativeBuilder]]></Declaration>
       <Implementation>
         <ST><![CDATA[parent_builder.Reset();
 Reset := THIS^;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Velocity" Id="{bdc2d397-9ec5-0496-1351-fc73c0eb986d}" FolderPath="Property Setters\">
+    <Method Name="Velocity" Id="{bdc2d397-9ec5-0496-1351-fc73c0eb986d}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Velocity : MoveRelativeBuilder
 VAR_INPUT
 	value : LREAL;
