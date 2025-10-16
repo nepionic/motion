@@ -8,19 +8,22 @@
       <Folder Name="States" Id="{4929de12-0456-0102-2418-fae0fd74bfe7}" />
     </Folder>
     <Property Name="ActualAcceleration" Id="{eb78764a-0e1c-4a23-b26a-9b3748fe498c}" FolderPath="Properties\">
-      <Declaration><![CDATA[PROPERTY PUBLIC ActualAcceleration : LREAL]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC ActualAcceleration : LREAL]]></Declaration>
       <Get Name="Get" Id="{2e3dbe3a-9015-4ceb-a189-130bbb931f7e}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
     <Property Name="ActualPosition" Id="{00b86376-771a-4078-9690-2bbd115ea617}" FolderPath="Properties\">
-      <Declaration><![CDATA[PROPERTY PUBLIC ActualPosition : LREAL]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC ActualPosition : LREAL]]></Declaration>
       <Get Name="Get" Id="{5edc81d7-c250-4ea7-b30c-5f79851bd516}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
     <Property Name="ActualVelocity" Id="{6cf767a7-e068-44a2-bf2e-5a8ff0928763}" FolderPath="Properties\">
-      <Declaration><![CDATA[PROPERTY PUBLIC ActualVelocity : LREAL]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC ActualVelocity : LREAL]]></Declaration>
       <Get Name="Get" Id="{072e0b18-144d-45e0-8f94-fe8039dd141b}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
@@ -352,5 +355,12 @@ PROPERTY PUBLIC MotionState : AxisMotionState]]></Declaration>
     <Method Name="Reset" Id="{c86f3b5e-3ba4-46f8-b283-971011b216c0}" FolderPath="Administrative\">
       <Declaration><![CDATA[METHOD PUBLIC Reset : AsyncCommand ]]></Declaration>
     </Method>
+    <Property Name="TargetPosition" Id="{5ae4c927-8de0-42b9-ad68-ab656b33507a}" FolderPath="Properties\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC TargetPosition : LREAL]]></Declaration>
+      <Get Name="Get" Id="{0d64f2f6-2c68-4d11-bd37-0fa655494a82}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
   </Itf>
 </TcPlcObject>

@@ -23,7 +23,8 @@ END_VAR]]></Declaration>
       <Folder Name="States" Id="{06982f99-509a-0977-0c86-36e4c9e4d884}" />
     </Folder>
     <Property Name="ActualAcceleration" Id="{ecd32dee-125f-421e-9bd4-98b5c789e764}">
-      <Declaration><![CDATA[PROPERTY PUBLIC ActualAcceleration : LREAL]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC ActualAcceleration : LREAL]]></Declaration>
       <Get Name="Get" Id="{e173e307-e3ba-4a75-9cca-a45e60d7bdd3}">
         <Declaration><![CDATA[PUBLIC]]></Declaration>
         <Implementation>
@@ -32,7 +33,8 @@ END_VAR]]></Declaration>
       </Get>
     </Property>
     <Property Name="ActualPosition" Id="{3aa92e12-52f5-4f52-a7ee-c37218cb64c9}">
-      <Declaration><![CDATA[PROPERTY PUBLIC ActualPosition : LREAL]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC ActualPosition : LREAL]]></Declaration>
       <Get Name="Get" Id="{5a157221-1e86-43b3-9939-98cfdf1ac337}">
         <Declaration><![CDATA[PUBLIC]]></Declaration>
         <Implementation>
@@ -41,7 +43,8 @@ END_VAR]]></Declaration>
       </Get>
     </Property>
     <Property Name="ActualVelocity" Id="{9d1f14fa-1082-487f-91e9-424275d88223}">
-      <Declaration><![CDATA[PROPERTY PUBLIC ActualVelocity : LREAL]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC ActualVelocity : LREAL]]></Declaration>
       <Get Name="Get" Id="{2d443465-9b70-426b-af46-54882f5f2693}">
         <Declaration><![CDATA[PUBLIC]]></Declaration>
         <Implementation>
@@ -553,5 +556,15 @@ END_CASE]]></ST>
 Reset := reset_command;]]></ST>
       </Implementation>
     </Method>
+    <Property Name="TargetPosition" Id="{2a39b93d-a043-45c7-8d20-c39095613754}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC TargetPosition : LREAL]]></Declaration>
+      <Get Name="Get" Id="{6d8b2aa4-65c3-4a26-9e32-5531796e7eed}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[TargetPosition := axis_ref.NcToPlc.TargetPos;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
   </POU>
 </TcPlcObject>
