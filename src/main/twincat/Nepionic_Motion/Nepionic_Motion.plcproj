@@ -45,13 +45,22 @@
       <DefaultResolution>Tc2_MC2, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_MC2</Namespace>
     </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_MC2_Drive">
+      <DefaultResolution>Tc2_MC2_Drive, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_MC2_Drive</Namespace>
+    </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Builders" />
-    <Folder Include="Builders\Implementation" />
+    <Folder Include="Builders\Homing\Implementation" />
+    <Folder Include="Builders\Motion" />
+    <Folder Include="Builders\Motion\Implementation" />
+    <Folder Include="Builders\Homing" />
     <Folder Include="Command" />
     <Folder Include="Commands" />
     <Folder Include="Commands\Administrative" />
+    <Folder Include="Commands\Homing" />
+    <Folder Include="Commands\SoE" />
     <Folder Include="Commands\Coupling" />
     <Folder Include="Commands\PointToPoint" />
     <Folder Include="Commands\Stops" />
@@ -60,46 +69,67 @@
     <Folder Include="Types" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Builders\GearInBuilder.TcIO">
+    <Compile Include="Builders\Homing\HomeBuilder.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Builders\Implementation\DefaultBuilderParameters.TcDUT">
+    <Compile Include="Builders\Homing\Implementation\DefaultPositionHomeBuilder.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Builders\Implementation\DefaultGearInBuilder.TcPOU">
+    <Compile Include="Builders\Homing\PositionHomeBuilder.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Builders\Implementation\DefaultMotionBuilder.TcPOU">
+    <Compile Include="Builders\Homing\Implementation\DefaultHomeBuilder.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Builders\Implementation\DefaultMoveAbsoluteBuilder.TcPOU">
+    <Compile Include="Builders\Homing\Implementation\DefaultHomeBuilderParameters.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Builders\Implementation\DefaultMoveBuilder.TcPOU">
+    <Compile Include="Builders\Motion\GearInBuilder.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Builders\Implementation\DefaultMoveRelativeBuilder.TcPOU">
+    <Compile Include="Builders\Motion\Implementation\DefaultMotionBuilderParameters.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Builders\Implementation\DefaultMoveVelocityBuilder.TcPOU">
+    <Compile Include="Builders\Motion\Implementation\DefaultGearInBuilder.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Builders\MotionBuilder.TcIO">
+    <Compile Include="Builders\Motion\Implementation\DefaultMotionBuilder.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Builders\MoveAbsoluteBuilder.TcIO">
+    <Compile Include="Builders\Motion\Implementation\DefaultAbsoluteMoveBuilder.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Builders\MoveBuilder.TcIO">
+    <Compile Include="Builders\Motion\Implementation\DefaultMoveBuilder.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Builders\MoveRelativeBuilder.TcIO">
+    <Compile Include="Builders\Motion\Implementation\DefaultRelativeMoveBuilder.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Builders\MoveVelocityBuilder.TcIO">
+    <Compile Include="Builders\Motion\Implementation\DefaultVelocityMoveBuilder.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Builders\Motion\MotionBuilder.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Builders\Motion\AbsoluteMoveBuilder.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Builders\Motion\MoveBuilder.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Builders\Motion\RelativeMoveBuilder.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Builders\Motion\VelocityMoveBuilder.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Commands\Administrative\ResetCommand.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Commands\Homing\HomeCommand.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Commands\SoE\ResetSoeDriveCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Commands\Coupling\GearInCommand.TcPOU">
@@ -162,7 +192,25 @@
     <Compile Include="Axis\Mc2Axis.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Functions\Mc2EncoderReferenceModeConvertFrom.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\Mc2EncoderReferenceModeConvertTo.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\Mc2HomingModeConvertFrom.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\Mc2HomingModeConvertTo.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Types\AxisMotionState.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Types\EncoderReferenceMode.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Types\HomingMode.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Types\MotionBufferMode.TcDUT">

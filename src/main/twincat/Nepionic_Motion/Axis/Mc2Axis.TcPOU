@@ -12,6 +12,7 @@ VAR
 	stop_fb : Tc2_Mc2.Mc_Stop;
 	
 	reset_command : ResetCommand(axis := THIS^);
+	reset_drive_command : ResetSoeDriveCommand(axis := THIS^);
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -66,6 +67,7 @@ PROPERTY PUBLIC ActualVelocity : LREAL]]></Declaration>
       <Implementation>
         <ST><![CDATA[power_fb(Axis := axis_ref);
 reset_command.CyclicCall();
+reset_drive_command.CyclicCall();
 halt_fb(Axis := axis_ref);
 stop_fb(Axis := axis_ref);
 axis_ref.ReadStatus();]]></ST>
@@ -549,11 +551,43 @@ END_CASE]]></ST>
         </Implementation>
       </Get>
     </Property>
+    <Property Name="Override" Id="{2a5d087d-8e93-443a-88e5-45e82d83daf0}" FolderPath="Administrative\">
+      <Declaration><![CDATA[PROPERTY PUBLIC Override : LREAL]]></Declaration>
+      <Get Name="Get" Id="{7ba0686c-2b7f-463d-9549-6909e6d13c07}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Override := power_fb.Override;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{2e0fb6f2-afe9-4fa8-a374-1202d2a7d7d3}">
+        <Declaration><![CDATA[PUBLIC]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[power_fb.Override := Override;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Method Name="Reset" Id="{a085501c-096e-49f8-acf3-45c1595b4c61}" FolderPath="Administrative\">
       <Declaration><![CDATA[METHOD PUBLIC Reset : AsyncCommand]]></Declaration>
       <Implementation>
         <ST><![CDATA[reset_command.Execute();
 Reset := reset_command;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ResetDrive" Id="{7dbadd62-a88b-4daf-bb80-67f8d3093ba5}" FolderPath="Administrative\">
+      <Declaration><![CDATA[METHOD PUBLIC ResetDrive : AsyncCommand]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[reset_drive_command.Execute();
+ResetDrive := reset_drive_command;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetPosition" Id="{df737983-eafb-42f3-9136-946807a798ea}" FolderPath="Administrative\">
+      <Declaration><![CDATA[{warning 'Add method implementation '}
+METHOD PUBLIC SetPosition : AsyncCommand
+VAR_INPUT
+	position : LREAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
     <Property Name="TargetPosition" Id="{2a39b93d-a043-45c7-8d20-c39095613754}">

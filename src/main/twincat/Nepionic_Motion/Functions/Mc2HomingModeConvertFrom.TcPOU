@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="Mc2HomingModeConvertFrom" Id="{6c87ea02-80d8-448b-adf7-9087c589ac9a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION Mc2HomingModeConvertFrom : HomingMode
+VAR_INPUT
+	homing_mode : Tc2_Mc2.Mc_HomingMode;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE homing_mode OF
+	Tc2_Mc2.MC_DefaultHoming: Mc2HomingModeConvertFrom := HomingMode.DefaultHoming;
+	Tc2_Mc2.MC_Direct: Mc2HomingModeConvertFrom := HomingMode.Direct;
+	Tc2_Mc2.MC_ForceCalibration: Mc2HomingModeConvertFrom := HomingMode.ForceCalibration;
+	Tc2_Mc2.MC_ResetCalibration: Mc2HomingModeConvertFrom := HomingMode.ResetCalibration;
+END_CASE]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

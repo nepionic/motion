@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="PositionHomeBuilder" Id="{db07a5b0-ea50-4733-a29a-bf93227c6933}">
+    <Declaration><![CDATA[INTERFACE PUBLIC PositionHomeBuilder EXTENDS __System.IQueryInterface]]></Declaration>
+    <Folder Name="Builders" Id="{b0a309b2-427f-44ad-9ee0-670fa119e449}" />
+    <Folder Name="PropertySetters" Id="{a11bf16e-505e-4b55-8424-dcdd116fbe4c}" />
+    <Method Name="BufferMode" Id="{19c805e1-2543-4afc-a496-c058b85b742e}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC BufferMode : PositionHomeBuilder
+VAR_INPUT
+	value : MotionBufferMode;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="BuildDefaultHomingCommand" Id="{6ff5cc55-164e-4d5e-919e-915cce2d5f78}" FolderPath="Builders\">
+      <Declaration><![CDATA[METHOD PUBLIC BuildDefaultHomingCommand : AsyncCommand
+VAR_INPUT
+	axis : Axis;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="BuildDirectCommand" Id="{f0797c2f-e744-4a89-9915-1a062d168658}" FolderPath="Builders\">
+      <Declaration><![CDATA[METHOD PUBLIC BuildDirectCommand : AsyncCommand
+VAR_INPUT
+	axis : Axis;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Position" Id="{011c1c36-e3de-4def-a179-2914df7cd775}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC Position : PositionHomeBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="Reset" Id="{d0f049b7-211e-4d07-96ad-cde65243353b}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC Reset : PositionHomeBuilder]]></Declaration>
+    </Method>
+    <Method Name="SearchDirection" Id="{add06faf-909b-4a0e-8dbc-35a520878b69}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC SearchDirection : PositionHomeBuilder
+VAR_INPUT
+	value : MotionDirection;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="SearchVelocity" Id="{cc970e23-9306-4973-97df-96dd57b63fa5}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC SearchVelocity : PositionHomeBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="SyncDirection" Id="{d8e30c0d-b7ac-4722-aae2-ef6b0c7e23c0}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC SyncDirection : PositionHomeBuilder
+VAR_INPUT
+	value : MotionDirection;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="SyncVelocity" Id="{ff6f14cd-d9c1-4b1f-a954-38dba83a74e6}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC SyncVelocity : PositionHomeBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

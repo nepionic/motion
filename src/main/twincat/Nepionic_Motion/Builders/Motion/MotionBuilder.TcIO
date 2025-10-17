@@ -47,7 +47,7 @@ VAR_INPUT
 END_VAR]]></Declaration>
     </Method>
     <Method Name="Distance" Id="{ccf28c55-362b-01fc-3ee6-b57b36715a07}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC Distance : MoveRelativeBuilder
+      <Declaration><![CDATA[METHOD PUBLIC Distance : RelativeMoveBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
@@ -65,7 +65,7 @@ VAR_INPUT
 END_VAR]]></Declaration>
     </Method>
     <Method Name="Position" Id="{062b27ce-68c0-01a3-03b0-70dfca1efac6}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC Position : MoveAbsoluteBuilder
+      <Declaration><![CDATA[METHOD PUBLIC Position : AbsoluteMoveBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
@@ -74,7 +74,7 @@ END_VAR]]></Declaration>
       <Declaration><![CDATA[METHOD PUBLIC Reset : MotionBuilder]]></Declaration>
     </Method>
     <Method Name="Velocity" Id="{9b858d16-c130-0881-30d5-ac32592effd9}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC Velocity : MoveVelocityBuilder
+      <Declaration><![CDATA[METHOD PUBLIC Velocity : VelocityMoveBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>

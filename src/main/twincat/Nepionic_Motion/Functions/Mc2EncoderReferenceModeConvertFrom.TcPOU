@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="Mc2EncoderReferenceModeConvertFrom" Id="{7451b8e8-33ef-4176-b362-fa9e040b5fbf}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION Mc2EncoderReferenceModeConvertFrom : EncoderReferenceMode
+VAR_INPUT
+	encoder_reference_mode : Tc2_Mc2.E_EncoderReferenceMode;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE encoder_reference_mode OF
+    EncoderReferenceMode_Default: Mc2EncoderReferenceModeConvertFrom := EncoderReferenceMode.Default;
+    EncoderReferenceMode_PlcCam: Mc2EncoderReferenceModeConvertFrom := EncoderReferenceMode.PlcCam;
+    EncoderReferenceMode_HardwareSync: Mc2EncoderReferenceModeConvertFrom := EncoderReferenceMode.HardwareSync;
+    EncoderReferenceMode_HardwareLatchPos: Mc2EncoderReferenceModeConvertFrom := EncoderReferenceMode.HardwareLatchPositive;
+    EncoderReferenceMode_HardwareLatchNeg: Mc2EncoderReferenceModeConvertFrom := EncoderReferenceMode.HardwareLatchNegative;
+    EncoderReferenceMode_SoftwareSync: Mc2EncoderReferenceModeConvertFrom := EncoderReferenceMode.SoftwareSync;
+    EncoderReferenceMode_SoftDriveLatchPos: Mc2EncoderReferenceModeConvertFrom := EncoderReferenceMode.SoftDriveLatchPositive;
+    EncoderReferenceMode_SoftDriveLatchNeg: Mc2EncoderReferenceModeConvertFrom := EncoderReferenceMode.SoftDriveLatchNegative;
+END_CASE]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

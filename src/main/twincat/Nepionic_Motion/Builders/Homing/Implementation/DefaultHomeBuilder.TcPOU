@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="DefaultHomeBuilder" Id="{41a65a42-64ff-4fbb-b6d6-66fcbccf2a36}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK PUBLIC DefaultHomeBuilder IMPLEMENTS HomeBuilder
+VAR
+	parameters : DefaultHomeBuilderParameters;
+	position_home_builder : DefaultPositionHomeBuilder(parent_builder := THIS);
+END_VAR
+VAR CONSTANT
+	default_parameters : DefaultHomeBuilderParameters := (
+		homing_mode := HomingMode.Default,
+		reference_mode := EncoderReferenceMode.Default,
+		search_direction := MotionDirection.Positive,
+		search_velocity := 0,
+		sync_direction := MotionDirection.Positive,
+		sync_velocity := 0,
+		buffer_mode := MotionBufferMode.Aborting
+	);	
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="Builders" Id="{cc88563c-00bf-4ef2-b19f-a333b8e5963f}" />
+    <Folder Name="PropertySetters" Id="{f2bc7cd9-7faa-4cc6-bbed-3929851a5173}" />
+    <Method Name="BufferMode" Id="{f3483a6e-c718-46ab-8046-b64bd6022832}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC BufferMode : HomeBuilder
+VAR_INPUT
+	value : MotionBufferMode;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parameters.buffer_mode := value;
+BufferMode := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="BuildDefaultHomingCommand" Id="{9905e4d1-b533-4788-a01b-e76cd22c3b5a}" FolderPath="Builders\">
+      <Declaration><![CDATA[METHOD PUBLIC BuildDefaultHomingCommand : AsyncCommand
+VAR_INPUT
+	axis : Axis;
+END_VAR
+VAR
+	command_ptr : POINTER TO HomeCommand;
+	command : AsyncCommand;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[command_ptr := __NEW(HomeCommand(
+	axis := axis,
+	position := parameters.position,
+	homing_mode := HomingMode.Default,
+ 	buffer_mode := parameters.buffer_mode
+));
+BuildDefaultHomingCommand := command_ptr^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="BuildDirectCommand" Id="{f6c7acc9-dd10-4ec6-866c-74a793deaafa}" FolderPath="Builders\">
+      <Declaration><![CDATA[METHOD PUBLIC BuildDirectCommand : AsyncCommand
+VAR_INPUT
+	axis : Axis;
+END_VAR
+VAR
+	command_ptr : POINTER TO HomeCommand;
+	command : AsyncCommand;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[command_ptr := __NEW(HomeCommand(
+	axis := axis,
+	position := parameters.position,
+	homing_mode := HomingMode.Direct,
+ 	buffer_mode := parameters.buffer_mode
+));
+BuildDirectCommand := command_ptr^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="BuildForceCalibrationCommand" Id="{bcb8d4c0-0c45-4513-b1a2-a4888e48cf40}" FolderPath="Builders\">
+      <Declaration><![CDATA[METHOD PUBLIC BuildForceCalibrationCommand : AsyncCommand
+VAR_INPUT
+	axis : Axis;
+END_VAR
+VAR
+	command_ptr : POINTER TO HomeCommand;
+	command : AsyncCommand;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[command_ptr := __NEW(HomeCommand(
+	axis := axis,
+	position := parameters.position,
+	homing_mode := HomingMode.ForceCalibration,
+ 	buffer_mode := parameters.buffer_mode
+));
+BuildForceCalibrationCommand := command_ptr^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="BuildResetCalibrationCommand" Id="{d21211e7-c91a-4588-8a07-85c83952d64d}" FolderPath="Builders\">
+      <Declaration><![CDATA[METHOD PUBLIC BuildResetCalibrationCommand : AsyncCommand
+VAR_INPUT
+	axis : Axis;
+END_VAR
+VAR
+	command_ptr : POINTER TO HomeCommand;
+	command : AsyncCommand;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[command_ptr := __NEW(HomeCommand(
+	axis := axis,
+	position := 0,
+	homing_mode := HomingMode.ResetCalibration,
+ 	buffer_mode := parameters.buffer_mode
+));
+BuildResetCalibrationCommand := command_ptr^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Position" Id="{433362b1-be85-4a71-9270-45f3872c73cd}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC Position : PositionHomeBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parameters.position := value;
+Position := position_home_builder;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Reset" Id="{587cfaa4-cf2f-45fd-981b-82edd94ffec8}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC Reset : HomeBuilder]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parameters := default_parameters;
+Reset := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SearchDirection" Id="{14a4eef4-1b33-4d44-b764-99ba879109b4}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC SearchDirection : HomeBuilder
+VAR_INPUT
+	value : MotionDirection;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parameters.search_direction := value;
+SearchDirection := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SearchVelocity" Id="{966eb3e8-7975-47ae-8320-bcdb8f9f1b58}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC SearchVelocity : HomeBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parameters.search_velocity := value;
+SearchVelocity := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SyncDirection" Id="{a7bd215a-e78c-471e-9d4a-76c751953a60}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC SyncDirection : HomeBuilder
+VAR_INPUT
+	value : MotionDirection;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parameters.sync_direction := value;
+SyncDirection := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SyncVelocity" Id="{a8b9905c-222a-4728-b050-ea1dc184c6ff}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC SyncVelocity : HomeBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parameters.sync_velocity := value;
+SyncVelocity := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

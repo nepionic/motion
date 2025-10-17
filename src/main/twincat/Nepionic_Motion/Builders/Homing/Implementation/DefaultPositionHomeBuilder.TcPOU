@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="DefaultPositionHomeBuilder" Id="{9ac5065d-39be-47dc-b401-3d34da0b4668}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK PUBLIC DefaultPositionHomeBuilder IMPLEMENTS PositionHomeBuilder
+VAR
+	parent_builder : POINTER TO DefaultHomeBuilder;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="Builders" Id="{a726cef4-397b-40cf-a475-dda7f232e823}" />
+    <Folder Name="Constructor" Id="{b0a213a6-7fae-4d5a-99b7-4017c216fa89}" />
+    <Folder Name="PropertySetters" Id="{26713346-d1d5-4f9c-be63-0d58882afba2}" />
+    <Method Name="BufferMode" Id="{792c58fb-f6aa-4c00-a2b3-b735a5da0c84}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC BufferMode : PositionHomeBuilder
+VAR_INPUT
+	value : MotionBufferMode;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parent_builder^.BufferMode(value);
+BufferMode := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="BuildDefaultHomingCommand" Id="{318cb9b1-afef-432f-955e-92bece71935c}" FolderPath="Builders\">
+      <Declaration><![CDATA[METHOD PUBLIC BuildDefaultHomingCommand : AsyncCommand
+VAR_INPUT
+	axis : Axis;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[BuildDefaultHomingCommand := parent_builder^.BuildDefaultHomingCommand(axis);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="BuildDirectCommand" Id="{c30b933c-957e-4ad3-b157-5f975a195d4d}" FolderPath="Builders\">
+      <Declaration><![CDATA[METHOD PUBLIC BuildDirectCommand : AsyncCommand
+VAR_INPUT
+	axis : Axis;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[BuildDirectCommand := parent_builder^.BuildDirectCommand(axis);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_Init" Id="{c84ce3ed-954d-45be-9b9d-454884e16913}" FolderPath="Constructor\">
+      <Declaration><![CDATA[//FB_Init is always available implicitly and it is used primarily for initialization.
+//The return value is not evaluated. For a specific influence, you can also declare the
+//methods explicitly and provide additional code there with the standard initialization
+//code. You can evaluate the return value.
+METHOD FB_Init: BOOL
+VAR_INPUT
+    bInitRetains : BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
+    bInCopyCode : BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)
+	parent_builder : POINTER TO DefaultHomeBuilder;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^.parent_builder := parent_builder;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Position" Id="{f41ff002-e811-444c-8c53-0888f801889f}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC Position : PositionHomeBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parent_builder^.Position(value);
+Position := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Reset" Id="{166b9989-7dbc-4bce-a082-ec32d1f63d2d}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC Reset : PositionHomeBuilder]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parent_builder^.Reset();
+Reset := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SearchDirection" Id="{46d1416a-d5a0-4f06-ad89-8dfa1125369e}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC SearchDirection : PositionHomeBuilder
+VAR_INPUT
+	value : MotionDirection;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parent_builder^.SearchDirection(value);
+SearchDirection := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SearchVelocity" Id="{c13553c3-666b-4c94-ad18-04e377ddb547}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC SearchVelocity : PositionHomeBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parent_builder^.SearchVelocity(value);
+SearchVelocity := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SyncDirection" Id="{9486fbfe-b113-411b-9aa3-1434b9e10d31}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC SyncDirection : PositionHomeBuilder
+VAR_INPUT
+	value : MotionDirection;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parent_builder^.SyncDirection(value);
+SyncDirection := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SyncVelocity" Id="{eaeed09e-c57a-46a9-b5f1-61bdcb0b6061}" FolderPath="PropertySetters\">
+      <Declaration><![CDATA[METHOD PUBLIC SyncVelocity : PositionHomeBuilder
+VAR_INPUT
+	value : LREAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[parent_builder^.SyncVelocity(value);
+SyncVelocity := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

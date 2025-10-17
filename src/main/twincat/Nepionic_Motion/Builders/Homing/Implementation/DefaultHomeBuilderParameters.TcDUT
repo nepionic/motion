@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="DefaultHomeBuilderParameters" Id="{e02260ed-7963-40cf-baf3-c0e5c270445c}">
+    <Declaration><![CDATA[TYPE DefaultHomeBuilderParameters :
+STRUCT
+	position : LREAL;
+	homing_mode : HomingMode;
+	reference_mode : EncoderReferenceMode;
+	search_direction : MotionDirection;
+	search_velocity : LREAL;
+	sync_direction : MotionDirection;
+	sync_velocity : LREAL;
+	buffer_mode : MotionBufferMode;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

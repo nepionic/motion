@@ -6,8 +6,7 @@
 {attribute 'enable_dynamic_creation'}
 FUNCTION_BLOCK PUBLIC DefaultGearInBuilder IMPLEMENTS GearInBuilder
 VAR
-	parent_builder : MotionBuilder;
-	parameters : REFERENCE TO DefaultBuilderParameters;
+	parent_builder : POINTER TO DefaultMotionBuilder;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -21,7 +20,7 @@ VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.Acceleration(value);
+        <ST><![CDATA[parent_builder^.Acceleration(value);
 Acceleration := THIS^;]]></ST>
       </Implementation>
     </Method>
@@ -31,7 +30,7 @@ VAR_INPUT
 	mode : MotionBufferMode;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.BufferMode(mode);
+        <ST><![CDATA[parent_builder^.BufferMode(mode);
 BufferMode := THIS^;]]></ST>
       </Implementation>
     </Method>
@@ -49,8 +48,8 @@ END_VAR]]></Declaration>
         <ST><![CDATA[command_ptr := __NEW(GearInCommand(
 	master_axis := master_axis,
 	slave_axis := slave_axis,
-	numerator := parameters.ratio_numerator,
-	denominator := parameters.ratio_denominator
+	numerator := parent_builder^.Parameters.ratio_numerator,
+	denominator := parent_builder^.Parameters.ratio_denominator
 // 	deceleration := parameters.deceleration,
 // 	jerk := parameters.jerk,
 // 	buffer_mode := parameters.buffer_mode
@@ -64,7 +63,7 @@ VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.Deceleration(value);
+        <ST><![CDATA[parent_builder^.Deceleration(value);
 Deceleration := THIS^;]]></ST>
       </Implementation>
     </Method>
@@ -74,7 +73,7 @@ VAR_INPUT
 	value : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.Denominator(value);
+        <ST><![CDATA[parent_builder^.Denominator(value);
 Denominator := THIS^;]]></ST>
       </Implementation>
     </Method>
@@ -87,12 +86,10 @@ METHOD FB_Init: BOOL
 VAR_INPUT
     bInitRetains : BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
     bInCopyCode : BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)
-	parent_builder : MotionBuilder;
-	parameters : REFERENCE TO DefaultBuilderParameters;
+	parent_builder : POINTER TO DefaultMotionBuilder;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[THIS^.parent_builder := parent_builder;
-THIS^.parameters REF= parameters;]]></ST>
+        <ST><![CDATA[THIS^.parent_builder := parent_builder;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Jerk" Id="{b78bf362-1583-47a6-9535-ee8109063b04}" FolderPath="PropertySetters\">
@@ -101,7 +98,7 @@ VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.Jerk(value);
+        <ST><![CDATA[parent_builder^.Jerk(value);
 Jerk := THIS^;]]></ST>
       </Implementation>
     </Method>
@@ -112,14 +109,14 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.Numerator(value);
+        <ST><![CDATA[parent_builder^.Numerator(value);
 Numerator := THIS^;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Reset" Id="{7818dd78-3afd-491d-b0dc-f792ab891978}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Reset : GearInBuilder]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.Reset();
+        <ST><![CDATA[parent_builder^.Reset();
 Reset := THIS^;]]></ST>
       </Implementation>
     </Method>

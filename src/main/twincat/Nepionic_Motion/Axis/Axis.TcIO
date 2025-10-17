@@ -352,8 +352,26 @@ PROPERTY PUBLIC MotionState : AxisMotionState]]></Declaration>
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
+    <Property Name="Override" Id="{5c27abb4-bb0d-4f5b-9a40-13c53eefe1dd}" FolderPath="Administrative\">
+      <Declaration><![CDATA[PROPERTY PUBLIC Override : LREAL]]></Declaration>
+      <Get Name="Get" Id="{f2ca531b-9331-47ac-b4bb-3f2c61cb201b}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{08e9f1df-2b55-40a9-a5a1-52ad4eae849e}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
     <Method Name="Reset" Id="{c86f3b5e-3ba4-46f8-b283-971011b216c0}" FolderPath="Administrative\">
       <Declaration><![CDATA[METHOD PUBLIC Reset : AsyncCommand ]]></Declaration>
+    </Method>
+    <Method Name="ResetDrive" Id="{f6329b9a-7b7e-4ce6-9ad7-f3a37c0c99d9}" FolderPath="Administrative\">
+      <Declaration><![CDATA[METHOD PUBLIC ResetDrive : AsyncCommand ]]></Declaration>
+    </Method>
+    <Method Name="SetPosition" Id="{7d2084e6-6e8d-4988-bb2c-4e999bf0d021}" FolderPath="Administrative\">
+      <Declaration><![CDATA[METHOD PUBLIC SetPosition : AsyncCommand
+VAR_INPUT
+	position : LREAL;
+END_VAR]]></Declaration>
     </Method>
     <Property Name="TargetPosition" Id="{5ae4c927-8de0-42b9-ad68-ab656b33507a}" FolderPath="Properties\">
       <Declaration><![CDATA[{attribute 'monitoring' := 'call'}

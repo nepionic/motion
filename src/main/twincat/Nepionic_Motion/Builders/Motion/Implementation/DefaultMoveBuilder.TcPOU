@@ -6,12 +6,7 @@
 {attribute 'enable_dynamic_creation'}
 FUNCTION_BLOCK INTERNAL DefaultMoveBuilder IMPLEMENTS MoveBuilder
 VAR
-	parent_builder : MotionBuilder;
-	parameters : REFERENCE TO DefaultBuilderParameters;
-	move_velocity_builder : DefaultMoveVelocityBuilder(parent_builder := parent_builder, parameters := parameters);
-	move_absolute_builder : DefaultMoveAbsoluteBuilder(parent_builder := parent_builder, parameters := parameters);
-	move_relative_builder : DefaultMoveRelativeBuilder(parent_builder := parent_builder, parameters := parameters);
-	gear_in_builder : DefaultGearInBuilder(parent_builder := parent_builder, parameters := parameters);
+	parent_builder : POINTER TO DefaultMotionBuilder;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -25,7 +20,7 @@ VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.Acceleration(value);
+        <ST><![CDATA[parent_builder^.Acceleration(value);
 Acceleration := THIS^;]]></ST>
       </Implementation>
     </Method>
@@ -35,7 +30,7 @@ VAR_INPUT
 	mode : MotionBufferMode;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.BufferMode(mode);
+        <ST><![CDATA[parent_builder^.BufferMode(mode);
 BufferMode := THIS^;]]></ST>
       </Implementation>
     </Method>
@@ -51,9 +46,9 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[command_ptr := __NEW(HaltCommand(
 	axis := axis,
-	deceleration := parameters.deceleration,
-	jerk := parameters.jerk,
-	buffer_mode := parameters.buffer_mode
+	deceleration := parent_builder^.Parameters.deceleration,
+	jerk := parent_builder^.Parameters.jerk,
+	buffer_mode := parent_builder^.Parameters.buffer_mode
 ));
 BuildHaltCommand := command_ptr^;]]></ST>
       </Implementation>
@@ -64,7 +59,7 @@ VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.Deceleration(value);
+        <ST><![CDATA[parent_builder^.Deceleration(value);
 Deceleration := THIS^;]]></ST>
       </Implementation>
     </Method>
@@ -74,18 +69,18 @@ VAR_INPUT
 	value : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.Denominator(value);
-Denominator := gear_in_builder;]]></ST>
+        <ST><![CDATA[parent_builder^.Denominator(value);
+Denominator := parent_builder^.GearInBuilder;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Distance" Id="{f40db5ff-34b7-481f-9549-a30b818e4037}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC Distance : MoveRelativeBuilder
+      <Declaration><![CDATA[METHOD PUBLIC Distance : RelativeMoveBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.Distance(value);
-Distance := move_relative_builder;]]></ST>
+        <ST><![CDATA[parent_builder^.Distance(value);
+Distance := parent_builder^.RelativeMoveBuilder;]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_Init" Id="{6f75ec96-9124-45ed-a5a4-c413c3b30184}" FolderPath="Constructor\">
@@ -97,12 +92,10 @@ METHOD FB_Init: BOOL
 VAR_INPUT
     bInitRetains : BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
     bInCopyCode : BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)
-	parent_builder : MotionBuilder;
-	parameters : REFERENCE TO DefaultBuilderParameters;
+	parent_builder : POINTER TO DefaultMotionBuilder;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[THIS^.parent_builder := parent_builder;
-THIS^.parameters REF= parameters;]]></ST>
+        <ST><![CDATA[THIS^.parent_builder := parent_builder;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Jerk" Id="{500c3409-5b5c-4b1c-b5c8-f6d786fa06cf}" FolderPath="PropertySetters\">
@@ -111,7 +104,7 @@ VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.Jerk(value);
+        <ST><![CDATA[parent_builder^.Jerk(value);
 Jerk := THIS^;]]></ST>
       </Implementation>
     </Method>
@@ -122,35 +115,35 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.Numerator(value);
-Numerator := gear_in_builder;]]></ST>
+        <ST><![CDATA[parent_builder^.Numerator(value);
+Numerator := parent_builder^.GearInBuilder;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Position" Id="{8a5dd1c1-c600-4226-ac69-4c19e2e8a891}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC Position : MoveAbsoluteBuilder
+      <Declaration><![CDATA[METHOD PUBLIC Position : AbsoluteMoveBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.Position(value);
-Position := move_absolute_builder;]]></ST>
+        <ST><![CDATA[parent_builder^.Position(value);
+Position := parent_builder^.AbsoluteMoveBuilder;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Reset" Id="{d0804fb5-655e-4075-aeca-60466590d206}" FolderPath="PropertySetters\">
       <Declaration><![CDATA[METHOD PUBLIC Reset : MoveBuilder]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.Reset();
+        <ST><![CDATA[parent_builder^.Reset();
 Reset := THIS^;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Velocity" Id="{01ef05a0-722f-415b-adc5-4c5f4d7a6eb7}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC Velocity : MoveVelocityBuilder
+      <Declaration><![CDATA[METHOD PUBLIC Velocity : VelocityMoveBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.Velocity(value);
-Velocity := move_velocity_builder;]]></ST>
+        <ST><![CDATA[parent_builder^.Velocity(value);
+Velocity := parent_builder^.VelocityMoveBuilder;]]></ST>
       </Implementation>
     </Method>
   </POU>

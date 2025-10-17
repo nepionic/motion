@@ -39,8 +39,10 @@ VAR
 	stop_command : MotionCommand;
 	gear_in_command : AsyncCommand;
 	gear_out_command : AsyncCommand;
+	home_command : AsyncCommand;
 	
 	move_builder : DefaultMotionBuilder;
+	home_builder : DefaultHomeBuilder;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[axis1.CyclicCall();
@@ -103,16 +105,11 @@ END_IF
 
 IF start_homing THEN
 	start_homing := FALSE;
-	(*axis1.HomingBuilder()
-		.Position(homePosition)
-		.BuildDirectHomingCommand()
-		.Execute(homingFeedback)
-		.ThenRelease();*)
-	(*command := axis1.HomingBuilder()
-		.Position(homePosition)
-		.Cam(homeCam)
-		.ReferenceMode(EncoderReferenceMode.PLCCam)
-		.BuildDefaultHomingCommand();*)
+	home_command := home_builder
+		.Reset()
+		.Position(123.456)
+		.BuildDirectCommand(axis1);
+	home_command.Execute();
 END_IF
 
 (*IF setPositionAbsolute THEN
@@ -130,8 +127,8 @@ IF start_move1 THEN
 	IF move1_command = 0 THEN
 		move1_command := move_builder
 			.Reset()
-			.Position(1000)
 			.Velocity(101)
+			.Position(1000)
 			.BufferMode(MotionBufferMode.Buffered)
 			.BuildMoveAbsoluteCommand(axis1);
 	END_IF
@@ -143,8 +140,9 @@ IF start_move2 THEN
 	IF move2_command = 0 THEN
 		move2_command := move_builder
 			.Reset()
-			.Distance(1000)
 			.Velocity(100)
+			.Distance(1000)
+			.BufferMode(MotionBufferMode.Buffered)
 			.BuildMoveRelativeCommand(axis1);
 	END_IF
 	move2_command.Execute();
@@ -199,6 +197,10 @@ END_IF
 
 IF gear_out_command <> 0 THEN
 	gear_out_command.CyclicCall();
+END_IF
+
+IF home_command <> 0 THEN
+	home_command.CyclicCall();
 END_IF]]></ST>
     </Implementation>
   </POU>

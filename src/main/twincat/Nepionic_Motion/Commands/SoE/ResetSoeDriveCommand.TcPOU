@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="ResetSoeDriveCommand" Id="{d2e4bd39-ad58-40f0-ab64-e3a9d0c9c793}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK PUBLIC ResetSoeDriveCommand EXTENDS Mc2MotionCommand IMPLEMENTS AsyncCommand
+VAR
+	fb : Tc2_Mc2_Drive.Fb_SoeReset;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="CyclicCall" Id="{e1db1cf6-2a4e-4fab-9f7a-88e9fc600228}">
+      <Declaration><![CDATA[METHOD PUBLIC CyclicCall]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.CyclicCall();
+fb(Axis := axis_ref, Timeout := T#5S);
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnExecuting" Id="{4a18f9dc-4049-4e4a-abb9-b3027d4bd077}">
+      <Declaration><![CDATA[METHOD PROTECTED OnExecuting
+VAR_INPUT
+	state_control : AsyncCommandStateControl;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fb.Execute := TRUE;
+
+if NOT fb.Busy then
+	if fb.Error then
+		state_control.Error(fb.AdsErrId);
+	ELSE
+		state_control.Next();
+	END_IF
+	fb.Execute := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

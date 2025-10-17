@@ -1,13 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="DefaultMoveAbsoluteBuilder" Id="{2200d402-ea56-0101-341c-600ac2ad507a}" SpecialFunc="None">
+  <POU Name="DefaultAbsoluteMoveBuilder" Id="{2200d402-ea56-0101-341c-600ac2ad507a}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'linkalways'} 
 {attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
 {attribute 'enable_dynamic_creation'}
-FUNCTION_BLOCK INTERNAL DefaultMoveAbsoluteBuilder IMPLEMENTS MoveAbsoluteBuilder
+FUNCTION_BLOCK INTERNAL DefaultAbsoluteMoveBuilder IMPLEMENTS AbsoluteMoveBuilder
 VAR
-	parent_builder : MotionBuilder;
-	parameters : REFERENCE TO DefaultBuilderParameters;
+	parent_builder : POINTER TO DefaultMotionBuilder;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -16,22 +15,22 @@ END_VAR]]></Declaration>
     <Folder Name="Constructor" Id="{32574500-4dea-0e52-0ec8-c9fdc7cdcf03}" />
     <Folder Name="PropertySetters" Id="{c5bddcb0-9e9a-0f6f-3867-17647dbb61ba}" />
     <Method Name="Acceleration" Id="{c50a551d-b2b5-0f79-1863-ec2c8e4f587a}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC Acceleration : MoveAbsoluteBuilder
+      <Declaration><![CDATA[METHOD PUBLIC Acceleration : AbsoluteMoveBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.Acceleration(value);
+        <ST><![CDATA[parent_builder^.Acceleration(value);
 Acceleration := THIS^;]]></ST>
       </Implementation>
     </Method>
     <Method Name="BufferMode" Id="{94111ddf-7e48-0022-3e3f-858e7b61f5b8}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC BufferMode : MoveAbsoluteBuilder
+      <Declaration><![CDATA[METHOD PUBLIC BufferMode : AbsoluteMoveBuilder
 VAR_INPUT
 	mode : MotionBufferMode;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.BufferMode(mode);
+        <ST><![CDATA[parent_builder^.BufferMode(mode);
 BufferMode := THIS^;]]></ST>
       </Implementation>
     </Method>
@@ -47,23 +46,23 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[command_ptr := __NEW(MoveAbsoluteCommand(
 	axis := axis,
-	position := parameters.position,
-	velocity := parameters.velocity,
-	acceleration := parameters.acceleration,
-	deceleration := parameters.deceleration,
-	jerk := parameters.jerk,
-	buffer_mode := parameters.buffer_mode
+	position := parent_builder^.Parameters.position,
+	velocity := parent_builder^.Parameters.velocity,
+	acceleration := parent_builder^.Parameters.acceleration,
+	deceleration := parent_builder^.Parameters.deceleration,
+	jerk := parent_builder^.Parameters.jerk,
+	buffer_mode := parent_builder^.Parameters.buffer_mode
 ));
 BuildMoveAbsoluteCommand := command_ptr^;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Deceleration" Id="{142a90fc-c1e7-0a06-34b9-ffb1441370a1}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC Deceleration : MoveAbsoluteBuilder
+      <Declaration><![CDATA[METHOD PUBLIC Deceleration : AbsoluteMoveBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.Deceleration(value);
+        <ST><![CDATA[parent_builder^.Deceleration(value);
 Deceleration := THIS^;]]></ST>
       </Implementation>
     </Method>
@@ -76,48 +75,46 @@ METHOD FB_Init: BOOL
 VAR_INPUT
     bInitRetains : BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
     bInCopyCode : BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)
-	parent_builder : MotionBuilder;
-	parameters : REFERENCE TO DefaultBuilderParameters;
+	parent_builder : POINTER TO DefaultMotionBuilder;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[THIS^.parent_builder := parent_builder;
-THIS^.parameters REF= parameters;]]></ST>
+        <ST><![CDATA[THIS^.parent_builder := parent_builder;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Jerk" Id="{925ebf38-d200-0d82-2f5f-d009e500eb67}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC Jerk : MoveAbsoluteBuilder
+      <Declaration><![CDATA[METHOD PUBLIC Jerk : AbsoluteMoveBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.Jerk(value);
+        <ST><![CDATA[parent_builder^.Jerk(value);
 Jerk := THIS^;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Position" Id="{b2cb9594-c116-0887-2b7c-7524b6fe02ed}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC Position : MoveAbsoluteBuilder
+      <Declaration><![CDATA[METHOD PUBLIC Position : AbsoluteMoveBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.Position(value);
+        <ST><![CDATA[parent_builder^.Position(value);
 Position := THIS^;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Reset" Id="{fff619f8-9807-03a6-38d0-3067a5993487}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC Reset : MoveAbsoluteBuilder]]></Declaration>
+      <Declaration><![CDATA[METHOD PUBLIC Reset : AbsoluteMoveBuilder]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.Reset();
+        <ST><![CDATA[parent_builder^.Reset();
 Reset := THIS^;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Velocity" Id="{568c5770-128b-0124-2a8e-8b07c24536f2}" FolderPath="PropertySetters\">
-      <Declaration><![CDATA[METHOD PUBLIC Velocity : MoveAbsoluteBuilder
+      <Declaration><![CDATA[METHOD PUBLIC Velocity : AbsoluteMoveBuilder
 VAR_INPUT
 	value : LREAL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[parent_builder.Velocity(value);
+        <ST><![CDATA[parent_builder^.Velocity(value);
 Velocity := THIS^;]]></ST>
       </Implementation>
     </Method>

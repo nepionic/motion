@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="HomingMode" Id="{074f448e-f9f8-4680-b3e7-1573186979b1}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+{attribute 'to_string'}
+TYPE HomingMode :
+(
+	Default := TO_INT(Tc2_Mc2.MC_DefaultHoming),
+	Direct := TO_INT(Tc2_Mc2.MC_Direct),
+	ForceCalibration := TO_INT(Tc2_Mc2.MC_ForceCalibration),
+	ResetCalibration := TO_INT(Tc2_Mc2.MC_ResetCalibration)
+);
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

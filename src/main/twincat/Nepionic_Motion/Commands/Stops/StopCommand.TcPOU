@@ -69,9 +69,7 @@ END_IF
 IF fb.Error THEN
 	state_control.Error(fb.ErrorId);
 	fb.Execute := FALSE;
-END_IF
-
-]]></ST>
+END_IF]]></ST>
       </Implementation>
     </Method>
   </POU>

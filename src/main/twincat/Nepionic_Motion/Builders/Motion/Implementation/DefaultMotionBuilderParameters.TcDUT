@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <DUT Name="DefaultBuilderParameters" Id="{548db3ec-1c7f-04ea-1b3a-f2ba0ddcf02f}">
-    <Declaration><![CDATA[TYPE DefaultBuilderParameters :
+  <DUT Name="DefaultMotionBuilderParameters" Id="{548db3ec-1c7f-04ea-1b3a-f2ba0ddcf02f}">
+    <Declaration><![CDATA[TYPE DefaultMotionBuilderParameters :
 STRUCT
 	position : LREAL;
 	distance : LREAL;
