@@ -28,6 +28,12 @@ PROPERTY PUBLIC ActualVelocity : LREAL]]></Declaration>
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
+    <Property Name="AxisId" Id="{b3b5acc5-2a23-4b6d-bbd7-a5692c3a3e4a}">
+      <Declaration><![CDATA[PROPERTY PUBLIC AxisId : UDINT]]></Declaration>
+      <Get Name="Get" Id="{d4172a35-dcc2-4257-9b66-6c98868b782d}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
     <Property Name="AxisRef" Id="{af9facd9-3243-4100-9a4b-6d1d265d43d7}">
       <Declaration><![CDATA[PROPERTY PUBLIC AxisRef : REFERENCE TO Tc2_Mc2.Axis_Ref]]></Declaration>
       <Get Name="Get" Id="{14f224c4-de52-47f6-a7f0-28ef6397ac66}">
@@ -43,6 +49,13 @@ PROPERTY PUBLIC ActualVelocity : LREAL]]></Declaration>
     <Method Name="DisablePositive" Id="{1daaf6f9-96d9-0213-2f6b-e6b4b0a9a671}" FolderPath="Administrative\">
       <Declaration><![CDATA[METHOD PUBLIC DisablePositive]]></Declaration>
     </Method>
+    <Property Name="DriveDeviceIsErrored" Id="{a025b9bd-7876-420f-8596-084715066696}" FolderPath="Properties\Error\">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC DriveDeviceIsErrored : BOOL]]></Declaration>
+      <Get Name="Get" Id="{5cf97319-e1a9-4877-b095-6268605565d0}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
     <Method Name="Enable" Id="{52a3800b-30e5-04c3-283e-2c26c3064956}" FolderPath="Administrative\">
       <Declaration><![CDATA[METHOD PUBLIC Enable]]></Declaration>
     </Method>

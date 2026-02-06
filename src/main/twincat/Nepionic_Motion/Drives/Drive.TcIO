@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="Drive" Id="{bf1dd6ff-2760-40cd-9171-687ef61d1525}">
+    <Declaration><![CDATA[INTERFACE PUBLIC Drive EXTENDS __System.IQueryInterface]]></Declaration>
+  </Itf>
+</TcPlcObject>

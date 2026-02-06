@@ -25,7 +25,7 @@ PROPERTY PUBLIC Active : BOOL]]></Declaration>
       <Declaration><![CDATA[METHOD PUBLIC CyclicCall]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.CyclicCall();
-fb(Axis := axis_ref);]]></ST>
+fb(Axis := axis.AxisRef);]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_Init" Id="{d9383dc8-1b7f-09ff-14d5-5a1614c5da46}">

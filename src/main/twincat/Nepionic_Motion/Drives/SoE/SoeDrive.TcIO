@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="SoeDrive" Id="{c66f3b8b-2ce3-4612-a01d-9eeec9778e33}">
+    <Declaration><![CDATA[INTERFACE PUBLIC SoeDrive EXTENDS Drive]]></Declaration>
+  </Itf>
+</TcPlcObject>

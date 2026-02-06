@@ -6,7 +6,7 @@
 {attribute 'enable_dynamic_creation'}
 FUNCTION_BLOCK PUBLIC ABSTRACT Mc2Command EXTENDS NoopAsyncCommand IMPLEMENTS AsyncCommand
 VAR
-	axis_ref : REFERENCE TO Tc2_Mc2.Axis_Ref;
+	axis : Axis;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -23,7 +23,7 @@ VAR_INPUT
 	axis : Axis;   
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[axis_ref REF= axis.AxisRef;]]></ST>
+        <ST><![CDATA[THIS^.axis := axis;]]></ST>
       </Implementation>
     </Method>
     <Method Name="OnExecuting" Id="{0faeb363-a03a-046b-0514-184c987e2eaa}">

@@ -4,7 +4,7 @@
     <Declaration><![CDATA[{attribute 'linkalways'} 
 {attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
 {attribute 'enable_dynamic_creation'}
-FUNCTION_BLOCK PUBLIC ResetSoeDriveCommand EXTENDS Mc2MotionCommand IMPLEMENTS AsyncCommand
+FUNCTION_BLOCK PUBLIC ResetSoeDriveCommand EXTENDS Mc2Command IMPLEMENTS AsyncCommand
 VAR
 	fb : Tc2_Mc2_Drive.Fb_SoeReset;
 END_VAR]]></Declaration>
@@ -15,7 +15,7 @@ END_VAR]]></Declaration>
       <Declaration><![CDATA[METHOD PUBLIC CyclicCall]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.CyclicCall();
-fb(Axis := axis_ref, Timeout := T#5S);
+fb(Axis := axis.AxisRef, Timeout := T#10S);
 ]]></ST>
       </Implementation>
     </Method>
@@ -25,15 +25,31 @@ VAR_INPUT
 	state_control : AsyncCommandStateControl;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fb.Execute := TRUE;
-
-if NOT fb.Busy then
-	if fb.Error then
+        <ST><![CDATA[IF NOT fb.Busy THEN
+	IF fb.Error THEN
 		state_control.Error(fb.AdsErrId);
 	ELSE
 		state_control.Next();
 	END_IF
 	fb.Execute := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnInitializing" Id="{72a2e28a-d29f-4a9b-8d7e-ba26cca6986b}">
+      <Declaration><![CDATA[METHOD PROTECTED OnInitializing
+VAR_INPUT
+	state_control	: Nepionic_Core.AsyncCommandStateControl;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fb(Axis := axis.AxisRef, Timeout := T#10S, Execute := TRUE);
+
+IF fb.Busy THEN
+	state_control.Next();
+END_IF
+
+IF fb.Error THEN
+	state_control.Error(fb.AdsErrId);
 END_IF]]></ST>
       </Implementation>
     </Method>

@@ -9,7 +9,7 @@
     <WriteProductVersion>false</WriteProductVersion>
     <GenerateTpy>false</GenerateTpy>
     <Name>Nepionic_Motion</Name>
-    <ProgramVersion>3.1.4026.19</ProgramVersion>
+    <ProgramVersion>3.1.4026.20</ProgramVersion>
     <WriteBookmarksToFile>true</WriteBookmarksToFile>
     <Application>{13613230-c4a2-4f1d-93e0-119bd07f02ce}</Application>
     <TypeSystem>{e4ee3b3b-7ffe-4df0-bfec-9de2f92d7d72}</TypeSystem>
@@ -23,7 +23,7 @@
     <Placeholder>Nepionic_Motion</Placeholder>
     <DefaultNamespace>Nepionic_Motion</DefaultNamespace>
     <Title>Nepionic_Motion</Title>
-    <ProjectVersion>0.1.0</ProjectVersion>
+    <ProjectVersion>0.1.1</ProjectVersion>
     <LibraryCategories>
       <LibraryCategory xmlns="">
         <Id>{2fddf63d-58dd-4964-b1fd-df3c84328371}</Id>
@@ -64,11 +64,17 @@
     <Folder Include="Commands\Coupling" />
     <Folder Include="Commands\PointToPoint" />
     <Folder Include="Commands\Stops" />
+    <Folder Include="Drives\Beckhoff" />
+    <Folder Include="Drives\SoE" />
     <Folder Include="Functions" />
     <Folder Include="Axis" />
+    <Folder Include="Drives" />
     <Folder Include="Types" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Axis\Mc2AxisSoeDrive.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Builders\Homing\HomeBuilder.TcIO">
       <SubType>Code</SubType>
     </Compile>
@@ -159,6 +165,9 @@
     <Compile Include="Commands\PointToPoint\MoveVelocityCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commands\SoE\ResetSoeDriveCommand_1.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Commands\Stops\HaltCommand.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -172,6 +181,18 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Command\MotionCommand.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Command\AsyncCommand.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Drives\Beckhoff\Ax5000.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Drives\Drive.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Drives\SoE\SoeDrive.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Functions\Mc2BufferModeConvertFrom.TcPOU">
@@ -289,6 +310,12 @@
             <v>DisabledWarningIds</v>
             <v>410,5410</v>
           </d>
+        </o>
+        <v>{eeeeeeee-3909-4298-8022-501ac3238667}</v>
+        <o>
+          <v n="Name">"{eeeeeeee-3909-4298-8022-501ac3238667}"</v>
+          <d n="SubKeys" t="Hashtable" />
+          <d n="Values" t="Hashtable" />
         </o>
         <v>{F66C7017-BDD8-4114-926C-81D6D687E35F}</v>
         <o>

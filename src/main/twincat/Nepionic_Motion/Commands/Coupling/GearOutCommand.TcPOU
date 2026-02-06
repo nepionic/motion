@@ -15,7 +15,7 @@ END_VAR]]></Declaration>
       <Declaration><![CDATA[METHOD PUBLIC CyclicCall]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.CyclicCall();
-fb(Slave := axis_ref);]]></ST>
+fb(Slave := axis.AxisRef);]]></ST>
       </Implementation>
     </Method>
     <Method Name="OnExecuting" Id="{97d197df-2bd1-09da-0357-323ac344c517}">

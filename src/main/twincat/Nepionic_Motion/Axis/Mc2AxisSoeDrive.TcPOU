@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="Mc2AxisSoeDrive" Id="{f9336e12-837f-4479-a744-0cde172ef32e}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK Mc2AxisSoeDrive EXTENDS Mc2Axis IMPLEMENTS Axis, Drive
+VAR
+	reset_drive_command2 : ResetSoeDriveCommand(axis := THIS^);
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="Administrative" Id="{a31e2a5d-92ba-4dbc-a584-749921522786}" />
+    <Folder Name="Cyclic" Id="{2a8a0a3a-db02-4f79-9dd6-f81e7b90e64e}" />
+    <Folder Name="Properties" Id="{d0057c44-c327-4610-8a8f-f1ef5d4b11f5}">
+      <Folder Name="Error" Id="{ab1d5148-4ec5-43f8-ac28-278a9506a8ff}" />
+    </Folder>
+    <Method Name="CyclicCall" Id="{4b3d7009-6e56-41f2-b11e-2d69af3fb445}" FolderPath="Cyclic\">
+      <Declaration><![CDATA[METHOD PUBLIC CyclicCall]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.CyclicCall();
+
+reset_drive_command.CyclicCall();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ResetDrive" Id="{9280250d-0d91-4024-9e78-cfb30ab3c1b5}" FolderPath="Administrative\">
+      <Declaration><![CDATA[METHOD PUBLIC ResetDrive : AsyncCommand]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[reset_drive_command2.Execute();
+ResetDrive := reset_drive_command2;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

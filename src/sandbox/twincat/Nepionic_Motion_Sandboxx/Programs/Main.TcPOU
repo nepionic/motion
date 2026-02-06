@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="Main" Id="{4f60c361-9729-4e9f-9370-42712ff99bca}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM Main
+VAR
+	axis : Mc2Axis;
+	move_rel : MoveRelativeCommand(axis := axis, distance := 100, velocity := 1, acceleration := 0, deceleration := 0, jerk := 0, buffer_mode := MotionBufferMode.Aborting);
+	cause_error : BOOL;
+	reset_error : BOOL;
+	reset_cmd : AsyncCommand;
+	i : INT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF cause_error THEN
+	CASE i OF
+		0:
+			axis.Enable();
+			axis.EnablePositive();
+			axis.EnableNegative();
+			IF axis.IsStandstill THEN
+				move_rel.Execute();
+				i := 1;
+			END_IF
+			
+		1:
+			IF axis.IsConstantVelocity THEN
+				axis.Disable();
+				axis.DisablePositive();
+				axis.DisableNegative();
+				i := 2;
+			END_IF
+			
+		2:
+			IF move_rel.Error THEN
+				cause_error := FALSE;
+				i := 0;
+			END_IF
+			
+	END_CASE
+	
+	move_rel.CyclicCall();
+END_IF
+
+IF reset_error THEN
+	reset_cmd := axis.Reset();
+	
+	IF NOT reset_cmd.Busy THEN
+		reset_error := FALSE;
+	END_IF
+END_IF
+
+axis.CyclicCall();]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>
