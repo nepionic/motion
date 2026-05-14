@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # TcXaeShell Solution File, Format Version 11.00
 VisualStudioVersion = 17.10.35827.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{B1E792BE-AA5F-4E3C-8C82-674BF9C0715B}") = "Nepionic_Motion_Test", "src\test\twincat\Nepionic_Motion_Test.tsproj", "{FBADDE03-61A8-40D0-8AEC-2D6CF5195885}"
+Project("{DFBE7525-6864-4E62-8B2E-D530D69D9D96}") = "Nepionic_Motion_Lib", "src\lib\Nepionic_Motion_Lib.tspproj", "{57A77CD9-8F18-4A8F-9961-BC127E1BA307}"
 EndProject
-Project("{DFBE7525-6864-4E62-8B2E-D530D69D9D96}") = "Nepionic_Motion", "src\main\twincat\Nepionic_Motion.tspproj", "{57A77CD9-8F18-4A8F-9961-BC127E1BA307}"
+Project("{B1E792BE-AA5F-4E3C-8C82-674BF9C0715B}") = "Nepionic_Motion_Test", "src\test\Nepionic_Motion_Test.tsproj", "{FBADDE03-61A8-40D0-8AEC-2D6CF5195885}"
 EndProject
-Project("{B1E792BE-AA5F-4E3C-8C82-674BF9C0715B}") = "Nepionic_Motion_Sandbox", "src\sandbox\twincat\Nepionic_Motion_Sandbox.tsproj", "{12AA94EF-0402-48A1-A3C1-38CAF202B933}"
+Project("{B1E792BE-AA5F-4E3C-8C82-674BF9C0715B}") = "Nepionic_Motion_Sandbox", "src\sandbox\Nepionic_Motion_Sandbox.tsproj", "{12AA94EF-0402-48A1-A3C1-38CAF202B933}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
